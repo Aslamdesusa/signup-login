@@ -1,0 +1,32 @@
+{
+  "name": "checkin-checkout",
+  "version": "1.0.0",
+  "description": "this application for checkin-out",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon bootstrap.js"
+  },
+  "keywords": [
+    "I",
+    "love",
+    "development"
+  ],
+  "author": "Aslam Desusa",
+  "license": "ISC",
+  "dependencies": {
+    "amazon-cognito-identity-js": "^2.0.21",
+    "aws-amplify": "^1.0.5",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "handlebars": "^4.0.11",
+    "hapi": "^16.6.2",
+    "hapi-auth-cookie": "^7.0.0",
+    "hapi-swagger": "^7.8.1",
+    "inert": "^4.2.1",
+    "isomorphic-fetch": "^2.2.1",
+    "node-fetch": "^2.2.0",
+    "nodemon": "^1.18.3",
+    "vision": "^4.1.1"
+  }
+}
