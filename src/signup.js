@@ -6,14 +6,17 @@ global.fetch = require('node-fetch');
 const config = require('../config.json');
 
 const AmazonCogintoIdentity = require('amazon-cognito-identity-js');
+
 const poolData = {
 	UserPoolId: config.cognito.userPoolId,
 	ClientId : config.cognito.clientId,
 }
+
 const userPool = new AmazonCogintoIdentity.CognitoUserPool(poolData)
 
 
-const routes = [ 
+
+const routes = [
 	{
 		method: 'GET',
 		path: '/',
@@ -38,8 +41,8 @@ const routes = [
 			const confirmpassword = request.payload.Confirm_password;
 
 			if (password !== confirmpassword) {
-				// console.log('password dose not metch')
-				return reply.redirect('/signup?error=passwords')
+				console.log('password dose not metch')
+				// return reply.redirect('/signup?error=passwords')
 			}else{
 				const emailData = {
 					Name: 'email',
