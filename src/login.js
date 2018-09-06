@@ -1,116 +1,130 @@
 import Hapi from 'hapi';
-
-const config = require('../config.json');
-
-const parser = require('body-parser');
-
-const request = require('request');
-const jwkToPem = require('jwk-to-pem');
-const jwt = require('jsonwebtoken');
-const Amplify = require('aws-amplify');
-
-// Initialize the Amazon Cognito credentials provider
-// AWS.config.region = 'ap-south-1'; // Region
-global.fetch = require('node-fetch');
-// var Cookies2 = require('js-cookie');
-const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-
-// const poolData = {
-// 	Region: config.cognito.region,
-// 	UserPoolId: config.cognito.userPoolId,
-// 	ClientId : config.cognito.clientId,
-// 	IdentityPoolId: config.cognito.identityPoolId
-// }
-
-// const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
-
-
-
+const adminModal = require('../tables/loginAdmin.js')
+const Joi = require('joi')
 const AuthCookie = require('hapi-auth-cookie')
 
+// const config = require('../config.json');
 
-const AWS = require('aws-sdk');
+// const parser = require('body-parser');
 
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: 'ap-south-1:8991be0a-81af-4c75-9714-05e840fffd12',
-});
-
+// const request = require('request');
+// const jwkToPem = require('jwk-to-pem');
+// const jwt = require('jsonwebtoken');
 
 const routes = [
 	{
 		method: 'GET',
+		path: '/forgot-password',
+		handler: function(request, reply){
+			return reply.view('forgot-password', null,{layout: 'layout1'})
+		}
+	},
+	{
+		method: 'GET',
 		path: '/login',
 		handler: function(request, reply){
-			return reply.view('login')
+			return reply.view('login', null,{layout: 'layout1'})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/deshboard/teacher',
+		handler: function(request, reply){
+			return reply.view('deshboard1', null,{layout: 'layout2'})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/err',
+		handler: function(request, reply){
+			return reply.view('login', { message: 'The User credentials you have entered is invalid Please Try Again', success: 'Error!', alert: 'alert-danger'}, {layout: 'layout1'})
 		}
 	},
 	{
 		method: 'POST',
-		path: '/login/user',
+		path: '/create/admin',
 		handler: function(request, reply){
+			const newAdmin = new adminModal({
+				"username": request.payload.username, 
+				"password": request.payload.password,
+				"Admin": request.payload.Admin,
+				"Center": request.payload.Center,
+				"isLogin": false,
+			})
+			newAdmin.save(function(err, data){
+				if (err) {
+					throw err
+				}else{
+					reply(data)
+				}
+			})
+		}
+	},
+	{
+    method:'POST',
+    path:'/admin/login',
+    config:{
+        validate: {
+         	payload:{
+         		username:Joi.string().required(),
+         		password:Joi.string().required(),
 
-			var authenticationData = {
-			        Username : request.payload.email,
-			        Password : request.payload.password,
-			    };
-			    var authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails(authenticationData);
-			    var poolData = { 
-			    	UserPoolId : 'ap-south-1_LhaZuFfwe',
-			        ClientId : '84ol5cprjqur8om0hs7ua3sho'
-			    };
-			    var userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
-			    var userData = {
-			        Username : request.payload.email,
-			        Pool : userPool
-			    };
-			    var cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData);
-			    cognitoUser.authenticateUser(authenticationDetails, {
-			        onSuccess: function (result) {
-			        	console.log(result)
-			            var accessToken = result.getAccessToken().getJwtToken();
+			}
+		},
+    },
+    handler: function(request, reply){
+    	
+        adminModal.find({'username': request.payload.username, 'password': request.payload.password, }, function(err, data){
+            if (err){
+                throw err
+            } else if (data.length == 0){
+            	console.log('err')
+            	return reply.redirect('/err?username='+request.payload.username+'&password='+request.payload.password )
+            } else if (data[0].Admin == true) {
+            	console.log(data[0]._id)
+            	request.cookieAuth.set(data[0]);
+            	return reply.redirect('/deshboard?uuid='+data[0]._id)
+            }else{
+            	adminModal.findOneAndUpdate({'username': request.payload.username, 'password': request.payload.password,},{isLogin: true}, function(error, datap){
+            		if (error) {
+            			throw error
+            		}else{
+            			request.cookieAuth.set(data[0]);
+            			return reply.redirect('/deshboard/teacher?uuid='+data[0]._id)
+            		}
+            	})
+            }
+	        })
 
-			            /* Use the idToken for Logins Map when Federating User Pools with identity pools or when passing through an Authorization Header to an API Gateway Authorizer */
-			            var idToken = result.idToken.jwtToken;
-			            console.log(idToken)
-			        },
-
-			        onFailure: function(err) {
-			            reply(err)
-			        },
-
-			});
-			// // console.log(request)
-			// const loginDetails = {
-			// 	Username: 'aslam17@navgurukul.org',
-			// 	Password: 'AslamDesusa123#'
-			// }
-			// const authenticationDetails = new AmazonCogintoIdentity.AuthenticationDetails(loginDetails)
-
-			// const userDetails = {
-			// 	Username: 'aslam17@navgurukul.org',
-			// 	Pool: userPool
-			// }
-			// const cognitoUser = new AmazonCogintoIdentity.CognitoUser(userDetails)
-			// console.log(cognitoUser)
-			// cognitoUser.authenticateUser(authenticationDetails, {
-			// 	onSuccess: function (session) {
-			// 		const tokens = {
-			// 			// console.log(cognitoUser)
-			// 			accessToken: session.getAccessToken().getJwtToken(),
-			//             IdToken: session.getIdToken().getJwtToken(),
-			//             RefreshToken: session.getRefreshToken().getToken(),
-			//             // console.log(result)
-		 //        	};
-		 //        	cognitoUser['tokens'] = tokens;
-		 //        	resolve(cognitoUser)
-		 //        },
-		 //        onFailure: function (err) {
-		 //        	console.error(err.message)
-		 //        	// return reply(err)
-		 //        }
-			// });
+	    }
+	},
+	{
+		method: 'GET',
+		path: '/logout',
+		config:{
+		    auth:{
+		    	strategy: 'restricted',
+		    }
+		},
+		handler: function(request, reply){
+			var auth = request.auth.credentials._id;
+			console.log(auth)
+			adminModal.findOneAndUpdate({_id: auth}, {isLogin: false}, function(err, data){
+				if (err) {
+					throw err
+				}else{
+					request.cookieAuth.clear();
+					return reply.redirect('/login')
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/{username}',
+		handler: function(request, reply){
+			return reply.view('404')
 		}
 	}
-	
 ]
 export default routes;

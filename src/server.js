@@ -5,12 +5,16 @@ import Inert from 'inert';
 // Importing Vision Templates rendering plugin support for hapi.js.
 import Vision from 'vision';
 
-
+import jwt from 'jsonwebtoken'
 
 // Importing routes from signup.js
 import routes from './signup';
 // Importing routes form login.js
 import login from './login';
+
+import check_validation from './check.js';
+
+import batch_student from './batch&student_managment'
 
 
 
@@ -51,12 +55,12 @@ server.route({
 });
 
 server.register(require('hapi-auth-cookie'), (err)=>{
-  server.auth.strategy('session', 'cookie',{
+  server.auth.strategy('restricted', 'cookie',{
     ttl: 24 * 60 * 60 * 1000, 
     password: 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy',
-    cookie: 'session-cookie',
+    cookie: 'checkin_cookie',
     isSecure: false, 
-    redirectTo: '/'
+    redirectTo: '/login'
   });
 })
 
@@ -66,9 +70,27 @@ server.state('session', {
   isHttpOnly: false,
   encoding: 'none',
   isSecure: process.env.NODE_ENV == 'production',
-  path: '/',
+  path: '/deshboard',
   strictHeader: true
 });
+
+server.register( require( 'hapi-auth-jwt' ), ( err ) => {
+    server.auth.strategy( 'token', 'jwt', {
+
+        key: 'vZiYpmTzqXMp8PpYXKwqc9ShQ1UhyAfy',
+
+        verifyOptions: {
+            algorithms: [ 'HS256' ],
+        }
+
+    } );
+    // We move this in the callback because we want to make sure that the authentication module has loaded before we attach the routes. It will throw an error, otherwise.
+    server.route(routes)
+    server.route(login)
+    server.route(batch_student)
+    server.route(check_validation)
+
+} );
 
 module.exports = server;
 
@@ -95,11 +117,6 @@ handler: {
 }
 
 });
-
-server.route(routes)
-server.route(login)
-
-
 
 server.start(err => {
 

@@ -1,0 +1,198 @@
+
+     <style type="text/css">
+       .modal-dialog{
+        max-width: 60% !important;
+       }
+     </style>
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Tables</li>
+           <li><div class="alert {{alert}}">
+              <strong>{{success}}</strong> {{message}}
+            </div>
+          </li>
+          </ol>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BatchModal">Add New Batch</button>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>ID</th>
+                      <th>Center</th>
+                      <th>Start Date</th>
+                      <th>No Of Class</th>
+                      <th>Batch Day</th>
+                      <th>Batch Schedule</th>
+                      <th>Teacher</th>
+                      <th>Date</th>
+                      <th>Edit/Delete</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Name</th>
+                      <th>ID</th>
+                      <th>Center</th>
+                      <th>Start Date</th>
+                      <th>No Of Class</th>
+                      <th>Batch Day</th>
+                      <th>Batch Schedule</th>
+                      <th>Teacher</th>
+                      <th>Date</th>
+                      <th>Edit/Delete</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {{#each data}}
+                    <tr>
+                      <td>{{Name}}</td>
+                      <td>{{ID}}</td>
+                      <td>{{Center}}</td>
+                      <td>{{StartDate}}</td>
+                      <td>{{NumberOfClass}}</td>
+                      <td>{{BatchDay}}</td>
+                      <td>{{BatchSchedule}}</td>
+                      <td>{{Teacher}}</td>
+                      <td>{{Date}}</td>
+                      <td style="display: flex;">
+                        <form action="" method="GET"><button>Edit</button></form> 
+                        <form method="GET" action="/batch/management/deleted/{{_id}}"><button>Delete</button></form>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+
+          <p class="small text-center text-muted my-5">
+            <em>More table examples coming soon...</em>
+          </p>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2018</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+
+<!-- Logout Modal-->
+    <div class="modal fade" id="BatchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Create a New Batch</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+                <div class="outer-w3-agile mt-3">
+                    <h4 class="tittle-w3-agileits mb-4">Batch Managament</h4>
+                    <form action="/batch/management" method="POST">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputName">Name</label>
+                                <input type="text" class="form-control" name="Name" id="inputEmail4" placeholder="Name" required="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputID">ID</label>
+                                <input type="text" class="form-control" name="ID" id="inputPassword4" placeholder="ID" required="">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputcenter">Center</label>
+                                <select name="Center" class="form-control" required>
+                                  <option value="" disabled selected>Select Service*</option>
+                                  <option value="Center1">Center1</option>
+                                  <option value="Center2">Center2</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputstartdate">Start Date</label>
+                                <input type="date" class="form-control" name="StartDate" id="inputPassword4" placeholder="Start Data" required="">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputNoOfClasses">No of Classes</label>
+                                <input type="number" class="form-control" name="NumberOfClass" id="inputEmail4" placeholder="No Of Classes" required="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputBatchDay">Batch Day</label>
+                                <select name="BatchDay" class="form-control" required>
+                                  <option value="" disabled selected>Select Day*</option>
+                                  <option value="Sunday">Sunday</option>
+                                  <option value="Monday">Monday</option>
+                                  <option value="Tuesday">Tuesday</option>
+                                  <option value="Wednesday">Wednesday</option>
+                                  <option value="Thursday">Thursday</option>
+                                  <option value="Friday">Friday</option>
+                                  <option value="Saturday">Saturday</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputBatchSchedule">Batch Schedule</label>
+                                <input type="time" class="form-control" name="BatchSchedule" id="inputEmail4" placeholder="Batch Schedule" required="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputTeacher">Teacher</label>
+                                <select name="Teacher" class="form-control" required>
+                                  <option value="" disabled selected>Select Day</option>
+                                  <option value="Teacher1">Teaher1</option>
+                                  <option value="Teacher2">Teaher2</option>
+                                  <option value="Teacher3">Teaher3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                          <button type="submit" class="btn btn-primary">Create</button>
+                        </div>
+                    </form>     
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+

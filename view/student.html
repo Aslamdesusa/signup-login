@@ -1,0 +1,254 @@
+
+     <style type="text/css">
+       .modal-dialog{
+        max-width: 60% !important;
+       }
+     </style>
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Tables</li>
+            <li><div class="alert {{alert}}">
+              <strong>{{success}}</strong> {{message}}
+            </div>
+          </li>
+          </ol>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Add New Student</button></div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>ID</th>
+                      <th>Date Of Birth</th>
+                      <th>Enroll Date</th>
+                      <th>Current Level</th>
+                      <th>Center</th>
+                      <th>Batch</th>
+                      <th>Last Check in</th>
+                      <th>Last Check in Location</th>
+                      <th>Contact Name</th>
+                      <th>Mobile</th>
+                      <th>Email</th>
+                      <th>Contact Name1</th>
+                      <th>Mobile1</th>
+                      <th>Email1</th>
+                      <th>Contact Name2</th>
+                      <th>Mobile2</th>
+                      <th>Email2</th>
+                      <th>Date</th>
+                      <th>Edit/Delete</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Name</th>
+                      <th>ID</th>
+                      <th>Date Of Birth</th>
+                      <th>Enroll Date</th>
+                      <th>Current Level</th>
+                      <th>Center</th>
+                      <th>Batch</th>
+                      <th>Last Check in</th>
+                      <th>Last Check in Location</th>
+                      <th>Contact Name</th>
+                      <th>Mobile</th>
+                      <th>Email</th>
+                      <th>Contact Name1</th>
+                      <th>Mobile1</th>
+                      <th>Email1</th>
+                      <th>Contact Name2</th>
+                      <th>Mobile2</th>
+                      <th>Email2</th>
+                      <th>Date</th>
+                      <th>Edit/Delete</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {{#each data}}
+                    <tr>
+                      <td>{{Name}}</td>
+                      <td>{{ID}}</td>
+                      <td>{{DateOfBirth}}</td>
+                      <td>{{EnrollDate}}</td>
+                      <td>{{CurrentLevel}}</td>
+                      <td>{{Center}}</td>
+                      <td>{{Batch}}</td>
+                      <td>Comming Soon...</td>
+                      <td>Comming Soon...</td>
+                      <td>{{ContactName}}</td>
+                      <td>{{Mobile}}</td>
+                      <td>{{Email}}</td>
+                      <td>{{ContactName1}}</td>
+                      <td>{{Mobile1}}</td>
+                      <td>{{Email1}}</td>
+                      <td>{{ContactName2}}</td>
+                      <td>{{Mobile2}}</td>
+                      <td>{{Email2}}</td>
+                      <td>{{Date}}</td>
+                      <td style="display: flex;">
+                        <form action="" method="GET"><button>Edit</button></form> 
+                        <form method="GET" action="/student/management/deleted/{{_id}}"><button>Delete</button></form>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+
+          <p class="small text-center text-muted my-5">
+            <em>More table examples coming soon...</em>
+          </p>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2018</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+
+<!-- Logout Modal-->
+    <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Create a New Student</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+                <div class="outer-w3-agile mt-3">
+                    <h4 class="tittle-w3-agileits mb-4">Student Managament</h4>
+                    <form action="/student/management" method="POST">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Name</label>
+                                <input type="text" class="form-control" id="inputEmail4" name="Name" placeholder="Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">ID</label>
+                                <input type="text" class="form-control" id="inputPassword4" name="ID" placeholder="ID">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Date Of Birth</label>
+                                <input type="date" class="form-control" id="inputEmail4" placeholder="Date Of Birth" name="DateOfBirth">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Enroll Date</label>
+                                <input type="date" class="form-control" name="EnrollDate" id="inputPassword4" placeholder="Enroll Date">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Current Level</label>
+                                <input type="text" class="form-control" id="inputEmail4" name="CurrentLevel" placeholder="Current Level">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Center</label>
+                                <input type="text" class="form-control" id="inputPassword4" name="Center" placeholder="Center">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Betch</label>
+                                <select name="Center" class="form-control">
+                                  <option value="" disabled selected>Select Batch*</option>
+                                  {{#each data1}}
+                                  <option value="{{Name}}">{{Name}}</option>
+                                  {{/each}}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inputCity">Contect Name</label>
+                                <input type="text" name="ContactName" class="form-control" id="inputCity" placeholder="Contect Name" required="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState"> Mobile </label>
+                                <input type="number" class="form-control" name="Mobile" id="inputCity" placeholder="Mobile" required="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputZip">Email</label>
+                                <input type="email" class="form-control" id="inputZip" name="Email" placeholder="Email" required="">
+                            </div>
+                        </div>
+                         <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inputCity">Contect Name</label>
+                                <input type="text" class="form-control" name="ContectName1" id="inputCity" placeholder="Contect Name">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState">Mobile</label>
+                                <input type="number" class="form-control" name="Mobile1" id="inputCity" placeholder="Mobile">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputZip">Email</label>
+                                <input type="email" class="form-control" id="inputZip" name="Email1" placeholder="Email">
+                            </div>
+                        </div>
+                         <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inputCity">Contect Name</label>
+                                <input type="text" class="form-control" id="inputCity" name="ContactName2" placeholder="Contect Name">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState"> Mobile </label>
+                                <input type="number" class="form-control" id="inputCity" name="Mobile2" placeholder="Mobile">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputZip">Email</label>
+                                <input type="email" class="form-control" id="inputZip" name="Email2" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                          <button class="btn btn-primary" type="submit">Create</button>
+                        </div>
+                    </form>
+                </div>
+            <!--// Forms content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+

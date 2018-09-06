@@ -19,14 +19,6 @@ const userPool = new AmazonCogintoIdentity.CognitoUserPool(poolData)
 const routes = [
 	{
 		method: 'GET',
-		path: '/',
-		handler: function(req, reply){
-			console.log('Hello I am from routes.js')
-			return reply.view('index')
-		} 
-	},
-	{
-		method: 'GET',
 		path: '/signup',
 		handler: function(req, reply){
 			return reply.view('signup')
