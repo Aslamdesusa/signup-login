@@ -180,8 +180,13 @@
                                 <input type="text" class="form-control" id="inputEmail4" name="CurrentLevel" placeholder="Current Level">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputPassword4">Center</label>
-                                <input type="text" class="form-control" id="inputPassword4" name="Center" placeholder="Center">
+                                <label for="inputEmail4">Center</label>
+                                <select name="Center" class="form-control">
+                                  <option value="" disabled selected>Select Center*</option>
+                                  {{#each centerAu}}
+                                  <option value="{{centerName}}">{{centerName}}</option>
+                                  {{/each}}
+                                </select>
                             </div>
                         </div>
                         <div class="form-row">

@@ -1,0 +1,166 @@
+
+     <style type="text/css">
+       .modal-dialog{
+        max-width: 60% !important;
+       }
+       @media (min-width: 731px) {
+      .modal-dialog {
+        width: 100% !important;
+      }
+     </style>
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Tables</li>
+            <li><div class="alert {{alert}}">
+              <strong>{{success}}</strong> {{message}}
+            </div>
+          </li>
+          </ol>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Add Area</button></div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Area</th>
+                      <th>State</th>
+                      <th>Contact Person</th>
+                      <th>Email</th>
+                      <th>Mobile</th>
+                      <th>Create Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Area</th>
+                      <th>State</th>
+                      <th>Contact Person</th>
+                      <th>Email</th>
+                      <th>Mobile</th>
+                      <th>Create Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {{#each area}}
+                    <tr>
+                      <td>{{AreaName}}</td>
+                      <td>{{StateName}}</td>
+                      <td>{{contactPerson}}</td>
+                      <td>{{Email}}</td>
+                      <td>{{Mobile}}</td>
+                      <td>{{Date}}</td>
+                      <td style="display: flex;">
+                        <form action="" method="GET"><button>Edit</button></form> 
+                        <form method="GET" action="/student/management/deleted/{{_id}}"><button>Delete</button></form>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+
+          <p class="small text-center text-muted my-5">
+            <em>More table examples coming soon...</em>
+          </p>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2018</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+
+<!-- Logout Modal-->
+    <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Create a New Area</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+                <div class="outer-w3-agile mt-3">
+                    <h4 class="tittle-w3-agileits mb-4">Area Managament</h4>
+                    <form action="/add/area" method="POST">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputArea">Area Name</label>
+                                <input type="text" class="form-control" id="inputArea" name="AreaName" placeholder="Area Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputState">State</label>
+                                <select name="stateName" class="form-control">
+                                  <option value="" disabled selected>Select State*</option>
+                                  {{#each state}}
+                                  <option value="{{stateName}}">{{stateName}}</option>
+                                  {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputContactPerson">Contact Person</label>
+                                <input type="text" class="form-control" id="inputContactPerson" name="contactPerson" placeholder="Contact Person">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputemail">Email</label>
+                                <input type="email" class="form-control" id="inputemail" name="Email" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputMobile">Mobile</label>
+                                <input type="number" class="form-control" id="inputMobile" name="Mobile" placeholder="Mobile">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                          <button class="btn btn-primary" type="submit">Create</button>
+                        </div>
+                    </form>
+                </div>
+            <!--// Forms content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+

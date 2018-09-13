@@ -36,6 +36,7 @@
                       <th>Center</th>
                       <th>Start Date</th>
                       <th>No Of Class</th>
+                      <th>actual class limit</th>
                       <th>Batch Day</th>
                       <th>Batch Schedule</th>
                       <th>Teacher</th>
@@ -50,6 +51,7 @@
                       <th>Center</th>
                       <th>Start Date</th>
                       <th>No Of Class</th>
+                      <th>actual class limit</th>
                       <th>Batch Day</th>
                       <th>Batch Schedule</th>
                       <th>Teacher</th>
@@ -65,6 +67,7 @@
                       <td>{{Center}}</td>
                       <td>{{StartDate}}</td>
                       <td>{{NumberOfClass}}</td>
+                      <td>{{actualClassLimit}}</td>
                       <td>{{BatchDay}}</td>
                       <td>{{BatchSchedule}}</td>
                       <td>{{Teacher}}</td>
@@ -140,8 +143,9 @@
                                 <label for="inputcenter">Center</label>
                                 <select name="Center" class="form-control" required>
                                   <option value="" disabled selected>Select Service*</option>
-                                  <option value="Center1">Center1</option>
-                                  <option value="Center2">Center2</option>
+                                  {{#each centerAu}}
+                                  <option value="{{centerName}}">{{centerName}}</option>
+                                  {{/each}}
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
@@ -151,8 +155,8 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputNoOfClasses">No of Classes</label>
-                                <input type="number" class="form-control" name="NumberOfClass" id="inputEmail4" placeholder="No Of Classes" required="">
+                                <label for="inputNoOfClasses">Actual Class of Limit</label>
+                                <input type="number" class="form-control" name="actualClassLimit" id="inputNoOfClasses" placeholder="No Of Classes" required="">
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputBatchDay">Batch Day</label>
@@ -177,9 +181,9 @@
                                 <label for="inputTeacher">Teacher</label>
                                 <select name="Teacher" class="form-control" required>
                                   <option value="" disabled selected>Select Day</option>
-                                  <option value="Teacher1">Teaher1</option>
-                                  <option value="Teacher2">Teaher2</option>
-                                  <option value="Teacher3">Teaher3</option>
+                                  {{#each teacherAu}}
+                                  <option value="{{moderator}}">{{firstName}} {{lastName}}</option>
+                                  {{/each}}
                                 </select>
                             </div>
                         </div>

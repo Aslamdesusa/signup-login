@@ -1,0 +1,208 @@
+
+     <style type="text/css">
+       .modal-dialog{
+        max-width: 60% !important;
+       }
+       @media (min-width: 731px) {
+      .modal-dialog {
+        width: 100% !important;
+      }
+     </style>
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Tables</li>
+            <li><div class="alert {{alert}}">
+              <strong>{{success}}</strong> {{message}}
+            </div>
+          </li>
+          </ol>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              <p>Select Date</p>
+              <input type="date" name="">
+              <button>Submit</button>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Teacher</th>
+                      <th>Center</th>
+                      <th>Last Login</th>
+                      <th>Date</th>
+                      <th>View Teacher/Student Data</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Teacher</th>
+                      <th>Center</th>
+                      <th>Last Login</th>
+                      <th>Date</th>
+                      <th>View Teacher/Student Data</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <tr>
+                      <td>Teacher1</td>
+                      <td>center</td>
+                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
+                      <td>Date</td>
+                      <td>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Students</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Teacher2</td>
+                      <td>center</td>
+                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
+                      <td>Date</td>
+                      <td >
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Students</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Teacher3</td>
+                      <td>center</td>
+                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
+                      <td>Date</td>
+                      <td>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Students</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Teacher4</td>
+                      <td>center</td>
+                      <td style="color: red">Not Loged in</td>
+                      <td>Date</td>
+                      <td>
+                        <button type="button" class="btn btn-default">Students</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+
+          <p class="small text-center text-muted my-5">
+            <em>More table examples coming soon...</em>
+          </p>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2018</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+
+<!-- Logout Modal-->
+    <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="card mb-3">
+            <div class="card-header">
+              <!-- <i class="fas fa-table"></i> -->
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>ID</th>
+                      <th>Center</th>
+                      <th>Batch</th>
+                      <th>Check-in Date</th>
+                      <th>Check-out Date</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Name</th>
+                      <th>ID</th>
+                      <th>Center</th>
+                      <th>Batch</th>
+                      <<th>Check-in</th>
+                      <th>Check-out</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    <tr>
+                      <td>Aslam Deusa</td>
+                      <td>242424</td>
+                      <td>center</td>
+                      <td>sunday 2:20</td>
+                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
+                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
+
+                    </tr>
+                    <tr>
+                      <td>Rahul Sharma</td>
+                      <td>242424</td>
+                      <td>center</td>
+                      <td>sunday 2:20</td>
+                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
+                      <td style="color: red">Didn't Check out</td>
+                    </tr>
+                    <tr>
+                      <td>Amar Sinha</td>
+                      <td>252526</td>
+                      <td>center</td>
+                      <td>sunday 2:20</td>
+                      <td style="color: red">Didn't Check in</td>
+                      <td style="color: red">Didn't Check out</td>
+                    </tr>
+                    <tr>
+                      <td>Apoorv Goyel</td>
+                      <td>242424</td>
+                      <td>center</td>
+                      <td>sunday 2:20</td>
+                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
+                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+
+          <p class="small text-center text-muted my-5">
+            <em>More table examples coming soon...</em>
+          </p>
+
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+

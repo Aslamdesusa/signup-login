@@ -5,6 +5,8 @@ const batchModal = require('../tables/batch')
 const studentModal = require('../tables/student')
 const Joi = require('joi')
 const AuthCookie = require('hapi-auth-cookie')
+const adminModal = require('../tables/loginAdmin.js')
+const centerModal = require('../tables/center')
 
 const routes = [
 	{
@@ -35,11 +37,30 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
+			var center = {}
+			var teacher = {}
+			var batch = {}
+			centerModal.find({}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					center = data
+				}
+			})
+			adminModal.find({moderator: 'Teacher'}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					console.log(data)
+					teacher = data
+				}
+			})
 			batchModal.find({}, (err, data) =>{
 				if (err) {
 					reply(err)
 				}else{
-					reply.view('batch', {data: data})
+					batch = data
+					reply.view('batch', {centerAu : center, data: batch, teacherAu : teacher})
 				}
 			})
 
@@ -108,7 +129,18 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
-			var newBatch = new batchModal(request.payload);
+			var newBatch = new batchModal({
+                    "Name": request.payload.Name,
+                    "ID":request.payload.ID,
+                    "Center": request.payload.Center,
+                    "StartDate": request.payload.StartDate,
+                    "NumberOfClass": 0,
+                    "actualClassLimit": request.payload.actualClassLimit,
+                    "BatchDay": request.payload.BatchDay,
+                    "BatchSchedule": request.payload.BatchSchedule,
+                    "Teacher": request.payload.Teacher,
+           });
+			// var newBatch = new batchModal(request.payload);
 			newBatch.save(function (err, data){
 				if (err) {
 					return reply.redirect('/error?ID='+ request.payload.ID)
@@ -155,6 +187,14 @@ const routes = [
 		handler: function(request, reply){
 			var student = {}
 			var batch = {}
+			var center = {}
+			centerModal.find({}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					center = data
+				}
+			})
 			studentModal.find().limit(100).exec({}, (err, data) =>{
 				if (err) {
 					reply(err)
@@ -170,7 +210,7 @@ const routes = [
 					batch=data1;
 					console.log(student)
 					console.log(batch)
-					reply.view('student', {data: student, data1: batch})
+					reply.view('student', {data: student, data1: batch, centerAu: center})
 				}
 			})
 		}
@@ -191,6 +231,60 @@ const routes = [
 					reply.view('student', {data: data,  message: 'The New Student has been successfully Created.', success: 'Success!', alert: 'alert-success'})
 				}
 			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/check-in-out-desh',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			return reply.view('moderatorCheck')
+		}
+	},
+	{
+		method: 'GET',
+		path: '/select/batch',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			batchModal.find({}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					return reply.view('selectBatch', {data : data})
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/select/{uuid}',
+		config: {
+		// Joi api validation
+			validate: {
+			    params: {
+			        uuid: Joi.string().required()
+			    }
+			},
+			auth:{
+				strategy: 'restricted'
+			}
+		},
+		handler: function(request, reply){
+			batchModal.findOneAndUpdate({_id: request.params.uuid}, { $inc: {NumberOfClass:1}}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					reply(data)
+				}
+			});
 		}
 	},
 	{

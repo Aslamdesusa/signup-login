@@ -1,0 +1,147 @@
+
+     <style type="text/css">
+       .modal-dialog{
+        max-width: 60% !important;
+       }
+       @media (min-width: 731px) {
+      .modal-dialog {
+        width: 100% !important;
+      }
+     </style>
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Tables</li>
+            <li><div class="alert {{alert}}">
+              <strong>{{success}}</strong> {{message}}
+            </div>
+          </li>
+          </ol>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Add Admin/Teacher</button></div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Admin Status</th>
+                      <th>Super Admin Status</th>
+                      <th>Last Login Date</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Name</th>
+                      <th>Admin Status</th>
+                      <th>Super Admin Status</th>
+                      <th>Last Login Date</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {{#each data}}
+                    <tr>
+                      <td>{{Name}}</td>
+                      <td>{{Admin}}</td>
+                      <td>{{superAdmin: Boolean}}</td>
+                      <td>{{LLDate}}</td>
+                      <td style="display: flex;">
+                        <form action="" method="GET"><button>Edit</button></form> 
+                        <form method="GET" action="/student/management/deleted/{{_id}}"><button>Delete</button></form>
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+          </div>
+
+          <p class="small text-center text-muted my-5">
+            <em>More table examples coming soon...</em>
+          </p>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2018</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+
+<!-- Logout Modal-->
+    <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Create a New Super Admin</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+                <div class="outer-w3-agile mt-3">
+                    <h4 class="tittle-w3-agileits mb-4">Super Admin Managament</h4>
+                    <form action="/create/admin" method="POST">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Super Admin User Name</label>
+                                <input type="text" class="form-control" id="inputEmail4" name="username" placeholder="Username">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Password</label>
+                                <input type="text" class="form-control" id="inputPassword4" name="password" placeholder="Password">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Super Admin</label>
+                                <select name="superAdmin" class="form-control">
+                                  <option value="" disabled selected>Select Admin Level*</option>
+                                  <option value="true">Super Admin</option>
+                                  <option value="false">comming soon..r</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                          <button class="btn btn-primary" type="submit">Create</button>
+                        </div>
+                    </form>
+                </div>
+            <!--// Forms content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+

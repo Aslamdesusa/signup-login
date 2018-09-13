@@ -3,10 +3,12 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var AdminSchema = new Schema({
+	firstName: {type:String, required:true},  
+	lastName: {type:String, required:true},
     username: {type:String, required:true, unique:true},
     password: {type:String, required:true},
-    Admin: Boolean,
-    Center: String,
+    moderator: {type: String, enum: ['SuperAdmin', 'Admin', 'Teacher']},
+    centerHeadPlace: String,
     isLogin: Boolean,
     Date: {type: Date, default: Date.now}
 });

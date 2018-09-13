@@ -1,0 +1,113 @@
+
+     <style type="text/css">
+       .modal-dialog{
+        max-width: 60% !important;
+       }
+     </style>
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="#">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Tables</li>
+            <li><div class="alert {{alert}}">
+              <strong>{{success}}</strong> {{message}}
+            </div>
+          </li>
+          </ol>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Select Batch</button></div>
+            
+            <div class="card-footer small text-muted">Updated yesterday at 11:59 btn-primary</div>
+          </div>
+
+          <p class="small text-center text-muted my-5">
+            <em>More table examples coming soon...</em>
+          </p>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Copyright © Your Website 2018</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+
+<!-- Logout Modal-->
+    <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Select Batch</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+              <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>ID</th>
+                      <th>Center</th>
+                      <th>Select Batch</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Name</th>
+                      <th>ID</th>
+                      <th>Center</th>
+                      <th>Select Batch</th>                      
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                    {{#each data}}
+                    <tr>
+                      <td>{{Name}}</td>
+                      <td>{{ID}}</td>
+                      <td>{{Center}}</td>
+                      <td style="display: flex;">
+                        <form action="/select/{{_id}}" method="GET"><button>Select</button></form> 
+                      </td>
+                    </tr>
+                    {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!--// Forms content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+

@@ -2,6 +2,7 @@ import Hapi from 'hapi';
 const adminModal = require('../tables/loginAdmin.js')
 const Joi = require('joi')
 const AuthCookie = require('hapi-auth-cookie')
+const centerModal = require('../tables/center')
 
 // const config = require('../config.json');
 
@@ -41,21 +42,100 @@ const routes = [
 		}
 	},
 	{
+		method: 'GET',
+		path: '/moderators',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			var centerAu = {}
+			var adminAu = {} 
+			centerModal.find({}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					centerAu = data
+				}
+			})	
+			adminModal.find({}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					adminAu = data
+					return reply.view('moderator', {center: centerAu, admin: adminAu});
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/admin/teacher/management/error',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			adminModal.find({}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					return reply.view(
+						'moderator', {
+							data: data, 
+							message: 'This ' +request.query.moderator+ ' already exist.', success: 'Error!', alert: 'alert-danger'
+						});
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/admin/teacher/management',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			adminModal.find({}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					return reply.view(
+						'moderator', {
+							data: data, 
+							message: 'A ' +request.query.moderator+ ' has been successfully Created.', success: 'Success!', alert: 'alert-success' 
+						});
+				}
+			})
+		}
+	},
+	{
 		method: 'POST',
-		path: '/create/admin',
+		path: '/create/moderator',
+		config:{
+		    auth:{
+		    	strategy: 'restricted',
+		    }
+		},
 		handler: function(request, reply){
 			const newAdmin = new adminModal({
+				"firstName": request.payload.firstName,
+				"lastName": request.payload.lastName,
 				"username": request.payload.username, 
 				"password": request.payload.password,
-				"Admin": request.payload.Admin,
-				"Center": request.payload.Center,
+				"moderator": request.payload.moderator,
+				"centerHeadPlace": request.payload.centerHeadPlace,
 				"isLogin": false,
 			})
 			newAdmin.save(function(err, data){
 				if (err) {
-					throw err
+					return reply.redirect('/admin/teacher/management/error?moderator='+request.payload.moderator)
 				}else{
-					reply(data)
+					return reply.redirect('/admin/teacher/management?moderator='+request.payload.moderator)
 				}
 			})
 		}
@@ -80,7 +160,7 @@ const routes = [
             } else if (data.length == 0){
             	console.log('err')
             	return reply.redirect('/err?username='+request.payload.username+'&password='+request.payload.password )
-            } else if (data[0].Admin == true) {
+            } else if (data[0].moderator == 'SuperAdmin') {
             	console.log(data[0]._id)
             	request.cookieAuth.set(data[0]);
             	return reply.redirect('/deshboard?uuid='+data[0]._id)
@@ -125,6 +205,19 @@ const routes = [
 		handler: function(request, reply){
 			return reply.view('404')
 		}
-	}
+	},
+	{
+		method: 'GET',
+		path: '/teacher/status',
+		handler: function(request, reply){
+			adminModal.find({Admin: false}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					reply(data)
+				}
+			})
+		}
+	},
 ]
 export default routes;

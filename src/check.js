@@ -27,10 +27,10 @@ const routes = [
 					"CheckOutDateTime": "not check-out",
 				})
 			studentModal.findOne({'ID': request.payload.ID}, function(err, data){
-				if (!dat) {
+				if (!data) {
 					reply('you are not existing student')
 				}else{
-					adminModal.findOne({Center: data.Center}, function(err, data1){
+					adminModal.findOne({isLogin: data.Center}, function(err, data1){
 						if (err) {
 							reply(err)
 						}else if (data1.isLogin == false) {
@@ -46,11 +46,47 @@ const routes = [
 										if (err) {
 											reply(err)
 										}else{
-											reply('Check In Successfully\n '+ request.payload.ID +'\n ' + dat)e
+											reply('Check In Successfully\n '+ request.payload.ID +'\n ' + date)
 										}
 									});
 								}
 							});
+						}
+					});
+				}
+			});
+		}
+	},
+	{
+		method: 'POST',
+		path: '/check-in/moderator',
+		handler: function(request, reply){
+			// let payload = request.payload.ID
+			let date = new Date().toString();
+			const newCheck = new check_validation({
+					
+					"uuid": request.payload.ID,
+					"CheckInDateTime": date,
+					"CheckOutDateTime": "not check-out",
+				})
+			studentModal.findOne({'ID': request.payload.ID}, function(err, data){
+				if (!data) {
+					reply('you are not existing student')
+				}else if (data.CheckInOut == true) {
+					reply('you can\'t check in please check out first')
+				}
+				else{
+					newCheck.save(function(err, data2){
+						if (err) {
+							reply(err)
+						}else{
+							studentModal.findOneAndUpdate({'ID': request.payload.ID}, {CheckInOut: true}, function(err, data3){
+								if (err) {
+									reply(err)
+								}else{
+									reply('Check In Successfully\n '+ request.payload.ID +'\n ' + date)
+								}
+							});	
 						}
 					});
 				}
