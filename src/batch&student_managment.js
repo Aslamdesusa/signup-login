@@ -265,6 +265,24 @@ const routes = [
 	},
 	{
 		method: 'GET',
+		path: '/select/batch/success',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			batchModal.find({}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					return reply.view('selectBatch', {data : data, message: 'Batch has been Selected.', success: 'Success!', alert: 'alert-success'})
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
 		path: '/select/{uuid}',
 		config: {
 		// Joi api validation
@@ -282,7 +300,7 @@ const routes = [
 				if (err) {
 					reply(err)
 				}else{
-					reply(data)
+					return reply.redirect('/select/batch/success')
 				}
 			});
 		}
