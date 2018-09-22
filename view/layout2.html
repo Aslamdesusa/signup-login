@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Check_in_out</title>
+    <title>UCMAS STUDENT TRACKER</title>
 
     <!-- Bootstrap core CSS-->
     <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -29,7 +29,7 @@
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-      <a class="navbar-brand mr-1" href="index.html">Check-in-out</a>
+      <a class="navbar-brand mr-1" href="/teacher/bash">UCMAS STUDENT TRACKER</a>
 
       <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -91,27 +91,22 @@
     <!-- Sidebar -->
       <ul class="sidebar navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="/deshboard">
+          <a class="nav-link" href="/deshboard1">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span>
           </a>
         </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">Add State/Area/Center:</h6>
-            <a class="dropdown-item" href="login.html">State</a>
-            <a class="dropdown-item" href="register.html">Area</a>
-            <a class="dropdown-item" href="forgot-password.html">Center</a>
-            <div class="dropdown-divider"></div>
-            <h6 class="dropdown-header">Other Pages:</h6>
-            <a class="dropdown-item" href="404.html">404 Page</a>
-            <a class="dropdown-item" href="blank.html">Blank Page</a>
-          </div>
+        <li class="nav-item">
+          <a class="nav-link" href="/teacher/select/batch">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Add New Class</span></a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Day End Report</span></a>
+        </li>
+      </ul>
       </ul>
 
 
@@ -170,6 +165,12 @@
     <!-- Demo scripts for this page-->
     <script src="/js/demo/datatables-demo.js"></script>
     <script src="/js/demo/chart-area-demo.js"></script>
+
+    <script type="text/javascript" src="/js/ajex.js"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+   
 
   </body>
 

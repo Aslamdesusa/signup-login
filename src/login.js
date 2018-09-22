@@ -29,7 +29,7 @@ const routes = [
 	},
 	{
 		method: 'GET',
-		path: '/deshboard/teacher',
+		path: '/deshboard1',
 		handler: function(request, reply){
 			return reply.view('deshboard1', null,{layout: 'layout2'})
 		}
@@ -153,7 +153,6 @@ const routes = [
 		},
     },
     handler: function(request, reply){
-    	
         adminModal.find({'username': request.payload.username, 'password': request.payload.password, }, function(err, data){
             if (err){
                 throw err
@@ -164,16 +163,16 @@ const routes = [
             	console.log(data[0]._id)
             	request.cookieAuth.set(data[0]);
             	return reply.redirect('/deshboard?uuid='+data[0]._id)
-            }else{
+            }else if (data[0].moderator == 'Admin' || data[0].moderator == 'Teacher') {
             	adminModal.findOneAndUpdate({'username': request.payload.username, 'password': request.payload.password,},{isLogin: true}, function(error, datap){
             		if (error) {
-            			throw error
+            			reply(error)
             		}else{
             			request.cookieAuth.set(data[0]);
-            			return reply.redirect('/deshboard/teacher?uuid='+data[0]._id)
+            			return reply.redirect('/deshboard1?moderator='+data[0].moderator+'&id='+data[0]._id)
             		}
-            	})
-            }
+            	})            	
+            	}
 	        })
 
 	    }
@@ -187,7 +186,7 @@ const routes = [
 		    }
 		},
 		handler: function(request, reply){
-			var auth = request.auth.credentials._id;
+			var auth = request.auth.credentials;
 			console.log(auth)
 			adminModal.findOneAndUpdate({_id: auth}, {isLogin: false}, function(err, data){
 				if (err) {
@@ -206,18 +205,18 @@ const routes = [
 			return reply.view('404')
 		}
 	},
-	{
-		method: 'GET',
-		path: '/teacher/status',
-		handler: function(request, reply){
-			adminModal.find({Admin: false}, function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					reply(data)
-				}
-			})
-		}
-	},
+	// {
+	// 	method: 'GET',
+	// 	path: '/teacher/status',
+	// 	handler: function(request, reply){
+	// 		adminModal.find({Admin: false}, function(err, data){
+	// 			if (err) {
+	// 				reply(err)
+	// 			}else{
+	// 				reply(data)
+	// 			}
+	// 		})
+	// 	}
+	// },
 ]
 export default routes;

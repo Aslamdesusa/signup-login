@@ -7,6 +7,9 @@ const Joi = require('joi')
 const AuthCookie = require('hapi-auth-cookie')
 const adminModal = require('../tables/loginAdmin.js')
 const centerModal = require('../tables/center')
+const nodemailer = require("nodemailer");
+const async = require('async')
+
 
 const routes = [
 	{
@@ -37,33 +40,68 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
-			var center = {}
-			var teacher = {}
 			var batch = {}
-			centerModal.find({}, function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					center = data
-				}
-			})
-			adminModal.find({moderator: 'Teacher'}, function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					console.log(data)
-					teacher = data
-				}
-			})
 			batchModal.find({}, (err, data) =>{
 				if (err) {
 					reply(err)
 				}else{
 					batch = data
-					reply.view('batch', {centerAu : center, data: batch, teacherAu : teacher})
+					reply.view('batch', {data: batch})
 				}
 			})
 
+		}
+	},
+	{
+		method: 'GET',
+		path: '/center/center',
+		handler: function(request, reply){
+			var center = {}
+			var teacher = {}
+			centerModal.find({}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					center = data
+					reply(center)
+				}
+			})
+			// adminModal.find({moderator: 'Teacher'}, function(err, data){
+			// 	if (err) {
+			// 		reply(err)
+			// 	}else{
+			// 		teacher = data
+			// 		reply({
+			// 			message: 'success',
+			// 			center: center,
+			// 			teacher: teacher,
+			// 		}) 
+			// 	}
+			// })
+		}
+	},
+	{
+		method: 'GET',
+		path: '/center/teacher',
+		handler: function(request, reply){
+			// var center = {}
+			var teacher = {}
+			// centerModal.find({}, function(err, data){
+			// 	if (err) {
+			// 		reply(err)
+			// 	}else{
+			// 		center = data
+			// 		reply(center)
+			// 	}
+			// })
+			adminModal.find({moderator: 'Teacher'}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					teacher = data
+					reply(teacher) 
+				}
+			})
 		}
 	},
 	{
@@ -138,6 +176,7 @@ const routes = [
                     "actualClassLimit": request.payload.actualClassLimit,
                     "BatchDay": request.payload.BatchDay,
                     "BatchSchedule": request.payload.BatchSchedule,
+                    "isActivate": true,
                     "Teacher": request.payload.Teacher,
            });
 			// var newBatch = new batchModal(request.payload);
@@ -247,66 +286,6 @@ const routes = [
 	},
 	{
 		method: 'GET',
-		path: '/select/batch',
-		config:{
-			auth:{
-				strategy: 'restricted',
-			}
-		},
-		handler: function(request, reply){
-			batchModal.find({}, function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					return reply.view('selectBatch', {data : data})
-				}
-			})
-		}
-	},
-	{
-		method: 'GET',
-		path: '/select/batch/success',
-		config:{
-			auth:{
-				strategy: 'restricted',
-			}
-		},
-		handler: function(request, reply){
-			batchModal.find({}, function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					return reply.view('selectBatch', {data : data, message: 'Batch has been Selected.', success: 'Success!', alert: 'alert-success'})
-				}
-			})
-		}
-	},
-	{
-		method: 'GET',
-		path: '/select/{uuid}',
-		config: {
-		// Joi api validation
-			validate: {
-			    params: {
-			        uuid: Joi.string().required()
-			    }
-			},
-			auth:{
-				strategy: 'restricted'
-			}
-		},
-		handler: function(request, reply){
-			batchModal.findOneAndUpdate({_id: request.params.uuid}, { $inc: {NumberOfClass:1}}, function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					return reply.redirect('/select/batch/success')
-				}
-			});
-		}
-	},
-	{
-		method: 'GET',
 		path: '/student/deleted',
 		config:{
 			auth:{
@@ -350,7 +329,33 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
-			// var newStudent = new studentModal();
+			var pins = [
+				Math.floor(Math.random() * 85952) + 10000,
+				Math.floor(Math.random() * 46546) + 85488,
+				Math.floor(Math.random() * 78958) + 10000,
+			]
+			var transporter = nodemailer.createTransport({
+				host: 'smtp.gmail.com',
+				port: 587,
+				secure: false, // true for 465, false for other ports
+				auth: {
+				user: 'aslam17@navgurukul.org', // generated ethereal user
+				pass: 'aslam#desusa' // generated ethereal password
+			}
+		});
+			var maillist = [
+			  request.payload.Email,
+			  request.payload.Email1,
+			  request.payload.Email2,
+			];
+		// setup email data with unicode symbols
+		var mailOptions = {
+	        from: '"UCMAS STUDENT TRACKER " <aslam17@navgurukul.org>', // sender address
+	        // to: maillist,  // list of receivers
+	        subject: 'UCMAS PIN CODE FOR CHECK-IN CHECK-OUT', // Subject line
+	        text: '', // plain text body
+	        html: '' // html body
+	    };
 			var newStudent = new studentModal({
                     "Name": request.payload.Name,
                     "ID":request.payload.ID,
@@ -368,8 +373,11 @@ const routes = [
                     "ContactName2": request.payload.ContactName2,
                     "Mobile2": request.payload.Mobile2,
                     "Email2": request.payload.Email2,
-                    "CheckInOut": false
+                    "CheckInOut": false,
+                    "PinCode": pins,
            });
+			var count = 0
+			console.log(newStudent)
 			studentModal.find({ID: request.payload.ID}, function(err, doc){
 				if (doc.length) {
 					return reply.redirect('/error/student?ID='+ request.payload.ID)
@@ -379,7 +387,20 @@ const routes = [
 							// return reply.redirect('/error/student?ID='+ request.payload.ID)
 							reply(err)
 						}else{
-							return reply.redirect('/created/student?_id='+data._id+ '&Name='+data.Name )
+							maillist.forEach(function(email, pin, response){
+							    mailOptions["to"] = email;
+
+							    //manipulate the text
+						    	mailOptions["text"] = "Thanx to join us Here is your Pin Code and student ID do not forget this pin without this pin you can't be able to Do Check-in and Check-out\n " +'PIN-CODE = '+ pins[count++] +'\n'+ 'STUDENT ID = '+request.payload.ID
+
+							    transporter.sendMail(mailOptions, function(error, response){
+							        if(error){
+							            console.log(error);
+							        }else{
+							        	return reply.redirect('/created/student?_id='+data._id+ '&Name='+data.Name )
+							        }
+							    });
+							});	
 						}
 					})
 				}

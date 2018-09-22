@@ -18,6 +18,10 @@ body {
   display: -ms-flexbox;
   display: flex;
 }
+.navbar-brand{
+  white-space: normal !important;
+  font-size: 100% !important;
+}
 
 #wrapper #content-wrapper {
   overflow-x: hidden;

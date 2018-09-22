@@ -11,6 +11,7 @@ var BatchSchema = new Schema({
     actualClassLimit: Number,
     BatchDay: String,
     BatchSchedule: String,
+    isActivate: Boolean,
     Teacher: String,
     Date: {type: Date, default: Date.now}
 });

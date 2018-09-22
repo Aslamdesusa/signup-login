@@ -1,8 +1,4 @@
 
-     <style type="text/css">
-       .modal-dialog{
-        max-width: 60% !important;
-       }
      </style>
       <div id="content-wrapper">
 
@@ -24,7 +20,7 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BatchModal">Add New Batch</button>
+              <button type="button" class="btn btn-default" data-toggle="modal" id="batch" data-target="#BatchModal">Add New Batch</button>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -82,24 +78,15 @@
                 </table>
               </div>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            <div class="card-footer small text-muted">UCMAS STUDENT TRACKER</div>
           </div>
 
           <p class="small text-center text-muted my-5">
-            <em>More table examples coming soon...</em>
+            <em>More table coming soon...</em>
           </p>
 
         </div>
         <!-- /.container-fluid -->
-
-        <!-- Sticky Footer -->
-        <footer class="sticky-footer">
-          <div class="container my-auto">
-            <div class="copyright text-center my-auto">
-              <span>Copyright © Your Website 2018</span>
-            </div>
-          </div>
-        </footer>
 
       </div>
       <!-- /.content-wrapper -->
@@ -141,11 +128,9 @@
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="inputcenter">Center</label>
-                                <select name="Center" class="form-control" required>
+                                <select id="updateoption" name="Center" class="form-control" required>
                                   <option value="" disabled selected>Select Service*</option>
-                                  {{#each centerAu}}
-                                  <option value="{{centerName}}">{{centerName}}</option>
-                                  {{/each}}
+                                  <!-- <option value="{{centerName}}">{{centerName}}</option> -->
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
@@ -179,11 +164,11 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputTeacher">Teacher</label>
-                                <select name="Teacher" class="form-control" required>
-                                  <option value="" disabled selected>Select Day</option>
-                                  {{#each teacherAu}}
-                                  <option value="{{moderator}}">{{firstName}} {{lastName}}</option>
-                                  {{/each}}
+                                <select name="Teacher" id="updateoptionteach" class="form-control" required>
+                                  <option value="" disabled selected>Select Teacher</option>
+                                  <!-- {{#each teacherAu}} -->
+                                  <!-- <option value="{{username}}">{{firstName}} {{lastName}}</option> -->
+                                  <!-- {{/each}} -->
                                 </select>
                             </div>
                         </div>
@@ -198,5 +183,7 @@
           </div>
         </div>
       </div>
+
+
   
 

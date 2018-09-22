@@ -19,7 +19,8 @@ var StudentSchema = new Schema({
     ContactName2: String,
     Mobile2: String,
     Email2: String,
-    CheckInOut: Boolean, 
+    CheckInOut: Boolean,
+    PinCode: Array,
     Date: {type: Date, default: Date.now}
 });
 

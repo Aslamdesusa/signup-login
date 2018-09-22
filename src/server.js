@@ -18,6 +18,8 @@ import batch_student from './batch&student_managment'
 
 import state_area_center from './state_area_center'
 
+import TeacherSelectBatch from './TSB'
+
 
 
 const server = new Hapi.Server();
@@ -92,6 +94,7 @@ server.register( require( 'hapi-auth-jwt' ), ( err ) => {
     server.route(batch_student)
     server.route(check_validation)
     server.route(state_area_center)
+    server.route(TeacherSelectBatch)
 
 } );
 
