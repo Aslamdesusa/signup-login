@@ -65,38 +65,37 @@ const routes = [
 		handler: function(request, reply){
 			// let payload = request.payload.ID
 			let date = new Date().toString();
-			// const newCheck = new check_validation({
+			const newCheck = new check_validation({
 					
-			// 		"uuid": request.payload.ID,
-			// 		"PinCode": request.payload.PinCode,
-			// 		"CheckInDateTime": date,
-			// 		"CheckOutDateTime": "not check-out",
-			// 	})
-			studentModal.findOne({ID: request.payload.ID, PinCode: request.payload.PinCode}, function(err, data){
+					"uuid": request.payload.ID,
+					"PinCode": request.payload.PinCode,
+					"CheckInDateTime": date,
+					"CheckOutDateTime": "not check-out",
+				})
+			studentModal.findOne({ID: request.payload.ID, PinCode: parseInt(request.payload.PinCode)}, function(err, data){
 				// console.log(request.payload.PinCode)
-				console.log(request.payload)
-				console.log(data)
-				reply(data)
-				// if (!data) {
-				// 	reply('you are not existing student')
-				// }else if (data.CheckInOut == true) {
-				// 	reply('you can\'t check in please check out first')
-				// }
-				// else{
-				// 	newCheck.save(function(err, data2){
-				// 		if (err) {
-				// 			reply(err)
-				// 		}else{
-				// 			studentModal.findOneAndUpdate({'ID': request.payload.ID}, {CheckInOut: true}, function(err, data3){
-				// 				if (err) {
-				// 					reply(err)
-				// 				}else{
-				// 					reply('Check In Successfully\n '+ request.payload.ID +'\n ' + date)
-				// 				}
-				// 			});	
-				// 		}
-				// 	});
-				// }
+				// console.log(request.payload)
+				// console.log(data)
+				if (!data) {
+					reply('you are not existing student')
+				}else if (data.CheckInOut == true) {
+					reply('you can\'t check in please check out first')
+				}
+				else{
+					newCheck.save(function(err, data2){
+						if (err) {
+							reply(err)
+						}else{
+							studentModal.findOneAndUpdate({'ID': request.payload.ID}, {CheckInOut: true}, function(err, data3){
+								if (err) {
+									reply(err)
+								}else{
+									reply('Check In Successfully\n '+ request.payload.ID +'\n ' + date)
+								}
+							});	
+						}
+					});
+				}
 			});
 		}
 	},
@@ -105,7 +104,7 @@ const routes = [
 		path: '/check-out',
 		handler: function(request, reply){
 			let date = new Date().toString();
-			studentModal.findOneAndUpdate({'ID': request.payload.ID}, {CheckInOut: false}, function(err, data){
+			studentModal.findOneAndUpdate({'ID': request.payload.ID, PinCode: parseInt(request.payload.PinCode)}, {CheckInOut: false}, function(err, data){
 				// console.log(data.CheckInOut)
 				if (!data) {
 					reply('you are not existing student')

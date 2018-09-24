@@ -49,20 +49,52 @@ const routes = [
 		},
 		handler: function(request, reply){
 			var areaAu = {}
-			var state = {}
 			areaModal.find({}, (err, area) =>{
 				if (err) {
 					reply(err)
 				}else{
 					areaAu = area
+					return reply.view('area', {area: areaAu})
 				}
 			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/super/admin/area/state',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			var state = {}
 			stateModal.find({}, (err, data)=>{
 				if (err) {
 					reply(err)
 				}else{
 					state = data
-					return reply.view('area', {area: areaAu, state: state})
+					reply(state)
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/super/admin/area/area',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			var area = {}
+			areaModal.find({}, (err, data)=>{
+				if (err) {
+					reply(err)
+				}else{
+					area = data
+					reply(area)
 				}
 			})
 		}
@@ -77,29 +109,12 @@ const routes = [
 		},
 		handler: function(request, reply){
 			var centerau = {}
-			var state = {}
-			var areaAu  = {}
  			centerModal.find({}, (err, center) =>{
 				if (err) {
 					reply(err)
 				}else{
 					centerau = center
-				}
-			})
-			areaModal.find({}, (err, area)=>{
-				if (err) {
-					reply(err)
-				}else{
-					areaAu = area
-				}
-			})
-			stateModal.find({}, (err, state)=>{
-				if (err) {
-					reply(err)
-				}else{
-					console.log(centerau)
-					state = state
-					reply.view('center', {center: centerau, area: areaAu ,state: state})
+					reply.view('center', {center: centerau})
 				}
 			})
 		}

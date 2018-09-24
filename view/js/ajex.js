@@ -124,12 +124,7 @@ $(document).ready(function(){
 			
 });
 
-// $(document).ready(function){
-// 	$('#batch').click(function(){
-// 		alert('skdjf');
-// 		console.log('hello I m here')
-// 	})
-// }
+    
 $(document).ready(function(){
     $("#batch").click(function(){
         // alert("The paragraph was clicked.");
@@ -161,3 +156,96 @@ $(document).ready(function(){
 		});
     });
 });
+
+$(document).ready(function(){
+    $("#studentdata").click(function(){
+        // alert("The paragraph was clicked.");
+        $.ajax({
+			type: 'GET',
+			url: '/student/center',
+			dataType: 'json',
+			success: function(data){
+				// console.log(data[1].centerName)
+				var HTML = '';
+				for (var i = 0; i < data.length; i += 1) {
+	            	HTML = "<option value="+data[i].centerName+">" + data[i].centerName +"</option>"
+		        	$('#centerdata').append(HTML);
+	            }     
+		    }
+		});
+		$.ajax({
+			type: 'GET',
+			url: '/student/batch',
+			dataType: 'json',
+			success: function(data){
+				// console.log(data[1].centerName)
+				var HTML = '';
+				for (var i = 0; i < data.length; i += 1) {
+	            	HTML = "<option value="+ data[i].Name+">" + data[i].Name +"</option>"
+		        	$('#batchdata').append(HTML);
+	            }     
+		    }
+		});
+    });
+})
+
+$(document).ready(function(){
+    $("#areadata").click(function(){
+        // alert("The paragraph was clicked.");
+        $.ajax({
+			type: 'GET',
+			url: '/super/admin/area/state',
+			dataType: 'json',
+			success: function(data){
+				// console.log(data[1].centerName)
+				var HTML = '';
+				for (var i = 0; i < data.length; i += 1) {
+	            	HTML = "<option value="+data[i].stateName+">" + data[i].stateName +"</option>"
+		        	$('#statedata').append(HTML);
+	            }     
+		    }
+		});
+    });
+})
+
+$(document).ready(function(){
+    $("#centerbutton").click(function(){
+        // alert("The paragraph was clicked.");
+        $.ajax({
+			type: 'GET',
+			url: '/super/admin/area/state',
+			dataType: 'json',
+			success: function(data){
+				// console.log(data[1].centerName)
+				var HTML = '';
+				for (var i = 0; i < data.length; i += 1) {
+	            	HTML = "<option value="+data[i].stateName+">" + data[i].stateName +"</option>"
+		        	$('#statecentere').append(HTML);
+	            }     
+		    }
+		});
+		$.ajax({
+			type: 'GET',
+			url: '/super/admin/area/area',
+			dataType: 'json',
+			success: function(data){
+				// console.log(data[1].centerName)
+				var HTML = '';
+				for (var i = 0; i < data.length; i += 1) {
+	            	HTML = "<option value="+data[i].AreaName+">" + data[i].AreaName +"</option>"
+		        	$('#areadselect').append(HTML);
+	            }     
+		    }
+		});
+    });
+})
+
+$(document).ready(function(){
+	// $('#BatchModal').modal({ backdrop: 'static', keyboard: false });
+
+  	$('.close').click(function () {
+	 	location.reload();
+	 	// alert('dlfj')
+	})
+  })
+  

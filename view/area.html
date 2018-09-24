@@ -21,7 +21,7 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Add Area</button></div>
+              <button type="button" id="areadata" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Add Area</button></div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -89,7 +89,7 @@
 
 
 <!-- Logout Modal-->
-    <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -111,11 +111,8 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputState">State</label>
-                                <select name="stateName" class="form-control">
+                                <select id="statedata" name="stateName" class="form-control">
                                   <option value="" disabled selected>Select State*</option>
-                                  {{#each state}}
-                                  <option value="{{stateName}}">{{stateName}}</option>
-                                  {{/each}}
                                 </select>
                             </div>
                         </div>

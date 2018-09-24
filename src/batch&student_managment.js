@@ -12,11 +12,11 @@ const async = require('async')
 
 
 const routes = [
-	{
+	{ 
 		method: 'GET',
 		path: '/',
 		handler: function(request, reply){
-			return reply.view('checkin_validation', null, {layout: 'layout1'})
+			return reply.view('login', null, {layout: 'layout1'})
 		}
 	},
 	{
@@ -226,30 +226,53 @@ const routes = [
 		handler: function(request, reply){
 			var student = {}
 			var batch = {}
+			studentModal.find().limit(100).exec({}, (err, data) =>{
+				if (err) {
+					reply(err)
+				}else{
+					student=data
+					reply.view('student', {data: student})
+
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/student/center',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
 			var center = {}
 			centerModal.find({}, function(err, data){
 				if (err) {
 					reply(err)
 				}else{
 					center = data
+					reply(center)
 				}
 			})
-			studentModal.find().limit(100).exec({}, (err, data) =>{
+		}
+	},
+	{
+		method: 'GET',
+		path: '/student/batch',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			var batch = {}
+			batchModal.find({}, function(err, data){
 				if (err) {
 					reply(err)
 				}else{
-					student=data
-				}
-			})
-			// var batch = {};
-			batchModal.find().limit(100).exec({}, (err, data1) =>{
-				if (err) {
-					reply(err)
-				}else{
-					batch=data1;
-					console.log(student)
-					console.log(batch)
-					reply.view('student', {data: student, data1: batch, centerAu: center})
+					batch = data
+					reply(batch)
 				}
 			})
 		}
