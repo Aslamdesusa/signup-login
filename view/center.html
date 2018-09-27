@@ -51,16 +51,16 @@
                   <tbody>
                     {{#each center}}
                     <tr>
-                      <td>{{centerName}}</td>
+                      <td>{{centerName}}</td> 
                       <td>{{AreaName}}</td>
-                      <td>{{stateName}}</td>
+                      <td>{{StateName}}</td>
                       <td>{{ContactPerson}}</td>
                       <td>{{Email}}</td>
                       <td>{{Mobile}}</td>
                       <td>{{Date}}</td>
                       <td style="display: flex;">
                         <form action="" method="GET"><button>Edit</button></form> 
-                        <form method="GET" action="/student/management/deleted/{{_id}}"><button>Delete</button></form>
+                        <form method="GET" action=""><button>Delete</button></form>
                       </td>
                     </tr>
                     {{/each}}
@@ -120,7 +120,7 @@
                         <div class="form-row">
                           <div class="form-group col-md-6">
                                 <label for="inputEmail4">State</label>
-                                <select id="statecentere" name="AreaName" class="form-control">
+                                <select id="statecentere" name="StateName" class="form-control">
                                   <option value="" disabled selected>Select State Name</option>
                                 </select>
                             </div>

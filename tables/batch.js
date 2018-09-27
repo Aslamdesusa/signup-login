@@ -5,6 +5,8 @@ var Schema = mongoose.Schema;
 var BatchSchema = new Schema({
     Name: String,
     ID: {type:String, required:true, unique:true},
+    StateName: String,
+    AreaName: String,
     Center: String,
     StartDate: String,
     NumberOfClass: Number,

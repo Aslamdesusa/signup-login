@@ -8,19 +8,12 @@ var StudentSchema = new Schema({
     DateOfBirth: String,
     EnrollDate: String,
     CurrentLevel: String,
+    State: String,
+    Area: String,
     Center: String,
     Batch: String,
-    ContactName: String,
-    Mobile: String,
-    Email: String,
-    ContactName1: String,
-    Mobile1: String,
-    Email1: String,
-    ContactName2: String,
-    Mobile2: String,
-    Email2: String,
     CheckInOut: Boolean,
-    PinCode: Array,
+    Details: Array,
     Date: {type: Date, default: Date.now}
 });
 

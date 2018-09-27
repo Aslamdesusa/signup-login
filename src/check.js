@@ -4,6 +4,8 @@ const check_validation = require('../tables/checkValidation')
 const Joi = require('joi')
 const date = require('date-and-time')
 const adminModal = require('../tables/loginAdmin.js')
+var dateFormat = require('dateformat');
+var now = new Date();
 
 const routes = [
 	{
@@ -20,15 +22,21 @@ const routes = [
 		handler: function(request, reply){
 			// let payload = request.payload.ID
 			let date = new Date().toString();
-			const newCheck = new check_validation({
-					
-					"uuid": request.payload.ID,
-					"CheckInDateTime": date,
-					"CheckOutDateTime": "not check-out",
-				})
 			// studentModal.findOne()
+			const newCheck = new check_validation({
+					"uuid": request.payload.ID,
+				    "StudentName": data[0].Name,
+				    "CheckInDateTime": date,
+				    "SigninBy": request.payload.PinCode,
+				    "CheckOutDateTime": "Didn't Check out",
+				    "CurrentLevel": data[0].CurrentLevel,
+				    "NumberofRegularClasses": "N/A",
+				    "NumberofCatchUpClasses": "N/A",
+				    "Medical": "N/A",
+				    "StudentStrengthsWeeknesses": "N/A",
+				    "FeesPaid": "N/A",
+				})
 			studentModal.findOne({'ID': request.payload.ID}, function(err, data){
-				console.log()
 				if (!data) {
 					reply('you are not existing student')
 				}else{
@@ -65,28 +73,47 @@ const routes = [
 		handler: function(request, reply){
 			// let payload = request.payload.ID
 			let date = new Date().toString();
-			const newCheck = new check_validation({
-					
-					"uuid": request.payload.ID,
-					"PinCode": request.payload.PinCode,
-					"CheckInDateTime": date,
-					"CheckOutDateTime": "not check-out",
-				})
-			studentModal.findOne({ID: request.payload.ID, PinCode: parseInt(request.payload.PinCode)}, function(err, data){
-				// console.log(request.payload.PinCode)
-				// console.log(request.payload)
-				// console.log(data)
+			var details = {}
+			var pincodeData = {}
+			studentModal.findOne({'Details.pinCode': parseInt(request.payload.PinCode)}, function(err, data){
+			// console.log(data)
 				if (!data) {
 					reply('you are not existing student')
 				}else if (data.CheckInOut == true) {
 					reply('you can\'t check in please check out first')
 				}
 				else{
+					details = data.Details
+					for(var i = 0; i < details.length; i++){
+						if (details[i].pinCode === parseInt(request.payload.PinCode)) {
+							pincodeData = details[i]
+							console.log(details[i])
+						}
+					}
+					const newCheck = new check_validation({
+							"uuid": request.payload.ID,
+						    "StudentName": data.Name,
+						    "CheckInDateTime": dateFormat(now, "yyyy-mm-d"),
+						    "CheckInTime": dateFormat(now, "mediumTime"),
+						    "SigninBy": pincodeData.ContactName,
+						    "CheckOutDateTime": "Didn't Check out",
+						    "CheckOutTime": "Didn't Check out",
+						    "CurrentLevel": data.CurrentLevel,
+						    "NumberofRegularClasses": "N/A",
+						    "NumberofCatchUpClasses": "N/A",
+						    "Medical": "N/A",
+						    "StudentStrengthsWeeknesses": "N/A",
+						    "FeesPaid": "N/A",
+						    "State": data.State,
+						    "Area": data.Area,
+						    "Center": data.Center,
+						    "Batch": data.Batch
+						})
 					newCheck.save(function(err, data2){
 						if (err) {
 							reply(err)
 						}else{
-							studentModal.findOneAndUpdate({'ID': request.payload.ID}, {CheckInOut: true}, function(err, data3){
+							studentModal.findOneAndUpdate({'Details.pinCode': parseInt(request.payload.PinCode)}, {CheckInOut: true}, function(err, data3){
 								if (err) {
 									reply(err)
 								}else{
@@ -104,12 +131,12 @@ const routes = [
 		path: '/check-out',
 		handler: function(request, reply){
 			let date = new Date().toString();
-			studentModal.findOneAndUpdate({'ID': request.payload.ID, PinCode: parseInt(request.payload.PinCode)}, {CheckInOut: false}, function(err, data){
+			studentModal.findOneAndUpdate({'Details.pinCode': parseInt(request.payload.PinCode)}, {CheckInOut: false}, function(err, data){
 				// console.log(data.CheckInOut)
 				if (!data) {
 					reply('you are not existing student')
 				}else if (data.CheckInOut == true) {
-						check_validation.findOneAndUpdate({uuid: request.payload.ID, CheckOutDateTime: 'not check-out'}, {CheckOutDateTime: date}, function(err, data1){
+						check_validation.findOneAndUpdate({uuid: request.payload.ID, CheckOutDateTime: "Didn't Check out"}, {CheckOutDateTime: dateFormat(now, "yyyy-mm-d"), CheckOutTime: dateFormat(now, "mediumTime")}, function(err, data1){
 							if (err) {
 								throw err
 							}else{
@@ -122,6 +149,36 @@ const routes = [
 			})
 		}
 	},
+	{
+		method: 'GET',
+		path: '/sign/details/{date}/{State}/{Area}/{Center}/{Batch}',
+		config:{
+			validate:{
+				params:{
+			        date: Joi.string().required(),
+			        State: Joi.string().required(),
+			        Area: Joi.string().required(),
+			        Center: Joi.string().required(),
+			        Batch: Joi.string().required()
+				}
+			},
+			auth:{
+				strategy: 'restricted'
+			}
+		},
+		handler: function(request, reply){
+			var query = {$and:[{CheckInDateTime:{$regex: request.params.date, $options: 'i'}},{State:{$regex: request.params.State, $options: 'i'}},{Area:{$regex: request.params.Area, $options: 'i'}}, {Center:{$regex: request.params.Center, $options: 'i'}}, {Batch:{$regex: request.params.Batch, $options: 'i'}}]}
+			check_validation.find(query,function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					console.log(data)
+					reply(data);
+				}
+			})
+		}
+	}
+
 
 ]
 export default routes;

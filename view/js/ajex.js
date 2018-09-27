@@ -123,24 +123,25 @@ $(document).ready(function(){
 	})
 			
 });
-
+// ================================================
+// batch
     
 $(document).ready(function(){
     $("#batch").click(function(){
         // alert("The paragraph was clicked.");
-        $.ajax({
-			type: 'GET',
-			url: '/center/center',
-			dataType: 'json',
-			success: function(data){
-				// console.log(data[1].centerName)
-				var HTML = '';
-				for (var i = 0; i < data.length; i += 1) {
-	            	HTML = "<option value="+data[i].centerName+">" + data[i].centerName +"</option>"
-		        	$('#updateoption').append(HTML);
-	            }     
-		    }
-		});
+  //       $.ajax({
+		// 	type: 'GET',
+		// 	url: '/center/center',
+		// 	dataType: 'json',
+		// 	success: function(data){
+		// 		// console.log(data[1].centerName)
+		// 		var HTML = '';
+		// 		for (var i = 0; i < data.length; i += 1) {
+	 //            	HTML = '<option value="' + data[i].centerName + '">' + data[i].centerName + '</option>'
+		//         	$('#updateoption').append(HTML);
+	 //            }     
+		//     }
+		// });
 		$.ajax({
 			type: 'GET',
 			url: '/center/teacher',
@@ -149,8 +150,41 @@ $(document).ready(function(){
 				// console.log(data[1].centerName)
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
-	            	HTML = "<option value="+data[i].firstName + data[i].lastName+">" + data[i].firstName + data[i].lastName +"</option>"
+	            	HTML = '<option value="' + data[i].firstName + '">' + data[i].firstName + '</option>'
 		        	$('#updateoptionteach').append(HTML);
+	            }     
+		    }
+		});
+		$.ajax({
+			type: 'GET',
+			url: '/super/admin/state/ajax',
+			dataType: 'json',
+			success: function(data){
+				// console.log(data[1].centerName)
+				var HTML = '';
+				for (var i = 0; i < data.length; i += 1) {
+	            	HTML = '<option value="' + data[i].stateName + '">' + data[i].stateName + '</option>'
+		        	$('#batchstate').append(HTML);
+	            }     
+		    }
+		});
+    });
+});
+
+
+$(document).ready(function(){
+    $("#batch").click(function(){
+        // alert("The paragraph was clicked.");
+		$.ajax({
+			type: 'GET',
+			url: '/super/admin/state/ajax',
+			dataType: 'json',
+			success: function(data){
+				// console.log(data[1].centerName)
+				var HTML = '';
+				for (var i = 0; i < data.length; i += 1) {
+	            	HTML = '<option value="' + data[i].stateName + '">' + data[i].stateName + '</option>'
+		        	$('#batchstate').append(HTML);
 	            }     
 		    }
 		});
@@ -158,31 +192,18 @@ $(document).ready(function(){
 });
 
 $(document).ready(function(){
-    $("#studentdata").click(function(){
+    $("#studentdata").click(function(){ 
         // alert("The paragraph was clicked.");
         $.ajax({
 			type: 'GET',
-			url: '/student/center',
+			url: '/state/ajax',
 			dataType: 'json',
 			success: function(data){
 				// console.log(data[1].centerName)
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
-	            	HTML = "<option value="+data[i].centerName+">" + data[i].centerName +"</option>"
-		        	$('#centerdata').append(HTML);
-	            }     
-		    }
-		});
-		$.ajax({
-			type: 'GET',
-			url: '/student/batch',
-			dataType: 'json',
-			success: function(data){
-				// console.log(data[1].centerName)
-				var HTML = '';
-				for (var i = 0; i < data.length; i += 1) {
-	            	HTML = "<option value="+ data[i].Name+">" + data[i].Name +"</option>"
-		        	$('#batchdata').append(HTML);
+	            	HTML = '<option value="' + data[i].stateName + '">' + data[i].stateName + '</option>'
+		        	$('#statereport').append(HTML);
 	            }     
 		    }
 		});
@@ -200,7 +221,7 @@ $(document).ready(function(){
 				// console.log(data[1].centerName)
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
-	            	HTML = "<option value="+data[i].stateName+">" + data[i].stateName +"</option>"
+	            	HTML = '<option value="' + data[i].stateName + '">' + data[i].stateName + '</option>'
 		        	$('#statedata').append(HTML);
 	            }     
 		    }
@@ -219,7 +240,7 @@ $(document).ready(function(){
 				// console.log(data[1].centerName)
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
-	            	HTML = "<option value="+data[i].stateName+">" + data[i].stateName +"</option>"
+	            	HTML = '<option value="' + data[i].stateName + '">' + data[i].stateName + '</option>'
 		        	$('#statecentere').append(HTML);
 	            }     
 		    }
@@ -232,7 +253,7 @@ $(document).ready(function(){
 				// console.log(data[1].centerName)
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
-	            	HTML = "<option value="+data[i].AreaName+">" + data[i].AreaName +"</option>"
+	            	HTML = '<option value="' + data[i].AreaName + '">' + data[i].AreaName + '</option>'
 		        	$('#areadselect').append(HTML);
 	            }     
 		    }
@@ -240,8 +261,174 @@ $(document).ready(function(){
     });
 })
 
+
+
+
+// ====================================================
+// day end report
+
+// $(document).ready(function(){
+//     $("#areadata").click(function(){
+//         // alert("The paragraph was clicked.");
+//     });
+// })
+ 
+function choice1(select) {
+   var val = (select.options[select.selectedIndex].text);
+   $.ajax({
+		type: 'GET',
+		url: '/get/arae/from/state/'+val,
+		dataType: 'json',
+		success: function(data){
+			// console.log(data[1].centerName)
+			var HTML = '';
+			for (var i = 0; i < data.length; i += 1) {
+            	HTML = '<option value="' + data[i].AreaName + '">' + data[i].AreaName + '</option>'
+	        	$('#areareport').append(HTML);
+            }     
+	    }
+	});
+}
+
+function choice2(select) {
+   var val = (select.options[select.selectedIndex].text);
+   $.ajax({
+		type: 'GET',
+		url: '/get/center/from/area/'+val,
+		dataType: 'json',
+		success: function(data){
+			// console.log(data[1].centerName)
+			var HTML = '';
+			for (var i = 0; i < data.length; i += 1) {
+            	HTML = '<option value="' + data[i].centerName + '">' + data[i].centerName + '</option>'
+	        	$('#centerreport').append(HTML);
+            }     
+	    }
+	});
+}
+
+
+function choice4(select) {
+   var val = (select.options[select.selectedIndex].text);
+   $.ajax({
+		type: 'GET',
+		url: '/get/center/from/area/'+val,
+		dataType: 'json',
+		success: function(data){
+			// console.log(data[1].centerName)
+			var HTML = '';
+			for (var i = 0; i < data.length; i += 1) {
+            	HTML = '<option value="' + data[i].centerName + '">' + data[i].centerName + '</option>'
+	        	$('#updateoption').append(HTML);
+            }     
+	    }
+	});
+}
+
+function choice3(select) {
+   var val = (select.options[select.selectedIndex].text);
+   $.ajax({
+		type: 'GET',
+		url: '/get/arae/from/state/'+val,
+		dataType: 'json',
+		success: function(data){
+			// console.log(data[1].centerName)
+			var HTML = '';
+			for (var i = 0; i < data.length; i += 1) {
+            	HTML = '<option value="' + data[i].AreaName + '">' + data[i].AreaName + '</option>'
+	        	$('#batcharea').append(HTML);
+            }     
+	    }
+	});
+}
+
+
+function choice5(select) {
+	var selectedState = $("#statereport option:selected").val();
+	var selectedArea = $("#areareport option:selected").val();
+	var selectedCenter = $("#centerreport option:selected").val();
+	// var url = "/getting/all/batch/"+selectedState"/"+selectedArea"/"+selectedCenter
+   	// var val = (select.options[select.selectedIndex].text);
+   	// alert(selectedCountry)
+   	$.ajax({
+		type: 'GET',
+		url: "/getting/all/batch/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
+		dataType: 'json',
+		success: function(data){
+			console.log(data)
+			var HTML = '';
+			for (var i = 0; i < data.length; i += 1) {
+            	HTML = '<option value="' + data[i].Name + '">' + data[i].Name + '</option>'
+	        	$('#batchreport').append(HTML);
+            }     
+	    }
+	});
+}
+
+// Day end report
+// function choice6(select) {
+// 	var selectedDate = $("#DatePicker").datepicker({ dateFormat: 'dd, mm, yy' });
+// 	// var selectedDate = $("#DatePicker")
+// 	var selectedState = $("#statereport option:selected").val();
+// 	var selectedArea = $("#areareport option:selected").val();
+// 	var selectedCenter = $("#centerreport option:selected").val();
+// 	var selectedBatch = $("#batchreport option:selected").val();
+// 	alert(selectedDate)
+	// var url = "/getting/all/batch/"+selectedState"/"+selectedArea"/"+selectedCenter
+   	// var val = (select.options[select.selectedIndex].text);
+   	// alert(selectedCountry)
+ //   	$.ajax({
+	// 	type: 'GET',
+	// 	url: "/getting/all/batch/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
+	// 	dataType: 'json',
+	// 	success: function(data){
+	// 		console.log(data)
+	// 		var HTML = '';
+	// 		for (var i = 0; i < data.length; i += 1) {
+ //            	HTML = '<option value="' + data[i].Name + '">' + data[i].Name + '</option>'
+	//         	$('#batchreport').append(HTML);
+ //            }     
+	//     }
+	// });
+// }
+
 $(document).ready(function(){
-	// $('#BatchModal').modal({ backdrop: 'static', keyboard: false });
+
+  	$('#findresult').click(function () {
+  		// var dateVariable = $.datepicker.parseDate('#DatePincker').val();
+		var dateFormat = $('#DatePincker').val();
+
+		console.log(dateFormat)
+
+  		// var datfor = $.format.date(dateVariable, "dd-MM-yy");
+		var selectedState = $("#statereport option:selected").val();
+		var selectedArea = $("#areareport option:selected").val();
+		var selectedCenter = $("#centerreport option:selected").val();
+		var selectedBatch = $("#batchreport option:selected").val();
+		// alert(dateFormat)
+	 	// location.reload();
+	 	// alert('dlfj')
+	 	// alert("/sign/details/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter+"/"+selectedBatch)
+		 	$.ajax({
+			type: 'GET',
+			url: "/sign/details/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter+"/"+selectedBatch,
+			dataType: 'json',
+			success: function(data){
+				console.log(data)
+				var HTML = '';
+				for (var i = 0; i < data.length; i += 1) {
+					alert(data[i].StudentName)
+	            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>Sign out By</td><td>Current Level</td><td>Number of Regular Classes Attendend Including Today</td><td>Number of Catch Up Classes Attended Including Today</td><td>Medical Conditions/Allergies</td><td>Student Strengths/Weeknesses</td><td>Fees Paid up to (Classes)</td></tr>'
+		        	$('#updatetable').append(HTML);
+	            }     
+		    }
+		});
+	});
+});
+  
+
+
+$(document).ready(function(){
 
   	$('.close').click(function () {
 	 	location.reload();

@@ -29,6 +29,42 @@ const routes = [
 	},
 	{
 		method: 'GET',
+		path: '/state/ajax',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			stateModal.find({}, (err, data) =>{
+				if (err) {
+					reply(err)
+				}else{
+					reply(data)
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/super/admin/state/ajax',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			stateModal.find({}, (err, data) =>{
+				if (err) {
+					reply(err)
+				}else{
+					reply(data)
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
 		path: '/day/end/report',
 		config:{
 			auth:{
@@ -36,7 +72,13 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
-			return reply.view('dayandreport')
+			stateModal.find({}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					return reply.view('dayandreport', {data: data})
+				}
+			})
 		}
 	},
 	{
@@ -54,7 +96,7 @@ const routes = [
 					reply(err)
 				}else{
 					areaAu = area
-					return reply.view('area', {area: areaAu})
+					return reply.view('area', {data: areaAu})
 				}
 			})
 		}
@@ -150,6 +192,7 @@ const routes = [
 				if (err) {
 					reply(err)
 				}else{
+					// reply(da)
 					reply.view('area', {data: data,  message: 'The New Area has been successfully Created.', success: 'Success!', alert: 'alert-success'})
 				}
 			})

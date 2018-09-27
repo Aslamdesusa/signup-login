@@ -170,6 +170,8 @@ const routes = [
 			var newBatch = new batchModal({
                     "Name": request.payload.Name,
                     "ID":request.payload.ID,
+                    "StateName": request.payload.StateName,
+                    "AreaName": request.payload.AreaName,
                     "Center": request.payload.Center,
                     "StartDate": request.payload.StartDate,
                     "NumberOfClass": 0,
@@ -352,11 +354,31 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
-			var pins = [
-				Math.floor(Math.random() * 85952) + 10000,
-				Math.floor(Math.random() * 46546) + 85488,
-				Math.floor(Math.random() * 78958) + 10000,
+			var arrayOfdetails = [
+			{
+				"ContactName": request.payload.ContactName,
+				"Mobile": request.payload.Mobile,
+				"Email": request.payload.Email,
+				"pinCode": Math.floor(Math.random() * 85952) + 10000
+			},
+			{
+				"ContactName": request.payload.ContactName1,
+				"Mobile": request.payload.Mobile1,
+				"Email": request.payload.Email1,
+				"pinCode": Math.floor(Math.random() * 78958) + 10000
+			},
+			{
+				"ContactName": request.payload.ContactName2,
+				"Mobile": request.payload.Mobile2,
+				"Email": request.payload.Email2,
+				"pinCode": Math.floor(Math.random() * 46546) + 85488
+			},
 			]
+			var maillist = [
+			  request.payload.Email,
+			  request.payload.Email1,
+			  request.payload.Email2,
+			];
 			var transporter = nodemailer.createTransport({
 				host: 'smtp.gmail.com',
 				port: 587,
@@ -366,12 +388,7 @@ const routes = [
 				pass: 'aslam#desusa' // generated ethereal password
 			}
 		});
-			var maillist = [
-			  request.payload.Email,
-			  request.payload.Email1,
-			  request.payload.Email2,
-			];
-		// setup email data with unicode symbols
+			// setup email data with unicode symbols
 		var mailOptions = {
 	        from: '"UCMAS STUDENT TRACKER " <aslam17@navgurukul.org>', // sender address
 	        // to: maillist,  // list of receivers
@@ -379,27 +396,20 @@ const routes = [
 	        text: '', // plain text body
 	        html: '' // html body
 	    };
-			var newStudent = new studentModal({
+	    var newStudent = new studentModal({
                     "Name": request.payload.Name,
                     "ID":request.payload.ID,
                     "DateOfBirth": request.payload.DateOfBirth,
                     "EnrollDate": request.payload.EnrollDate,
                     "CurrentLevel": request.payload.CurrentLevel,
+                    "State": request.payload.State,
+                    "Area": request.payload.Area,
                     "Center": request.payload.Center,
                     "Batch": request.payload.Batch,
-                    "ContactName": request.payload.ContactName,
-                    "Mobile": request.payload.Mobile,
-                    "Email": request.payload.Email,
-                    "ContactName1": request.payload.ContactName1,
-                    "Mobile1": request.payload.Mobile1,
-                    "Email1": request.payload.Email1,
-                    "ContactName2": request.payload.ContactName2,
-                    "Mobile2": request.payload.Mobile2,
-                    "Email2": request.payload.Email2,
                     "CheckInOut": false,
-                    "PinCode": pins,
+                    "Details": arrayOfdetails,
            });
-			var count = 0
+	    var count = 0
 			console.log(newStudent)
 			studentModal.find({ID: request.payload.ID}, function(err, doc){
 				if (doc.length) {
@@ -414,7 +424,7 @@ const routes = [
 							    mailOptions["to"] = email;
 
 							    //manipulate the text
-						    	mailOptions["text"] = "Thanx to join us Here is your Pin Code and student ID do not forget this pin without this pin you can't be able to Do Check-in and Check-out\n " +'PIN-CODE = '+ pins[count++] +'\n'+ 'STUDENT ID = '+request.payload.ID
+						    	mailOptions["text"] = "Thanx to join us Here is your Pin Code and student ID do not forget this pin without this pin you can't be able to Do Check-in and Check-out\n " +'PIN-CODE = '+ arrayOfdetails[count++].pinCode+'\n'+ 'STUDENT ID = '+request.payload.ID
 
 							    transporter.sendMail(mailOptions, function(error, response){
 							        if(error){

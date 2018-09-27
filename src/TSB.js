@@ -104,6 +104,85 @@ const routes = [
 		handler: function(request, reply){
 			return reply.view('teachercheck', null, {layout: 'layout2'})
 		}
+	},
+	// ===============================================
+	// Day End Report 
+	{
+		method: 'GET',
+		path: '/get/arae/from/state/{stateName}',
+		config:{
+			// Joi api validation
+			validate: {
+			    params: {
+			        stateName: Joi.string().required()
+			    }
+			},
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			areaModal.find({'stateName': request.params.stateName}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					reply(data)
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/get/center/from/area/{AreaName}',
+		config:{
+			// Joi api validation
+			validate: {
+			    params: {
+			        AreaName: Joi.string().required()
+			    }
+			},
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			centerModal.find({'AreaName': request.params.AreaName}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					reply(data)
+				}
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/getting/all/batch/{stateName}/{AreaName}/{Center}',
+		config:{
+			validate:{
+				params:{
+					stateName:Joi.string(),
+                    AreaName:Joi.string(),
+                    Center:Joi.string()
+				}
+			},
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			var query = {$and:[{StateName:{$regex: request.params.stateName, $options: 'i'}},{AreaName:{$regex: request.params.AreaName, $options: 'i'}},{Center:{$regex: request.params.Center, $options: 'i'}}]}
+			console.log(query)
+			batchModal.find(query,function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					console.log(data)
+					reply(data);
+				}
+			})
+
+		}
 	}
 
 

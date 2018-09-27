@@ -48,17 +48,17 @@
                     </tr>
                   </tfoot>
                   <tbody>
-                    {{#each area}}
+                    {{#each data}}
                     <tr>
                       <td>{{AreaName}}</td>
-                      <td>{{StateName}}</td>
+                      <td>{{stateName}}</td>
                       <td>{{contactPerson}}</td>
                       <td>{{Email}}</td>
                       <td>{{Mobile}}</td>
                       <td>{{Date}}</td>
-                      <td style="display: flex;">
+                      <td>
                         <form action="" method="GET"><button>Edit</button></form> 
-                        <form method="GET" action="/student/management/deleted/{{_id}}"><button>Delete</button></form>
+                        <form method="GET" action=""><button>Delete</button></form>
                       </td>
                     </tr>
                     {{/each}}
