@@ -56,6 +56,14 @@ $(document).ready(function(){
 		var PinCode = $('#pincode').val();
 		var iNumPin = parseInt(PinCode)
 		console.log(studentModel)
+		if (ID === "") {
+			alert("Please Fill ID")
+			return false
+		}
+		if (PinCode === "") {
+			alert("Please Fill Security Code")
+			return false
+		}
 
 		studentModel.ID = ID
 		studentModel.PinCode = iNumPin
@@ -66,8 +74,12 @@ $(document).ready(function(){
 				type : "POST",
 				data : studentModel,
 				success : function(json){
-					alert(json);
-					location.reload();
+					alert(json)
+					// var HTML = '<div class="alert alert-success"><strong>success</strong>'+ json+'</div>'
+					// $('#success-message').append(HTML);
+					// alert(json);
+
+					// location.reload();
 				},
 				error : function(err){
 					alert(err);
@@ -82,11 +94,17 @@ $(document).ready(function(){
 		var studentModel = {}
 		var ID = $('#uuidmod').val();
 		var PinCode = $('#pincode').val();
-
+		if (ID === "") {
+			alert("Please Fill ID")
+			return false
+		}
+		if (PinCode === "") {
+			alert("Please Fill Security Code")
+			return false
+		}
 		studentModel.ID = ID
 		studentModel.PinCode = PinCode
 		console.log(studentModel);
-
 			$.ajax({
 				url : "/check-out",
 				type : "POST",
@@ -150,7 +168,7 @@ $(document).ready(function(){
 				// console.log(data[1].centerName)
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
-	            	HTML = '<option value="' + data[i].firstName + '">' + data[i].firstName + '</option>'
+	            	HTML = '<option value="' + data[i].username + '">' + data[i].firstName + '</option>'
 		        	$('#updateoptionteach').append(HTML);
 	            }     
 		    }

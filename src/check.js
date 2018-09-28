@@ -38,7 +38,7 @@ const routes = [
 				})
 			studentModal.findOne({'ID': request.payload.ID}, function(err, data){
 				if (!data) {
-					reply('you are not existing student')
+					reply('Invalid Student ID or Security Code. Please Try Again.')
 				}else{
 					adminModal.findOne({isLogin: data.Center}, function(err, data1){
 						if (err) {
@@ -79,7 +79,7 @@ const routes = [
 			console.log(data)
 			console.log('=========================')
 				if (!data) {
-					reply('you are not existing student')
+					reply('Invalid Student ID or Security Code. Please Try Again.')
 				}else if (data.CheckInOut == true) {
 					reply('you can\'t check in please check out first')
 				}

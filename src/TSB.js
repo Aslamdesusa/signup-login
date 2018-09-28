@@ -26,7 +26,7 @@ const routes = [
 				if (err) {
 					reply(err)
 				}else{
-					// reply(data[0])
+					// reply(data)
 					reply.view('TeacherSB', {data: data},{layout:'layout2'})
 				}
 			})

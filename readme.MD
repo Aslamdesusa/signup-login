@@ -51,8 +51,3 @@ CHANGE
 
 
 
-
-Invalid student ID or Pin
-
-your Sercurein pin
-

@@ -79,7 +79,7 @@
                       <td>{{Name}}</td>
                       <td>{{BatchSchedule}}</td>
                       <td style="display: flex;">
-                        <button data-toggle="modal" class="select" id="selb" value="{{_id}}" data-target="#selectmodel">Select</button> 
+                        <button data-toggle="modal" class="select" id="selb" value="{{_id}}" data-target="#selectmodel">Add New Class</button> 
                       </td>
                     </tr>
                     {{/each}}
@@ -99,16 +99,16 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Select?</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Please Confirm</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
           </div>
-          <div class="modal-body">Select "Select Button" below if you are ready to start class with this batch.</div>
+          <div class="modal-body">Are you sure?</div>
           <div class="modal-footer">
             <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
             <!-- <form  method="GET"> -->
-              <button id="sele" class="btn btn-primary">Select</button>
+              <button id="sele" class="btn btn-primary">Yes</button>
             <!-- </form> -->
           </div>
         </div>
