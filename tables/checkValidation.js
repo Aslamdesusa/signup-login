@@ -10,6 +10,7 @@ var CheckValSchema = new Schema({
     SigninBy: String,
     CheckOutDateTime: String,
     CheckOutTime: String,
+    SignoutBy: String,
     CurrentLevel: String,
     NumberofRegularClasses: String,
     NumberofCatchUpClasses: String,

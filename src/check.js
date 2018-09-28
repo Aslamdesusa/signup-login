@@ -75,7 +75,7 @@ const routes = [
 			let date = new Date().toString();
 			var details = {}
 			var pincodeData = {}
-			studentModal.findOne({'Details.pinCode': parseInt(request.payload.PinCode)}, function(err, data){
+			studentModal.findOne({'ID': request.payload.ID, 'Details.pinCode': parseInt(request.payload.PinCode)}, function(err, data){
 			// console.log(data)
 				if (!data) {
 					reply('you are not existing student')
@@ -98,6 +98,7 @@ const routes = [
 						    "SigninBy": pincodeData.ContactName,
 						    "CheckOutDateTime": "Didn't Check out",
 						    "CheckOutTime": "Didn't Check out",
+						    "SignoutBy": "Didn't sign out",
 						    "CurrentLevel": data.CurrentLevel,
 						    "NumberofRegularClasses": "N/A",
 						    "NumberofCatchUpClasses": "N/A",
@@ -131,20 +132,29 @@ const routes = [
 		path: '/check-out',
 		handler: function(request, reply){
 			let date = new Date().toString();
+			var details = {}
+			var pincodeData = {}
 			studentModal.findOneAndUpdate({'Details.pinCode': parseInt(request.payload.PinCode)}, {CheckInOut: false}, function(err, data){
-				// console.log(data.CheckInOut)
+				console.log(data)
 				if (!data) {
 					reply('you are not existing student')
 				}else if (data.CheckInOut == true) {
-						check_validation.findOneAndUpdate({uuid: request.payload.ID, CheckOutDateTime: "Didn't Check out"}, {CheckOutDateTime: dateFormat(now, "yyyy-mm-d"), CheckOutTime: dateFormat(now, "mediumTime")}, function(err, data1){
-							if (err) {
-								throw err
-							}else{
-								reply('Check out successfully\n '+ request.payload.ID +'\n ' + date)
-							}
-						})
-					}else{
-						reply('You can\'t Check out Please do Check in first')
+					details = data.Details
+					for(var i = 0; i < details.length; i++){
+						if (details[i].pinCode === parseInt(request.payload.PinCode)) {
+							pincodeData = details[i]
+							console.log(details[i])
+						}
+					}					
+					check_validation.findOneAndUpdate({uuid: request.payload.ID, CheckOutDateTime: "Didn't Check out"}, {CheckOutDateTime: dateFormat(now, "yyyy-mm-d"), CheckOutTime: dateFormat(now, "mediumTime"), SignoutBy: pincodeData.ContactName}, function(err, data1){
+						if (err) {
+							throw err
+						}else{
+							reply('Check out successfully\n '+ request.payload.ID +'\n ' + date)
+						}
+					})
+				}else{
+					reply('You can\'t Check out Please do Check in first')
 				}
 			})
 		}
@@ -178,6 +188,7 @@ const routes = [
 			})
 		}
 	}
+
 
 
 ]

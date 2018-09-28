@@ -14,7 +14,8 @@ var StudentSchema = new Schema({
     Batch: String,
     CheckInOut: Boolean,
     Details: Array,
-    Date: {type: Date, default: Date.now}
+    Date: String,
+    Time: String
 });
 
 const Student = mongoose.model('Student', StudentSchema)

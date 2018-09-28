@@ -180,6 +180,7 @@ $(document).ready(function(){
 			url: '/super/admin/state/ajax',
 			dataType: 'json',
 			success: function(data){
+				// $('#batchstate').empty();
 				// console.log(data[1].centerName)
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
@@ -200,6 +201,7 @@ $(document).ready(function(){
 			dataType: 'json',
 			success: function(data){
 				// console.log(data[1].centerName)
+				// $('#statereport').empty();
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
 	            	HTML = '<option value="' + data[i].stateName + '">' + data[i].stateName + '</option>'
@@ -218,6 +220,7 @@ $(document).ready(function(){
 			url: '/super/admin/area/state',
 			dataType: 'json',
 			success: function(data){
+				// $('#statedata').empty();
 				// console.log(data[1].centerName)
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
@@ -237,6 +240,7 @@ $(document).ready(function(){
 			url: '/super/admin/area/state',
 			dataType: 'json',
 			success: function(data){
+				// $('#statecentere').empty();
 				// console.log(data[1].centerName)
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
@@ -250,6 +254,7 @@ $(document).ready(function(){
 			url: '/super/admin/area/area',
 			dataType: 'json',
 			success: function(data){
+				// $('#areadselect').empty();
 				// console.log(data[1].centerName)
 				var HTML = '';
 				for (var i = 0; i < data.length; i += 1) {
@@ -280,6 +285,8 @@ function choice1(select) {
 		url: '/get/arae/from/state/'+val,
 		dataType: 'json',
 		success: function(data){
+			// $('#areareport').empty();
+			var selectedDesable = '<option value="" disabled selected>Select State</option>'
 			// console.log(data[1].centerName)
 			var HTML = '';
 			for (var i = 0; i < data.length; i += 1) {
@@ -298,6 +305,7 @@ function choice2(select) {
 		dataType: 'json',
 		success: function(data){
 			// console.log(data[1].centerName)
+			// $('#centerreport').empty();
 			var HTML = '';
 			for (var i = 0; i < data.length; i += 1) {
             	HTML = '<option value="' + data[i].centerName + '">' + data[i].centerName + '</option>'
@@ -316,6 +324,7 @@ function choice4(select) {
 		dataType: 'json',
 		success: function(data){
 			// console.log(data[1].centerName)
+			// $('#updateoption').empty();
 			var HTML = '';
 			for (var i = 0; i < data.length; i += 1) {
             	HTML = '<option value="' + data[i].centerName + '">' + data[i].centerName + '</option>'
@@ -333,6 +342,7 @@ function choice3(select) {
 		dataType: 'json',
 		success: function(data){
 			// console.log(data[1].centerName)
+	        // $('#batcharea').empty();
 			var HTML = '';
 			for (var i = 0; i < data.length; i += 1) {
             	HTML = '<option value="' + data[i].AreaName + '">' + data[i].AreaName + '</option>'
@@ -356,6 +366,7 @@ function choice5(select) {
 		dataType: 'json',
 		success: function(data){
 			console.log(data)
+			// $('#batchreport').empty();
 			var HTML = '';
 			for (var i = 0; i < data.length; i += 1) {
             	HTML = '<option value="' + data[i].Name + '">' + data[i].Name + '</option>'
@@ -394,7 +405,9 @@ function choice5(select) {
 
 $(document).ready(function(){
 
-  	$('#findresult').click(function () {
+  	$('#findresult').click(function (event) {
+  		event.preventDefault();
+
   		// var dateVariable = $.datepicker.parseDate('#DatePincker').val();
 		var dateFormat = $('#DatePincker').val();
 
@@ -405,6 +418,27 @@ $(document).ready(function(){
 		var selectedArea = $("#areareport option:selected").val();
 		var selectedCenter = $("#centerreport option:selected").val();
 		var selectedBatch = $("#batchreport option:selected").val();
+
+		if (dateFormat === "") {
+			alert("Please Select A Date");
+			return false;
+		}
+		if (selectedState === "") {
+			alert("Please Select A State");
+			return false;
+		}
+		if (selectedArea === "") {
+			alert("Please Select An Area");
+			return false;
+		}
+		if (selectedCenter === "") {
+			alert("Please Select A Center");
+			return false;
+		}
+		if (selectedBatch === "") {
+			alert("Please Select A Batch");
+			return false;
+		}
 		// alert(dateFormat)
 	 	// location.reload();
 	 	// alert('dlfj')
@@ -414,13 +448,22 @@ $(document).ready(function(){
 			url: "/sign/details/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter+"/"+selectedBatch,
 			dataType: 'json',
 			success: function(data){
-				console.log(data)
-				var HTML = '';
-				for (var i = 0; i < data.length; i += 1) {
-					alert(data[i].StudentName)
-	            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>Sign out By</td><td>Current Level</td><td>Number of Regular Classes Attendend Including Today</td><td>Number of Catch Up Classes Attended Including Today</td><td>Medical Conditions/Allergies</td><td>Student Strengths/Weeknesses</td><td>Fees Paid up to (Classes)</td></tr>'
+				if (data.length === 0) {
+					$('#updatetable').empty();
+					// setTimeout(function(){ location.reload(); }, 5000);
+					var HTML = '';
+					HTML = '<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><h2 style="color: red;">data is not available</h2></td><td></td><td></td><td></td><td></td></tr>'
 		        	$('#updatetable').append(HTML);
-	            }     
+				}else{
+					$('#updatetable').empty();
+					// location.reload();
+					console.log(data)
+					var HTML = '';
+					for (var i = 0; i < data.length; i += 1) {
+		            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>'+data[i].SignoutBy+'</td><td>'+data[i].CurrentLevel+'</td><td>Number of Regular Classes Attendend Including Today</td><td>Number of Catch Up Classes Attended Including Today</td><td>Medical Conditions/Allergies</td><td>Student Strengths/Weeknesses</td><td>Fees Paid up to (Classes)</td></tr>'
+			        	$('#updatetable').append(HTML);
+		            }
+				}
 		    }
 		});
 	});
@@ -431,6 +474,14 @@ $(document).ready(function(){
 $(document).ready(function(){
 
   	$('.close').click(function () {
+	 	location.reload();
+	 	// alert('dlfj')
+	})
+  })
+  
+  $(document).ready(function(){
+
+  	$('#close').click(function () {
 	 	location.reload();
 	 	// alert('dlfj')
 	})

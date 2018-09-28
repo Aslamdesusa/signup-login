@@ -9,6 +9,8 @@ const adminModal = require('../tables/loginAdmin.js')
 const centerModal = require('../tables/center')
 const nodemailer = require("nodemailer");
 const async = require('async')
+var dateFormat = require('dateformat');
+var now = new Date();
 
 
 const routes = [
@@ -408,6 +410,8 @@ const routes = [
                     "Batch": request.payload.Batch,
                     "CheckInOut": false,
                     "Details": arrayOfdetails,
+                    "Date": dateFormat(now, "yyyy-mm-d"),
+                    "Time": dateFormat(now, "mediumTime")
            });
 	    var count = 0
 			console.log(newStudent)
