@@ -76,7 +76,8 @@ const routes = [
 			var details = {}
 			var pincodeData = {}
 			studentModal.findOne({'ID': request.payload.ID, 'Details.pinCode': parseInt(request.payload.PinCode)}, function(err, data){
-			// console.log(data)
+			console.log(data)
+			console.log('=========================')
 				if (!data) {
 					reply('you are not existing student')
 				}else if (data.CheckInOut == true) {
@@ -87,7 +88,7 @@ const routes = [
 					for(var i = 0; i < details.length; i++){
 						if (details[i].pinCode === parseInt(request.payload.PinCode)) {
 							pincodeData = details[i]
-							console.log(details[i])
+							// console.log(details[i])
 						}
 					}
 					const newCheck = new check_validation({

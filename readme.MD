@@ -46,3 +46,13 @@ CHANGE
 <!-- I have to change the database server  -->
 
 <!-- table name is UCMAS Classess  -->
+
+
+
+
+
+
+Invalid student ID or Pin
+
+your Sercurein pin
+
