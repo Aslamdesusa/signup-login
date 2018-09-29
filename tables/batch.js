@@ -15,7 +15,8 @@ var BatchSchema = new Schema({
     BatchSchedule: String,
     isActivate: Boolean,
     Teacher: String,
-    Date: {type: Date, default: Date.now}
+    Date: String,
+    Time: String
 });
 
 const Batch = mongoose.model('Batch', BatchSchema)

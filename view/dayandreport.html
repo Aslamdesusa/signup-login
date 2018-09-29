@@ -19,39 +19,40 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
+              <h4>Actual Batch Data Table</h4>
               <div class="form-row">
-                  <div class="form-group col-md-2">
-                      <input type="date" id="DatePincker" class="form-control" name="date">
-                  </div>
-                  <div class="form-group col-md-2">
-                    <select id="statereport" onchange="choice1(this)" class="form-control">
-                      <option value="" disabled selected>Select State</option>
-                      {{#each data}}
-                      <option id="{{_id}}" value="{{stateName}}">{{stateName}}</option>
-                      {{/each}}
-                    </select>
-                  </div>
-                  </script>
-                  <div class="form-group col-md-2">
-                    <select id="areareport" onchange="choice2(this)" name="Center" class="form-control">
-                      <option value="" disabled selected>Select Area</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-2">
-                    <select id="centerreport" onchange="choice5(this)" name="Center" class="form-control">
-                      <option value="" disabled selected>Select Center</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-2">
-                    <select id="batchreport" name="Center" class="form-control">
-                      <option value="" disabled selected>Select Batch</option>
-                    </select>
-                  </div>
-                  <div class="form-group col-md-2">
-                    <button type="button" id="findresult" class="btn btn-default" type="button">Find Result</button>
-                  </div>
+                <div class="form-group col-md-2">
+                  <input type="date" id="DatePincker" class="form-control" name="date">
+                </div>
+                <div class="form-group col-md-2">
+                  <select id="statereport" onchange="choice1(this)" class="form-control">
+                    <option value="" disabled selected>Select State</option>
+                    {{#each data}}
+                    <option id="{{_id}}" value="{{stateName}}">{{stateName}}</option>
+                    {{/each}}
+                  </select>
+                </div>
+              <div class="form-group col-md-2">
+                <select id="areareport" onchange="choice2(this)" name="Center" class="form-control">
+                  <option value="" disabled selected>Select Area</option>
+                </select>
               </div>
-            <div class="card-body">
+              <div class="form-group col-md-2">
+                <select id="centerreport" name="Center" class="form-control">
+                  <option value="" disabled selected>Select Center</option>
+                </select>
+              </div>
+              <!-- <div class="form-group col-md-2">
+                <select id="batchreport" name="Center" class="form-control">
+                  <option value="" disabled selected>Select Batch</option>
+                </select>
+              </div> -->
+              <div class="form-group col-md-2">
+                <button type="button" id="findresult" class="btn btn-default" type="button">Generate Report</button>
+              </div>
+            </div>
+
+              <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                   <thead>
@@ -62,12 +63,12 @@
                       <th>Sign in By</th>
                       <th>Sign out Time</th>
                       <th>Sign out By</th>
-                      <th>Current Level</th>
+                      <!-- <th>Current Level</th>
                       <th title="Number of Regular Classes Attendend Including Today">Number of Regular Classes</th>
                       <th title="Number of Catch Up Classes Attended Including Today">Number of Catch Up Classes</th>
                       <th title="Medical Conditions/Allergies">Medical</th>
                       <th title="Student Strengths/Weeknesses">Student Strengths/Weeknesses</th>
-                      <th title="Fees Paid up to (Classes)">Fees Paid</th>
+                      <th title="Fees Paid up to (Classes)">Fees Paid</th> -->
                     </tr>
                   </thead>
                   <tfoot>
@@ -78,12 +79,12 @@
                       <th>Sign in By</th>
                       <th>Sign out Time</th>
                       <th>Sign out By</th>
-                      <th>Current Level</th>
+                      <!-- <th>Current Level</th>
                       <th>Number of Regular Classes Attendend Including Today</th>
                       <th>Number of Catch Up Classes Attended Including Today</th>
                       <th>Medical Conditions/Allergies</th>
                       <th>Student Strengths/Weeknesses</th>
-                      <th>Fees Paid up to (Classes)</th>
+                      <th>Fees Paid up to (Classes)</th> -->
                     </tr>
                   </tfoot>
                   <tbody id="updatetable">
@@ -94,102 +95,101 @@
             </div>
             <div class="card-footer small text-muted">UUCMAS STUDENT TRACKER</div>
           </div>
-
-          <p class="small text-center text-muted my-5">
-            <em>More table coming soon...</em>
-          </p>
-
         </div>
-        <!-- /.container-fluid -->
-
-      </div>
-      <!-- /.content-wrapper -->
-
-    <!-- /#wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
-    </a>
-
-
-<!-- Logout Modal-->
-    <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-            <div class="card mb-3">
+         <div class="card mb-3">
             <div class="card-header">
-              <!-- <i class="fas fa-table"></i> -->
-            <div class="card-body">
+              <i class="fas fa-table"></i>
+              <h4>Persent Batch Data Table</h4>
+              <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="dataTable1" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>ID</th>
-                      <th>Center</th>
-                      <th>Batch</th>
-                      <th>Check-in Date</th>
-                      <th>Check-out Date</th>
+                      <th>Student ID</th>
+                      <th>Student Name</th>
+                      <th>Sign in Time</th>
+                      <th>Sign in By</th>
+                      <th>Sign out Time</th>
+                      <th>Sign out By</th>
+                      <!-- <th>Current Level</th>
+                      <th title="Number of Regular Classes Attendend Including Today">Number of Regular Classes</th>
+                      <th title="Number of Catch Up Classes Attended Including Today">Number of Catch Up Classes</th>
+                      <th title="Medical Conditions/Allergies">Medical</th>
+                      <th title="Student Strengths/Weeknesses">Student Strengths/Weeknesses</th>
+                      <th title="Fees Paid up to (Classes)">Fees Paid</th> -->
                     </tr>
                   </thead>
                   <tfoot>
                     <tr>
-                      <th>Name</th>
-                      <th>ID</th>
-                      <th>Center</th>
-                      <th>Batch</th>
-                      <<th>Check-in</th>
-                      <th>Check-out</th>
+                      <th>Student ID</th>
+                      <th>Student Name</th>
+                      <th>Sign in Time</th>
+                      <th>Sign in By</th>
+                      <th>Sign out Time</th>
+                      <th>Sign out By</th>
+                      <!-- <th>Current Level</th>
+                      <th>Number of Regular Classes Attendend Including Today</th>
+                      <th>Number of Catch Up Classes Attended Including Today</th>
+                      <th>Medical Conditions/Allergies</th>
+                      <th>Student Strengths/Weeknesses</th>
+                      <th>Fees Paid up to (Classes)</th> -->
                     </tr>
                   </tfoot>
-                  <tbody>
-                    <tr>
-                      <td>Aslam Deusa</td>
-                      <td>242424</td>
-                      <td>center</td>
-                      <td>sunday 2:20</td>
-                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
-                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
+                  <tbody id="updatetable">
 
-                    </tr>
-                    <tr>
-                      <td>Rahul Sharma</td>
-                      <td>242424</td>
-                      <td>center</td>
-                      <td>sunday 2:20</td>
-                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
-                      <td style="color: red">Didn't Check out</td>
-                    </tr>
-                    <tr>
-                      <td>Amar Sinha</td>
-                      <td>252526</td>
-                      <td>center</td>
-                      <td>sunday 2:20</td>
-                      <td style="color: red">Didn't Check in</td>
-                      <td style="color: red">Didn't Check out</td>
-                    </tr>
-                    <tr>
-                      <td>Apoorv Goyel</td>
-                      <td>242424</td>
-                      <td>center</td>
-                      <td>sunday 2:20</td>
-                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
-                      <td style="color: green">Thu Aug 30 2018 01:49:04 GMT+0530 (IST)</td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
             </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            <div class="card-footer small text-muted">UUCMAS STUDENT TRACKER</div>
           </div>
-
-          <p class="small text-center text-muted my-5">
-            <em>More table examples coming soon...</em>
-          </p>
-
         </div>
+         <div class="card mb-3">
+            <div class="card-header">
+              <i class="fas fa-table"></i>
+              <h4>Student Table</h4> 
+              <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable2" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Student ID</th>
+                      <th>Student Name</th>
+                      <th>Sign in Time</th>
+                      <th>Sign in By</th>
+                      <th>Sign out Time</th>
+                      <th>Sign out By</th>
+                      <!-- <th>Current Level</th>
+                      <th title="Number of Regular Classes Attendend Including Today">Number of Regular Classes</th>
+                      <th title="Number of Catch Up Classes Attended Including Today">Number of Catch Up Classes</th>
+                      <th title="Medical Conditions/Allergies">Medical</th>
+                      <th title="Student Strengths/Weeknesses">Student Strengths/Weeknesses</th>
+                      <th title="Fees Paid up to (Classes)">Fees Paid</th> -->
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Student ID</th>
+                      <th>Student Name</th>
+                      <th>Sign in Time</th>
+                      <th>Sign in By</th>
+                      <th>Sign out Time</th>
+                      <th>Sign out By</th>
+                      <!-- <th>Current Level</th>
+                      <th>Number of Regular Classes Attendend Including Today</th>
+                      <th>Number of Catch Up Classes Attended Including Today</th>
+                      <th>Medical Conditions/Allergies</th>
+                      <th>Student Strengths/Weeknesses</th>
+                      <th>Fees Paid up to (Classes)</th> -->
+                    </tr>
+                  </tfoot>
+                  <tbody id="updatetable">
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-footer small text-muted">UUCMAS STUDENT TRACKER</div>
           </div>
         </div>
       </div>

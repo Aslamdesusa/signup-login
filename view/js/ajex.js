@@ -74,10 +74,19 @@ $(document).ready(function(){
 				type : "POST",
 				data : studentModel,
 				success : function(json){
-					alert(json)
-					// var HTML = '<div class="alert alert-success"><strong>success</strong>'+ json+'</div>'
-					// $('#success-message').append(HTML);
-					// alert(json);
+					if (json === 'Invalid Student ID or Security Code. Please Try Again.') {
+						$('#success-message').empty();
+						var HTML = '<div class="alert alert-danger"><strong>Error </strong>' + json+'</div>'
+						$('#success-message').append(HTML);
+					}else if (json === "you can't check in please check out first") {
+						$('#success-message').empty();
+						var HTML = '<div class="alert alert-danger"><strong>Error </strong>' + json+'</div>'
+						$('#success-message').append(HTML);
+					}else{
+						$('#success-message').empty();
+						var HTML = '<div class="alert alert-success"><strong>Success </strong>' + json+'</div>'
+						$('#success-message').append(HTML);
+					}
 
 					// location.reload();
 				},
@@ -110,8 +119,19 @@ $(document).ready(function(){
 				type : "POST",
 				data : studentModel,
 				success : function(json){
-					alert(json);
-					location.reload();
+					if (json === 'Invalid Student ID or Security Code. Please Try Again.') {
+						$('#success-message').empty();
+						var HTML = '<div class="alert alert-danger"><strong>Error </strong>' + json+'</div>'
+						$('#success-message').append(HTML);
+					}else if (json === 'You can\'t Check out Please do Check in first') {
+						$('#success-message').empty();
+						var HTML = '<div class="alert alert-danger"><strong>Error </strong>' + json+'</div>'
+						$('#success-message').append(HTML);
+					}else{
+						$('#success-message').empty();
+						var HTML = '<div class="alert alert-success"><strong>Success </strong>' + json+'</div>'
+						$('#success-message').append(HTML);
+					}
 				},
 				error : function(err){
 					alert('No internet connection');
@@ -470,7 +490,7 @@ $(document).ready(function(){
 					$('#updatetable').empty();
 					// setTimeout(function(){ location.reload(); }, 5000);
 					var HTML = '';
-					HTML = '<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td><h2 style="color: red;">data is not available</h2></td><td></td><td></td><td></td><td></td></tr>'
+					HTML = '<tr><td colspan="6 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
 		        	$('#updatetable').append(HTML);
 				}else{
 					$('#updatetable').empty();
@@ -478,7 +498,7 @@ $(document).ready(function(){
 					console.log(data)
 					var HTML = '';
 					for (var i = 0; i < data.length; i += 1) {
-		            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>'+data[i].SignoutBy+'</td><td>'+data[i].CurrentLevel+'</td><td>Number of Regular Classes Attendend Including Today</td><td>Number of Catch Up Classes Attended Including Today</td><td>Medical Conditions/Allergies</td><td>Student Strengths/Weeknesses</td><td>Fees Paid up to (Classes)</td></tr>'
+		            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>'+data[i].SignoutBy+'</td></tr>'
 			        	$('#updatetable').append(HTML);
 		            }
 				}
@@ -505,3 +525,25 @@ $(document).ready(function(){
 	})
   })
   
+
+  function setInputDate(_id){
+    var _dat = document.querySelector(_id);
+    var hoy = new Date(),
+        d = hoy.getDate(),
+        m = hoy.getMonth()+1, 
+        y = hoy.getFullYear(),
+        data;
+
+    if(d < 10){
+        d = "0"+d;
+    };
+    if(m < 10){
+        m = "0"+m;
+    };
+
+    data = y+"-"+m+"-"+d;
+    console.log(data);
+    _dat.value = data;
+};
+
+setInputDate("#DatePincker");

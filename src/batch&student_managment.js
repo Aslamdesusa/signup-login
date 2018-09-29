@@ -182,6 +182,8 @@ const routes = [
                     "BatchSchedule": request.payload.BatchSchedule,
                     "isActivate": true,
                     "Teacher": request.payload.Teacher,
+                    "Date": dateFormat(now, "yyyy-mm-d"),
+                    "Time": dateFormat(now, "mediumTime")
            });
 			// var newBatch = new batchModal(request.payload);
 			newBatch.save(function (err, data){
@@ -394,7 +396,7 @@ const routes = [
 		var mailOptions = {
 	        from: '"UCMAS STUDENT TRACKER " <aslam17@navgurukul.org>', // sender address
 	        // to: maillist,  // list of receivers
-	        subject: 'UCMAS PIN CODE FOR CHECK-IN CHECK-OUT', // Subject line
+	        subject: '[UCMASAustralia] Your Security Pin', // Subject line
 	        text: '', // plain text body
 	        html: '' // html body
 	    };
@@ -428,7 +430,7 @@ const routes = [
 							    mailOptions["to"] = email;
 
 							    //manipulate the text
-						    	mailOptions["text"] = "Thanx to join us Here is your Pin Code and student ID do not forget this pin without this pin you can't be able to Do Check-in and Check-out\n " +'PIN-CODE = '+ arrayOfdetails[count++].pinCode+'\n'+ 'STUDENT ID = '+request.payload.ID
+						    	mailOptions["text"] = "This is system generated mail. Thank you for joining UCMAS Australia. We take utmost care of your child's security. Please do not share this security Pin with anyone.\n " +'PIN-CODE = '+ arrayOfdetails[count++].pinCode+'\n'+ 'STUDENT ID = '+request.payload.ID
 
 							    transporter.sendMail(mailOptions, function(error, response){
 							        if(error){

@@ -138,7 +138,7 @@ const routes = [
 			studentModal.findOneAndUpdate({'Details.pinCode': parseInt(request.payload.PinCode)}, {CheckInOut: false}, function(err, data){
 				console.log(data)
 				if (!data) {
-					reply('you are not existing student')
+					reply('Invalid Student ID or Security Code. Please Try Again.')
 				}else if (data.CheckInOut == true) {
 					details = data.Details
 					for(var i = 0; i < details.length; i++){

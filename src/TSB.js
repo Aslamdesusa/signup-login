@@ -5,7 +5,11 @@ const areaModal = require('../tables/area')
 const centerModal = require('../tables/center')
 const adminModal = require('../tables/loginAdmin.js')
 const batchModal = require('../tables/batch')
+const SelectedBatchModal = require('../tables/batchselected')
 const Joi = require('joi')
+var dateFormat = require('dateformat');
+var now = new Date();
+
 
 const routes = [
 	// ========================================================================/
@@ -67,30 +71,6 @@ const routes = [
 					return reply.view('TeacherSB', {data : data, message: 'Batch has been Selected.', success: 'Success!', alert: 'alert-success'},{layout: 'layout2'})
 				}
 			})
-		}
-	},
-	{
-		method: 'GET',
-		path: '/select/{uuid}',
-		config: {
-		// Joi api validation
-			validate: {
-			    params: {
-			        uuid: Joi.string().required()
-			    }
-			},
-			auth:{
-				strategy: 'restricted'
-			}
-		},
-		handler: function(request, reply){
-			batchModal.findOneAndUpdate({_id: request.params.uuid}, { $inc: {NumberOfClass:1}}, function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					reply(data)
-				}
-			});
 		}
 	},
 	{
@@ -183,8 +163,50 @@ const routes = [
 			})
 
 		}
-	}
+	},
+	{
+		method: 'GET',
+		path: '/select/{uuid}',
+		config: {
+		// Joi api validation
+			validate: {
+			    params: {
+			        uuid: Joi.string().required()
+			    }
+			},
+			auth:{
+				strategy: 'restricted'
+			}
+		},
+		handler: function(request, reply){
+			let authDetails = request.auth.credentials;
+			batchModal.findOneAndUpdate({_id: request.params.uuid}, { $inc: {NumberOfClass:1}}, function(err, data){
+				if (err) {
+					reply(err)
+				}else{
+					const newSelected = new SelectedBatchModal({
+						"BatchID": data.ID,
+						"BatchName": data.Name,
+						"Center": data.Center, 
+					    "BatchDay": data.BatchDay,
+						"ClassAddbyTeacherName": authDetails.firstName + authDetails.lastName,
+						"CurrentNumberOfClass": data.NumberOfClass,
+						"State": data.StateName,
+					    "Area": data.AreaName,
+					    "Center": data.Center,
+						"Date": dateFormat(now, "yyyy-mm-d"),
+					})
+					newSelected.save(function(err, data){
+						if (err) {
+							reply(err)
+						}else{
+							reply(data)
+						}
+					})
 
-
+				}
+			});
+		}
+	},
 ]
 export default routes;

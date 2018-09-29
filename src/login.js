@@ -169,7 +169,7 @@ const routes = [
             			reply(error)
             		}else{
             			request.cookieAuth.set(data[0]);
-            			return reply.redirect('/deshboard1?moderator='+data[0].moderator+'&id='+data[0]._id)
+            			return reply.redirect('/teacher/bash?moderator='+data[0].moderator+'&id='+data[0]._id)
             		}
             	})            	
             	}

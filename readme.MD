@@ -41,7 +41,7 @@ CHANGE
 
 <!-- I have to create all the data who will add new class  -->
 
-<!-- Third priority is add day end report --> 
+<!-- Third priority is add day end report -->  not completed yet
 
 <!-- I have to change the database server  -->
 
@@ -51,3 +51,38 @@ CHANGE
 
 
 
+
+<!-- In day end report -->
+
+<!-- in date field should be by defoult today's date --> Complete
+
+<!-- change the button value with Genrate report  -->  Complete
+
+<!-- class record table
+
+Batch ID UUID
+Batch Name
+center
+class date
+class add by teacher name
+current number of class
+
+absent record
+
+student id
+date
+batch name
+center name
+student name
+
+1) in first table should be display all the batch which are shedule for the selected date Batch master table 
+will not show center, id, Batch Day and Date
+ -->
+
+<!-- 2) in second table should be display actuall class batch for the selected date and that will come from class record table -->
+
+<!-- 3) in third table should be display student data this will come from chack_val table  -->
+
+<!-- 4) in forth table should be display from absent record table  -->
+
+<!-- add the colum in day end report with batch name    -->
