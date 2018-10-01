@@ -182,7 +182,7 @@ const routes = [
                     "BatchSchedule": request.payload.BatchSchedule,
                     "isActivate": true,
                     "Teacher": request.payload.Teacher,
-                    "Date": dateFormat(now, "yyyy-mm-d"),
+                    "Date": dateFormat(now, "yyyy-mm-dd"),
                     "Time": dateFormat(now, "mediumTime")
            });
 			// var newBatch = new batchModal(request.payload);
@@ -412,7 +412,7 @@ const routes = [
                     "Batch": request.payload.Batch,
                     "CheckInOut": false,
                     "Details": arrayOfdetails,
-                    "Date": dateFormat(now, "yyyy-mm-d"),
+                    "Date": dateFormat(now, "yyyy-mm-dd"),
                     "Time": dateFormat(now, "mediumTime")
            });
 	    var count = 0

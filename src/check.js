@@ -94,7 +94,7 @@ const routes = [
 					const newCheck = new check_validation({
 							"uuid": request.payload.ID,
 						    "StudentName": data.Name,
-						    "CheckInDateTime": dateFormat(now, "yyyy-mm-d"),
+						    "CheckInDateTime": dateFormat(now, "yyyy-mm-dd"),
 						    "CheckInTime": dateFormat(now, "mediumTime"),
 						    "SigninBy": pincodeData.ContactName,
 						    "CheckOutDateTime": "Didn't Check out",
@@ -147,7 +147,7 @@ const routes = [
 							console.log(details[i])
 						}
 					}					
-					check_validation.findOneAndUpdate({uuid: request.payload.ID, CheckOutDateTime: "Didn't Check out"}, {CheckOutDateTime: dateFormat(now, "yyyy-mm-d"), CheckOutTime: dateFormat(now, "mediumTime"), SignoutBy: pincodeData.ContactName}, function(err, data1){
+					check_validation.findOneAndUpdate({uuid: request.payload.ID, CheckOutDateTime: "Didn't Check out"}, {CheckOutDateTime: dateFormat(now, "yyyy-mm-dd"), CheckOutTime: dateFormat(now, "mediumTime"), SignoutBy: pincodeData.ContactName}, function(err, data1){
 						if (err) {
 							throw err
 						}else{
@@ -160,37 +160,5 @@ const routes = [
 			})
 		}
 	},
-	{
-		method: 'GET',
-		path: '/sign/details/{date}/{State}/{Area}/{Center}/{Batch}',
-		config:{
-			validate:{
-				params:{
-			        date: Joi.string().required(),
-			        State: Joi.string().required(),
-			        Area: Joi.string().required(),
-			        Center: Joi.string().required(),
-			        Batch: Joi.string().required()
-				}
-			},
-			auth:{
-				strategy: 'restricted'
-			}
-		},
-		handler: function(request, reply){
-			var query = {$and:[{CheckInDateTime:{$regex: request.params.date, $options: 'i'}},{State:{$regex: request.params.State, $options: 'i'}},{Area:{$regex: request.params.Area, $options: 'i'}}, {Center:{$regex: request.params.Center, $options: 'i'}}, {Batch:{$regex: request.params.Batch, $options: 'i'}}]}
-			check_validation.find(query,function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					console.log(data)
-					reply(data);
-				}
-			})
-		}
-	}
-
-
-
 ]
 export default routes;

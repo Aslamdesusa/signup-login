@@ -57,10 +57,10 @@ CHANGE
 <!-- in date field should be by defoult today's date --> Complete
 
 <!-- change the button value with Genrate report  -->  Complete
-
+Complete
 <!-- class record table
 
-Batch ID UUID
+Batch ID UUID .//d dsf sf/sdf/s/f/a/f/a/f/a/////////sdf/s/
 Batch Name
 center
 class date
@@ -86,3 +86,6 @@ will not show center, id, Batch Day and Date
 <!-- 4) in forth table should be display from absent record table  -->
 
 <!-- add the colum in day end report with batch name    -->
+
+
+<!-- remove pagination -->
