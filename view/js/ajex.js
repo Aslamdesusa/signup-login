@@ -442,11 +442,10 @@ function choice5(select) {
 // }
 
 $(document).ready(function(){
+	$('#findresult').click(function (event) {
+		event.preventDefault();
 
-  	$('#findresult').click(function (event) {
-  		event.preventDefault();
-
-  		// var dateVariable = $.datepicker.parseDate('#DatePincker').val();
+		// var dateVariable = $.datepicker.parseDate('#DatePincker').val();
 		var dateFormat = $('#DatePincker').val();
 
 		console.log(dateFormat)
@@ -493,75 +492,81 @@ $(document).ready(function(){
 					console.log(data)
 					var HTML = '';
 					for (var i = 0; i < data.length; i += 1) {
-		            	HTML = '<tr><td>'+data[i].Name+'</td><td>'+data[i].BatchSchedule+'</td><td>'+data[i].Teacher+'</td><td>'+data[i].NumberOfClass+'</td><td>'+data[i].actualClassLimit+'</td></tr>'
-			        	$('#BatchSchduled').append(HTML);
-		            }
-				}
-		    }
-		});
-		 	$.ajax({
-			type: 'GET',
-			url: "/persent/Batch/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
-			dataType: 'json',
-			success: function(data){
-				console.log(data)
-				if (data.length === 0) {
-					$('#persentBatch').empty();
-					var HTML = '';
-					HTML = '<tr><td colspan="3 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
-		        	$('#persentBatch').append(HTML);
-					}else{
-					$('#persentBatch').empty();
-					var HTML = '';
-					for (var i = 0; i < data.length; i += 1) {
-		            	HTML = '<tr><td>'+data[i].BatchName+'</td><td>'+data[i].BatchTime+'</td><td>'+data[i].ClassAddbyTeacherName+'</td></tr>'
-			        	$('#persentBatch').append(HTML);
-		            }
-				}
-		    }
-		});
-		 	$.ajax({
-			type: 'GET',
-			url: "/getting/all/persent-student/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
-			dataType: 'json',
-			success: function(data){
-				console.log(data)
-				if (data.length === 0) {
-					$('#persentStudent').empty();
-					var HTML = '';
-					HTML = '<tr><td colspan="8 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
-		        	$('#persentStudent').append(HTML);
-					}else{
-						
-					$('#persentStudent').empty();
-					// console.log(data)
-					var HTML = '';
-					for (var i = 0; i < data.length; i += 1) {
-		            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>'+data[i].SignoutBy+'</td></tr>'
-			        	$('#persentStudent').append(HTML);
-		            }
-				}
-		    }
-		});
-		 	$.ajax({
-			type: 'GET',
-			url: "/getting/all/absent-student/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
-			dataType: 'json',
-			success: function(data){
-				console.log(data)
-				if (data.length === 0) {
-					$('#AbsentStudent').empty();
-					var HTML = '';
-					HTML = '<tr><td colspan="4 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
-		        	$('#AbsentStudent').append(HTML);
-					}else{
-						
-					$('#AbsentStudent').empty();
-					// console.log(data)
-					var HTML = '';
-					for (var i = 0; i < data.length; i += 1) {
-		            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td></tr>'
-			        	$('#AbsentStudent').append(HTML);
+						HTML = '<tr><td>'+data[i].Name+'</td><td>'+data[i].BatchSchedule+'</td><td>'+data[i].Teacher+'</td><td>'+data[i].NumberOfClass+'</td><td>'+data[i].actualClassLimit+'</td></tr>'
+						$('#BatchSchduled').append(HTML);
+
+						// Second Request
+			        	$.ajax({
+							type: 'GET',
+							url: "/persent/Batch/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
+							dataType: 'json',
+							success: function(data){
+								console.log(data)
+								if (data.length === 0) {
+									$('#persentBatch').empty();
+									var HTML = '';
+									HTML = '<tr><td colspan="3 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+						        	$('#persentBatch').append(HTML);
+									}else{
+									$('#persentBatch').empty();
+									var HTML = '';
+									for (var i = 0; i < data.length; i += 1) {
+						            	HTML = '<tr><td>'+data[i].BatchName+'</td><td>'+data[i].BatchTime+'</td><td>'+data[i].ClassAddbyTeacherName+'</td></tr>'
+							        	$('#persentBatch').append(HTML);
+
+							        	// Third Request
+							        	$.ajax({
+							        		type: 'GET',
+							        		url: "/getting/all/persent-student/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
+							        		dataType: 'json',
+							        		success: function(data){
+							        			console.log(data)
+							        			if (data.length === 0) {
+							        				$('#persentStudent').empty();
+							        				var HTML = '';
+							        				HTML = '<tr><td colspan="8 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+							        				$('#persentStudent').append(HTML);
+							        			}else{
+							        				$('#persentStudent').empty();
+							        				var HTML = '';
+							        				for (var i = 0; i < data.length; i += 1) {
+							        					HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>'+data[i].SignoutBy+'</td></tr>'
+							        					$('#persentStudent').append(HTML);
+
+
+							        					
+							        					// forth Request
+							        					$.ajax({
+															type: 'GET',
+															url: "/getting/all/absent-student/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
+															dataType: 'json',
+															success: function(data){
+																console.log(data)
+																if (data.length === 0) {
+																	$('#AbsentStudent').empty();
+																	var HTML = '';
+																	HTML = '<tr><td colspan="4 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+														        	$('#AbsentStudent').append(HTML);
+																	}else{
+																		
+																	$('#AbsentStudent').empty();
+																	// console.log(data)
+																	var HTML = '';
+																	for (var i = 0; i < data.length; i += 1) {
+														            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td></tr>'
+															        	$('#AbsentStudent').append(HTML);
+														            }
+																}
+														    }
+														});
+										            }
+												}
+										    }
+										});
+						            }
+								}
+						    }
+						});
 		            }
 				}
 		    }
