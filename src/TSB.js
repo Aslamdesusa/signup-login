@@ -12,6 +12,8 @@ const absentModal = require('../tables/absent')
 const Joi = require('joi')
 var dateFormat = require('dateformat');
 var now = new Date();
+const async = require('async')
+
 
 
 const routes = [
@@ -149,23 +151,19 @@ const routes = [
                     Center:Joi.string()
 				}
 			},
-			auth:{
-				strategy: 'restricted',
-			}
 		},
 		handler: function(request, reply){
 			var dayOfWeek = dateFormat(request.params.date, "dddd")
-			var query = {$and:[{BatchDay:{$regex: dayOfWeek, $options: 'i'}}, {StateName:{$regex: request.params.stateName, $options: 'i'}},{AreaName:{$regex: request.params.AreaName, $options: 'i'}},{Center:{$regex: request.params.Center, $options: 'i'}}]}
-			console.log(query)
-			batchModal.find(query,function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					console.log(data)
-					reply(data);
-				}
-			})
-
+				var query = {$and:[{BatchDay:{$regex: dayOfWeek, $options: 'i'}}, {StateName:{$regex: request.params.stateName, $options: 'i'}},{AreaName:{$regex: request.params.AreaName, $options: 'i'}},{Center:{$regex: request.params.Center, $options: 'i'}}]}
+				console.log(query)
+			async function getCollectionBatch() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				batchModal.find(query)
+				.then(function(result){
+					return reply(result)
+				})
+			}
+			getCollectionBatch();
 		}
 	},
 	{
@@ -174,30 +172,24 @@ const routes = [
 		config:{
 			validate:{
 				params:{
-			        date: Joi.string().required(),
-			        State: Joi.string().required(),
-			        Area: Joi.string().required(),
-			        Center: Joi.string().required()
+					date: Joi.string(),
+					State:Joi.string(),
+                    Area:Joi.string(),
+                    Center:Joi.string()
 				}
 			},
-			auth:{
-				strategy: 'restricted'
-			}
 		},
 		handler: function(request, reply){
-			console.log(request.params.date)
-			console.log(request.params.State)
-			console.log(request.params.Area)
-			console.log(request.params.Center)
 			var query = {$and:[{Date:{$regex: request.params.date, $options: 'i'}},{State:{$regex: request.params.State, $options: 'i'}},{Area:{$regex: request.params.Area, $options: 'i'}}, {Center:{$regex: request.params.Center, $options: 'i'}}]}
-			SelectedBatchModal.find(query,function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					console.log(data)
-					reply(data);
-				}
-			})
+				console.log(query)
+			async function persentBatch() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				SelectedBatchModal.find(query)
+				.then(function(result){
+					return reply(result)
+				})
+			}
+			persentBatch();
 		}
 	},
 	{
@@ -212,53 +204,31 @@ const routes = [
                     Center:Joi.string()
 				}
 			},
-			auth:{
-				strategy: 'restricted',
-			}
 		},
 		handler: function(request, reply){
 			var dayOfWeek = dateFormat(request.params.date, "dddd")
-			var query = {$and:[{BatchDay:{$regex: dayOfWeek, $options: 'i'}}, {StateName:{$regex: request.params.stateName, $options: 'i'}},{AreaName:{$regex: request.params.AreaName, $options: 'i'}},{Center:{$regex: request.params.Center, $options: 'i'}}]}
-			batchModal.find(query,function(err, batchDoc){
-				if (err) {
-					reply(err)
-				}else{
-					console.log(batchDoc)
-					var _counter = 0;
-					var totalStudentDoc;
-					batchDoc.forEach(function(eachElement){
-						studentModal.find({Batch: eachElement.Name, State: eachElement.StateName, Area: eachElement.AreaName, Center: eachElement.Center}, function(err, StudentDoc){
-							if (err) {
-								console.log(err)
-							}else{
-								console.log('=============================')
-								totalStudentDoc = StudentDoc
-								if (++_counter == batchDoc.length) {
-									console.log(totalStudentDoc)
-									var totalpersent = [];
-									var _count = 0;
-									totalStudentDoc.forEach(function(eachPersentStudent){
-										check_validation.find({CheckInDateTime: request.params.date, uuid: eachPersentStudent.ID}, function(err, persentStudent){
-											if (err) {
-												console.log(err)
-											}else{
-												console.log(persentStudent)
-												persentStudent.forEach(function(eachPerset){
-													totalpersent.push(eachPerset)
-												})
-												if (++_count == totalStudentDoc.length) {
-													reply(totalpersent)
-												}
-											}
-										})
-									})
-								}
+			console.log(dayOfWeek)
+				var query = {$and:[{BatchDay:{$regex: dayOfWeek, $options: 'i'}}, {State:{$regex: request.params.stateName, $options: 'i'}},{Area:{$regex: request.params.AreaName, $options: 'i'}},{Center:{$regex: request.params.Center, $options: 'i'}}]}
+			async function getPersentStudent() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				studentModal.find(query)
+				.then(function(result){
+					var totalpersent = [];
+					var _count = 0;
+					async.forEach(result, function(eachPersentStudent){
+						check_validation.find({CheckInDateTime: request.params.date, uuid: eachPersentStudent.ID})
+						.then(function(persentStudent){
+							async.forEach(persentStudent, function(eachPerset){
+								totalpersent.push(eachPerset)
+							})
+							if (++_count == result.length) {
+								return reply(totalpersent)
 							}
-						});		
-					});
-				}
-			})
-
+						})
+					})
+				});
+			}
+			getPersentStudent();
 		}
 	},
 	{
@@ -273,53 +243,31 @@ const routes = [
                     Center:Joi.string()
 				}
 			},
-			auth:{
-				strategy: 'restricted',
-			}
 		},
 		handler: function(request, reply){
 			var dayOfWeek = dateFormat(request.params.date, "dddd")
-			var query = {$and:[{BatchDay:{$regex: dayOfWeek, $options: 'i'}}, {StateName:{$regex: request.params.stateName, $options: 'i'}},{AreaName:{$regex: request.params.AreaName, $options: 'i'}},{Center:{$regex: request.params.Center, $options: 'i'}}]}
-			batchModal.find(query,function(err, batchDoc){
-				if (err) {
-					reply(err)
-				}else{
-					console.log(batchDoc)
-					var _counter = 0;
-					var totalStudentDoc;
-					batchDoc.forEach(function(eachElement){
-						studentModal.find({Batch: eachElement.Name, State: eachElement.StateName, Area: eachElement.AreaName, Center: eachElement.Center}, function(err, StudentDoc){
-							if (err) {
-								console.log(err)
-							}else{
-								console.log('=============================')
-								totalStudentDoc = StudentDoc
-								if (++_counter == batchDoc.length) {
-									console.log(totalStudentDoc)
-									var totalpersent = [];
-									var _count = 0;
-									totalStudentDoc.forEach(function(eachPersentStudent){
-										absentModal.find({AbsentDate: request.params.date, uuid: eachPersentStudent.ID}, function(err, persentStudent){
-											if (err) {
-												console.log(err)
-											}else{
-												console.log(persentStudent)
-												persentStudent.forEach(function(eachAbsent){
-													totalpersent.push(eachAbsent)
-												})
-												if (++_count == totalStudentDoc.length) {
-													reply(totalpersent)
-												}
-											}
-										})
-									})
-								}
+			console.log(dayOfWeek)
+				var query = {$and:[{BatchDay:{$regex: dayOfWeek, $options: 'i'}}, {State:{$regex: request.params.stateName, $options: 'i'}},{Area:{$regex: request.params.AreaName, $options: 'i'}},{Center:{$regex: request.params.Center, $options: 'i'}}]}
+			async function getPersentStudent() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				studentModal.find(query)
+				.then(function(result){
+					var totalpersent = [];
+					var _count = 0;
+					async.forEach(result, function(eachPersentStudent){
+						absentModal.find({AbsentDate: request.params.date, uuid: eachPersentStudent.ID})
+						.then(function(persentStudent){
+							async.forEach(persentStudent, function(eachPerset){
+								totalpersent.push(eachPerset)
+							})
+							if (++_count == result.length) {
+								return reply(totalpersent)
 							}
-						});		
-					});
-				}
-			})
-
+						})
+					})
+				});
+			}
+			getPersentStudent();
 		}
 	},
 	{
@@ -357,9 +305,10 @@ const routes = [
 								    "Area": element.Area,
 								    "Center": element.Center,
 								    "Batch": element.Batch,
-								    "AbsentDate": dateFormat(now, "yyyy-mm-d"),
+								    "BatchDay": data.BatchDay,
+								    "AbsentDate": dateFormat(now, "yyyy-mm-dd"),
 								});
-								check_validation.findOne({'uuid': element.ID, 'CheckInDateTime':dateFormat(now, "yyyy-mm-d")}, function(err, available){
+								check_validation.findOne({'uuid': element.ID, 'CheckInDateTime':dateFormat(now, "yyyy-mm-dd")}, function(err, available){
 									if (available === null) {
 										newAbsentRecord.save()
 									}else{

@@ -17,6 +17,7 @@
   "dependencies": {
     "amazon-cognito-identity-js": "^2.0.21",
     "async": "^2.6.1",
+    "await": "^0.2.6",
     "aws-amplify": "^1.0.6",
     "aws-sdk": "^2.296.0",
     "babel-core": "^6.26.3",

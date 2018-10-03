@@ -9,6 +9,7 @@ var AbsentStudentSchema = new Schema({
     Area: String,
     Center: String,
     Batch: String,
+    BatchDay: String,
     AbsentDate: String
 });
 

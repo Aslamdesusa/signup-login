@@ -84,6 +84,31 @@ const routes = [
 	},
 	{
 		method: 'GET',
+		path: '/all/batch/{stateName}/{AreaName}/{Center}',
+		config:{
+			validate:{
+				params:{
+					stateName:Joi.string(),
+                    AreaName:Joi.string(),
+                    Center:Joi.string()
+				}
+			},
+		},
+		handler: function(request, reply){
+				var query = {$and:[{StateName:{$regex: request.params.stateName, $options: 'i'}},{AreaName:{$regex: request.params.AreaName, $options: 'i'}},{Center:{$regex: request.params.Center, $options: 'i'}}]}
+				console.log(query)
+			async function getCollectionBatch() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				batchModal.find(query)
+				.then(function(result){
+					return reply(result)
+				})
+			}
+			getCollectionBatch();
+		}
+	},
+	{
+		method: 'GET',
 		path: '/center/teacher',
 		handler: function(request, reply){
 			// var center = {}
@@ -400,7 +425,13 @@ const routes = [
 	        text: '', // plain text body
 	        html: '' // html body
 	    };
-	    var newStudent = new studentModal({
+	    // var details;
+	    batchModal.findOne({'Name': request.payload.Batch}, function(err, data){
+	    	if (err) {
+	    		reply(err)
+	    	}else{
+	    		// details = data;
+	    		 var newStudent = new studentModal({
                     "Name": request.payload.Name,
                     "ID":request.payload.ID,
                     "DateOfBirth": request.payload.DateOfBirth,
@@ -410,6 +441,7 @@ const routes = [
                     "Area": request.payload.Area,
                     "Center": request.payload.Center,
                     "Batch": request.payload.Batch,
+                    "BatchDay": data.BatchDay,
                     "CheckInOut": false,
                     "Details": arrayOfdetails,
                     "Date": dateFormat(now, "yyyy-mm-dd"),
@@ -444,6 +476,8 @@ const routes = [
 					})
 				}
 			})
+	    	}
+	    })
 		}
 	},
 	{

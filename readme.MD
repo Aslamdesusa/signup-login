@@ -89,3 +89,67 @@ will not show center, id, Batch Day and Date
 
 
 <!-- remove pagination -->
+
+
+<!-- 
+{
+		method: 'GET',
+		path: '/getting/all/absent-student/{date}/{stateName}/{AreaName}/{Center}',
+		config:{
+			validate:{
+				params:{
+					date: Joi.string(),
+					stateName:Joi.string(),
+                    AreaName:Joi.string(),
+                    Center:Joi.string()
+				}
+			},
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			var dayOfWeek = dateFormat(request.params.date, "dddd")
+			var query = {$and:[{BatchDay:{$regex: dayOfWeek, $options: 'i'}}, {StateName:{$regex: request.params.stateName, $options: 'i'}},{AreaName:{$regex: request.params.AreaName, $options: 'i'}},{Center:{$regex: request.params.Center, $options: 'i'}}]}
+			batchModal.find(query,function(err, batchDoc){
+				if (err) {
+					reply(err)
+				}else{
+					console.log(batchDoc)
+					var _counter = 0;
+					var totalStudentDoc;
+					batchDoc.forEach(function(eachElement){
+						studentModal.find({Batch: eachElement.Name, State: eachElement.StateName, Area: eachElement.AreaName, Center: eachElement.Center}, function(err, StudentDoc){
+							if (err) {
+								console.log(err)
+							}else{
+								console.log('=============================')
+								totalStudentDoc = StudentDoc
+								if (++_counter == batchDoc.length) {
+									console.log(totalStudentDoc)
+									var totalpersent = [];
+									var _count = 0;
+									totalStudentDoc.forEach(function(eachPersentStudent){
+										absentModal.find({AbsentDate: request.params.date, uuid: eachPersentStudent.ID}, function(err, persentStudent){
+											if (err) {
+												console.log(err)
+											}else{
+												console.log(persentStudent)
+												persentStudent.forEach(function(eachAbsent){
+													totalpersent.push(eachAbsent)
+												})
+												if (++_count == totalStudentDoc.length) {
+													reply(totalpersent)
+												}
+											}
+										})
+									})
+								}
+							}
+						});		
+					});
+				}
+			})
+
+		}
+	}, -->

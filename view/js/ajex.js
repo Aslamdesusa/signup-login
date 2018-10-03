@@ -400,7 +400,7 @@ function choice5(select) {
    	// alert(selectedCountry)
    	$.ajax({
 		type: 'GET',
-		url: "/getting/all/batch/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
+		url: "/all/batch/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
 		dataType: 'json',
 		success: function(data){
 			console.log(data)
@@ -413,33 +413,6 @@ function choice5(select) {
 	    }
 	});
 }
-
-// Day end report
-// function choice6(select) {
-// 	var selectedDate = $("#DatePicker").datepicker({ dateFormat: 'dd, mm, yy' });
-// 	// var selectedDate = $("#DatePicker")
-// 	var selectedState = $("#statereport option:selected").val();
-// 	var selectedArea = $("#areareport option:selected").val();
-// 	var selectedCenter = $("#centerreport option:selected").val();
-// 	var selectedBatch = $("#batchreport option:selected").val();
-// 	alert(selectedDate)
-	// var url = "/getting/all/batch/"+selectedState"/"+selectedArea"/"+selectedCenter
-   	// var val = (select.options[select.selectedIndex].text);
-   	// alert(selectedCountry)
- //   	$.ajax({
-	// 	type: 'GET',
-	// 	url: "/getting/all/batch/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
-	// 	dataType: 'json',
-	// 	success: function(data){
-	// 		console.log(data)
-	// 		var HTML = '';
-	// 		for (var i = 0; i < data.length; i += 1) {
- //            	HTML = '<option value="' + data[i].Name + '">' + data[i].Name + '</option>'
-	//         	$('#batchreport').append(HTML);
- //            }     
-	//     }
-	// });
-// }
 
 $(document).ready(function(){
 	$('#findresult').click(function (event) {
@@ -471,106 +444,123 @@ $(document).ready(function(){
 			alert("Please Select A Center");
 			return false;
 		}
-		// alert(dateFormat)
-	 	// location.reload();
-	 	// alert('dlfj')
-	 	// alert("/sign/details/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter+"/"+selectedBatch)
-		 	$.ajax({
-			type: 'GET',
-			url: "/getting/all/batch/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
-			dataType: 'json',
-			success: function(data){
-				if (data.length === 0) {
-					$('#BatchSchduled').empty();
-					// setTimeout(function(){ location.reload(); }, 5000);
-					var HTML = '';
-					HTML = '<tr><td colspan="5 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
-		        	$('#BatchSchduled').append(HTML);
-					}else{
-					$('#BatchSchduled').empty();
-					// location.reload();
-					console.log(data)
-					var HTML = '';
-					for (var i = 0; i < data.length; i += 1) {
-						HTML = '<tr><td>'+data[i].Name+'</td><td>'+data[i].BatchSchedule+'</td><td>'+data[i].Teacher+'</td><td>'+data[i].NumberOfClass+'</td><td>'+data[i].actualClassLimit+'</td></tr>'
-						$('#BatchSchduled').append(HTML);
 
-						// Second Request
-			        	$.ajax({
-							type: 'GET',
-							url: "/persent/Batch/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
-							dataType: 'json',
-							success: function(data){
-								console.log(data)
-								if (data.length === 0) {
-									$('#persentBatch').empty();
-									var HTML = '';
-									HTML = '<tr><td colspan="3 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
-						        	$('#persentBatch').append(HTML);
-									}else{
-									$('#persentBatch').empty();
-									var HTML = '';
-									for (var i = 0; i < data.length; i += 1) {
-						            	HTML = '<tr><td>'+data[i].BatchName+'</td><td>'+data[i].BatchTime+'</td><td>'+data[i].ClassAddbyTeacherName+'</td></tr>'
+		async function firstRequest() { // Using async function it will wiat till the promise resolves
+
+		  let promise = new Promise((resolve, reject) => {
+		    setTimeout(() => resolve(), 1000)
+		  });
+
+		  let result = await promise; // wait till the promise resolves (*)
+
+		  $.ajax({
+				type: 'GET',
+				url: "/getting/all/batch/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
+				dataType: 'json',
+				success: function(data){
+					if (data.length === 0) {
+						$('#BatchSchduled').empty();
+						// setTimeout(function(){ location.reload(); }, 5000);
+						var HTML = '';
+						HTML = '<tr><td colspan="5 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+			        	$('#BatchSchduled').append(HTML);
+						}else{
+						$('#BatchSchduled').empty();
+						// location.reload();
+						console.log(data)
+						var HTML = '';
+						for (var i = 0; i < data.length; i += 1) {
+							HTML = '<tr><td>'+data[i].Name+'</td><td>'+data[i].BatchSchedule+'</td><td>'+data[i].Teacher+'</td><td>'+data[i].NumberOfClass+'</td><td>'+data[i].actualClassLimit+'</td></tr>'
+							$('#BatchSchduled').append(HTML);
+
+							// Second Request
+				        	$.ajax({
+								type: 'GET',
+								url: "/persent/Batch/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
+								dataType: 'json',
+								success: function(data){
+									console.log(data)
+									if (data.length === 0) {
+										$('#persentBatch').empty();
+										var HTML = '';
+										HTML = '<tr><td colspan="3 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
 							        	$('#persentBatch').append(HTML);
+										}else{
+										$('#persentBatch').empty();
+										var HTML = '';
+										for (var i = 0; i < data.length; i += 1) {
+							            	HTML = '<tr><td>'+data[i].BatchName+'</td><td>'+data[i].BatchTime+'</td><td>'+data[i].ClassAddbyTeacherName+'</td></tr>'
+								        	$('#persentBatch').append(HTML);
+							            }
+									}
+							    }
+							});
+			            }
+					}
+			    }
+			}); // "done!"
+		}
+		async function SecondRequest() {
 
-							        	// Third Request
-							        	$.ajax({
-							        		type: 'GET',
-							        		url: "/getting/all/persent-student/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
-							        		dataType: 'json',
-							        		success: function(data){
-							        			console.log(data)
-							        			if (data.length === 0) {
-							        				$('#persentStudent').empty();
-							        				var HTML = '';
-							        				HTML = '<tr><td colspan="8 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
-							        				$('#persentStudent').append(HTML);
-							        			}else{
-							        				$('#persentStudent').empty();
-							        				var HTML = '';
-							        				for (var i = 0; i < data.length; i += 1) {
-							        					HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>'+data[i].SignoutBy+'</td></tr>'
-							        					$('#persentStudent').append(HTML);
+		  let promise = new Promise((resolve, reject) => {
+		    setTimeout(() => resolve(), 2000)
+		  });
+
+		  let result = await promise; // wait till the promise resolves (*)
+
+		   	// Third Request
+	    	$.ajax({
+	    		type: 'GET',
+	    		url: "/getting/all/persent-student/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
+	    		dataType: 'json',
+	    		success: function(data){
+	    			console.log(data)
+	    			if (data.length === 0) {
+	    				$('#persentStudent').empty();
+	    				var HTML = '';
+	    				HTML = '<tr><td colspan="8 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+	    				$('#persentStudent').append(HTML);
+	    			}else{
+	    				$('#persentStudent').empty();
+	    				var HTML = '';
+	    				for (var i = 0; i < data.length; i += 1) {
+	    					HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>'+data[i].SignoutBy+'</td></tr>'
+	    					$('#persentStudent').append(HTML);
 
 
-							        					
-							        					// forth Request
-							        					$.ajax({
-															type: 'GET',
-															url: "/getting/all/absent-student/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
-															dataType: 'json',
-															success: function(data){
-																console.log(data)
-																if (data.length === 0) {
-																	$('#AbsentStudent').empty();
-																	var HTML = '';
-																	HTML = '<tr><td colspan="4 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
-														        	$('#AbsentStudent').append(HTML);
-																	}else{
-																		
-																	$('#AbsentStudent').empty();
-																	// console.log(data)
-																	var HTML = '';
-																	for (var i = 0; i < data.length; i += 1) {
-														            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td></tr>'
-															        	$('#AbsentStudent').append(HTML);
-														            }
-																}
-														    }
-														});
-										            }
-												}
-										    }
-										});
-						            }
-								}
-						    }
-						});
-		            }
-				}
-		    }
-		});
+	    					
+	    					// forth Request
+	    					$.ajax({
+								type: 'GET',
+								url: "/getting/all/absent-student/"+dateFormat+"/"+selectedState+"/"+selectedArea+"/"+selectedCenter,
+								dataType: 'json',
+								success: function(data){
+									console.log(data)
+									if (data.length === 0) {
+										$('#AbsentStudent').empty();
+										var HTML = '';
+										HTML = '<tr><td colspan="4 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+							        	$('#AbsentStudent').append(HTML);
+										}else{
+											
+										$('#AbsentStudent').empty();
+										// console.log(data)
+										var HTML = '';
+										for (var i = 0; i < data.length; i += 1) {
+							            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td></tr>'
+								        	$('#AbsentStudent').append(HTML);
+							            }
+									}
+							    }
+							});
+			            }
+					}
+			    }
+			}); // "done!"
+		}
+
+		firstRequest();
+		SecondRequest();
 	});
 });
   

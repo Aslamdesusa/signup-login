@@ -12,6 +12,7 @@ var StudentSchema = new Schema({
     Area: String,
     Center: String,
     Batch: String,
+    BatchDay: String,
     CheckInOut: Boolean,
     Details: Array,
     Date: String,
