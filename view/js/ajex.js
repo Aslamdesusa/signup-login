@@ -323,9 +323,10 @@ function choice1(select) {
 		url: '/get/arae/from/state/'+val,
 		dataType: 'json',
 		success: function(data){
-			// $('#areareport').empty();
-			var selectedDesable = '<option value="" disabled selected>Select State</option>'
-			// console.log(data[1].centerName)
+			var desable = '<option value="" disabled selected>Select Area</option>'
+			$('#areareport').empty();
+			$('#areareport').append(desable)
+			var selectedDesable = ''
 			var HTML = '';
 			for (var i = 0; i < data.length; i += 1) {
             	HTML = '<option value="' + data[i].AreaName + '">' + data[i].AreaName + '</option>'
@@ -342,8 +343,9 @@ function choice2(select) {
 		url: '/get/center/from/area/'+val,
 		dataType: 'json',
 		success: function(data){
-			// console.log(data[1].centerName)
-			// $('#centerreport').empty();
+			var desable = '<option value="" disabled selected>Select Center</option>'
+			$('#centerreport').empty();
+			$('#centerreport').append(desable)
 			var HTML = '';
 			for (var i = 0; i < data.length; i += 1) {
             	HTML = '<option value="' + data[i].centerName + '">' + data[i].centerName + '</option>'
