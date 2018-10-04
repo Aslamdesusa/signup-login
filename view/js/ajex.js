@@ -306,9 +306,62 @@ $(document).ready(function(){
 
 
 
+// Add New class
+
+$(document).ready(function(){
+    $("#selectedBatch").click(function(){
+        // alert("The paragraph was clicked.");
+        $.ajax({
+			type: 'GET',
+			url: '/teacher/select/batch',
+			dataType: 'json',
+			success: function(data){
+				$('#BatchSchedule').empty();
+				var HTML = '';
+				for (var i = 0; i < data.length; i += 1) {
+	            	HTML = '<tr><td>'+data[i].Name+'</td><td>3:40</td><td><form action="/selected/'+data[i].ID+'" method="GET"><button class="raisButton" onClick="divFunction()" value="'+data[i].Name+'">Select</button></form></td></tr>'
+		        	$('#BatchSchedule').append(HTML);
+	            }     
+		    }
+		});
+    });
+});
+
+
+$(document).ready(function(){
+    $("#buttonbtn").click(function(){
+        var dataId = $(this).attr("value");
+        $.ajax({
+			type: 'GET',
+			url: '/select/'+dataId,
+			dataType: 'json',
+			success: function(data){
+				$('#successmessage').empty();
+				var HTML = '<div class="alert alert-success"><strong>Success</strong> Class Successfully Added</div>'
+				$('#successmessage').append(HTML)	
+		    }
+		});
+    });
+});
+
+
+// $('table').on('click', '#buttonbtn', function(e){
+//         e.preventDefault();
+//         var dataId = $(this).attr("value");
+//         alert(dataId)
+//         // $('#oneBatchselected').empty();
+//         // var HTML = '<span>'+val+'</span>'
+//         // oneBatchselected
+//         // $('#oneBatchselected').append(HTML)
+
+// });
+
+
 
 // ====================================================
 // day end report
+
+
 
 // $(document).ready(function(){
 //     $("#areadata").click(function(){

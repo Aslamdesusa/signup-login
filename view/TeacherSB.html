@@ -1,4 +1,17 @@
 
+     <style type="text/css">
+       #maindiv{
+          display: flex; 
+          justify-content: center; 
+          margin: 2%;
+       }
+       #h4{
+        margin-right: 7px;
+       }
+       #buttonbtn{
+        border: 0px; 
+        border-radius: 50px;
+       }
      </style>
       <div id="content-wrapper">
 
@@ -10,34 +23,58 @@
               <a href="#">Dashboard</a>
             </li>
             <li class="breadcrumb-item active">Tables</li>
-            <li><div class="alert {{alert}}">
-              <strong>{{success}}</strong> {{message}}
-            </div>
+            <li id="successmessage">
+              
           </li>
           </ol>
 
+
           <!-- DataTables Example -->
           <div class="card mb-3">
-            <div class="card-header">
+            <div style="display: flex;" class="card-header">
               <i class="fas fa-table"></i>
-              <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Select Batch</button></div>
-            
+              <button type="button" id="selectedBatch" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Select Batch</button><h4>Selected Batch: <span id="oneBatchselected"><span>{{ping}}{{BatchName}}</span></span></h4></div>
+              <div id="maindiv"><h4 id="h4">{{toadd}}</h4><button value="{{dataID}}" id="buttonbtn">{{clickhere}}</button></div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                  <thead>
+                    <tr>
+                      <th>Batch Name</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Teacher</th>
+                    </tr>
+                  </thead>
+                  <tfoot>
+                    <tr>
+                      <th>Batch Name</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Teacher</th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                      {{#each result}}
+                    <tr>
+                      <td>{{BatchName}}</td>
+                      <td>{{Date}}</td>
+                      <td>{{Time}}</td>
+                      <td>{{ClassAddbyTeacherName}}</td>
+                    </tr>
+                      {{/each}}
+                  </tbody>
+                </table>
+              </div>
+            </div>
             <div class="card-footer small text-muted">UCMAS STUDENT TRACKER</div>
           </div>
 
-          <p class="small text-center text-muted my-5">
-            <em>More table coming soon...</em>
-          </p>
-
         </div>
-        <!-- /.container-fluid -->
 
       </div>
-      <!-- /.content-wrapper -->
 
-    <!-- /#wrapper -->
 
-    <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
       <i class="fas fa-angle-up"></i>
     </a>
@@ -73,16 +110,8 @@
                       <th>Select Batch</th>                      
                     </tr>
                   </tfoot>
-                  <tbody>
-                    {{#each data}}
-                    <tr>
-                      <td>{{Name}}</td>
-                      <td>{{BatchSchedule}}</td>
-                      <td style="display: flex;">
-                        <button data-toggle="modal" class="select" id="selb" value="{{_id}}" data-target="#selectmodel">Add New Class</button> 
-                      </td>
-                    </tr>
-                    {{/each}}
+                  <tbody id="BatchSchedule">
+
                   </tbody>
                 </table>
               </div>

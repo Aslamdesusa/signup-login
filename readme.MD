@@ -153,3 +153,10 @@ will not show center, id, Batch Day and Date
 
 		}
 	}, -->
+
+
+anyone cant
+
+check in-out 
+
+

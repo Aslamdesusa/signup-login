@@ -19,7 +19,18 @@ const async = require('async')
 const routes = [
 	// ========================================================================/
 	// for superAdmin only
-	
+	{
+		method: 'GET',
+		path: '/teacher/select/batch/view',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			reply.view('TeacherSB', {ping: 'No Selected Batch'}, {layout:'layout2'})
+		}
+	},
 	{
 		method: 'GET',
 		path: '/teacher/select/batch',
@@ -35,7 +46,7 @@ const routes = [
 				if (err) {
 					reply(err)
 				}else{
-					reply.view('TeacherSB', {data: data},{layout:'layout2'})
+					reply(data)
 				}
 			})
 		}
@@ -287,59 +298,81 @@ const routes = [
 		handler: function(request, reply){
 			var studentDetails;
 			let authDetails = request.auth.credentials;
-			batchModal.findOneAndUpdate({_id: request.params.uuid}, { $inc: {NumberOfClass:1}}, function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					studentModal.find({'State': data.StateName, 'Area': data.AreaName, 'Center':data.Center, 'Batch': data.Name}, function(err, studentData){
-						if (err) {
-							reply(err)
-						}else{
-							studentDetails = studentData
-							var studentDetailscopy;
-							studentDetails.forEach(function(element){
-								const newAbsentRecord = new absentModal({
-								    "uuid": element.ID,
-								    "StudentName": element.Name,
-								    "State": element.State,
-								    "Area": element.Area,
-								    "Center": element.Center,
-								    "Batch": element.Batch,
-								    "BatchDay": data.BatchDay,
-								    "AbsentDate": dateFormat(now, "yyyy-mm-dd"),
-								});
-								check_validation.findOne({'uuid': element.ID, 'CheckInDateTime':dateFormat(now, "yyyy-mm-dd")}, function(err, available){
-									if (available === null) {
-										newAbsentRecord.save()
-									}else{
-										console.log(available)
-									}
-								});
+			async function getBatchCollection() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				batchModal.findOneAndUpdate({_id: request.params.uuid}, { $inc: {NumberOfClass:1}})
+				.then(function(result){
+					studentModal.find({'State': result.StateName, 'Area': result.AreaName, 'Center':result.Center, 'Batch': result.Name})
+					.then(function(studentDoc){
+						var _count = 0;
+						async.forEach(studentDoc, function(eachStudent){
+							const newAbsentRecord = new absentModal({
+							    "uuid": eachStudent.ID,
+							    "StudentName": eachStudent.Name,
+							    "State": eachStudent.State,
+							    "Area": eachStudent.Area,
+							    "Center": eachStudent.Center,
+							    "Batch": eachStudent.Batch,
+							    "BatchDay": result.BatchDay,
+							    "AbsentDate": dateFormat(now, "yyyy-mm-dd"),
 							});
-						}
+							check_validation.findOne({'uuid': result.ID, 'CheckInDateTime':dateFormat(now, "yyyy-mm-dd")})
+							.then(function(eachValidation){
+								newAbsentRecord.save()
+								console.log('data save')
+								if (++_count == studentDoc.length) {
+									const newSelected = new SelectedBatchModal({
+										"BatchID": result.ID,
+										"BatchName": result.Name,
+										"Center": result.Center, 
+									    "BatchDay": result.BatchDay,
+										"ClassAddbyTeacherName": authDetails.firstName + authDetails.lastName,
+										"CurrentNumberOfClass": result.NumberOfClass,
+										"State": result.StateName,
+									    "Area": result.AreaName,
+									    "Center": result.Center,
+										"Date": dateFormat(now, "yyyy-mm-dd"),
+									});
+									newSelected.save()
+									.then(function(batchResult){
+										return reply(batchResult)
+									});
+								}
+							});
+						});
 					});
-					const newSelected = new SelectedBatchModal({
-						"BatchID": data.ID,
-						"BatchName": data.Name,
-						"Center": data.Center, 
-					    "BatchDay": data.BatchDay,
-						"ClassAddbyTeacherName": authDetails.firstName + authDetails.lastName,
-						"CurrentNumberOfClass": data.NumberOfClass,
-						"State": data.StateName,
-					    "Area": data.AreaName,
-					    "Center": data.Center,
-						"Date": dateFormat(now, "yyyy-mm-dd"),
+				});
+			}
+			getBatchCollection();
+		}
+	},
+	{
+		method: 'GET',
+		path: '/selected/{BatchID}',
+		config: {
+		// Joi api validation
+			validate: {
+			    params: {
+			        BatchID: Joi.string().required()
+			    }
+			},
+			auth:{
+				strategy: 'restricted'
+			}
+		},
+		handler: function(request, reply){
+			async function GetSelectedData(){
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				batchModal.findOne({'ID': request.params.BatchID})
+				.then(function(batch){
+					SelectedBatchModal.find({'BatchID': request.params.BatchID})
+					.then(function(result){	
+						console.log(batch._id)
+						return reply.view('TeacherSB', {result: result, BatchName: result[0].BatchName, toadd: 'To Add New class', clickhere: 'Click Here', dataID: batch._id}, {layout:'layout2'})
 					})
-					newSelected.save(function(err, data){
-						if (err) {
-							reply(err)
-						}else{
-							reply(data)
-						}
-					});
-
-				}
-			});
+				})
+			}
+			GetSelectedData();
 		}
 	},
 	{
