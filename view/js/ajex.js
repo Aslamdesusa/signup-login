@@ -143,7 +143,7 @@ $(document).ready(function(){
 
 
 $(document).ready(function(){
-	$('.select').click(function(){
+	$('#buttonbtn').click(function(){
 		var val = $(this).attr("value");
 	$('#sele').click(function(){
 		$.ajax({
@@ -151,7 +151,7 @@ $(document).ready(function(){
 				type : "GET",
 				// data : json,
 				success : function(success){
-					window.location = '/select/batch/success'
+					location.reload();
 				},
 				error : function(err){
 					alert(err);
@@ -328,21 +328,19 @@ $(document).ready(function(){
 });
 
 
-$(document).ready(function(){
-    $("#buttonbtn").click(function(){
-        var dataId = $(this).attr("value");
-        $.ajax({
-			type: 'GET',
-			url: '/select/'+dataId,
-			dataType: 'json',
-			success: function(data){
-				$('#successmessage').empty();
-				var HTML = '<div class="alert alert-success"><strong>Success</strong> Class Successfully Added</div>'
-				$('#successmessage').append(HTML)	
-		    }
-		});
-    });
-});
+// $(document).ready(function(){
+//     $("#buttonbtn").click(function(){
+//         var dataId = $(this).attr("value");
+//         $.ajax({
+// 			type: 'GET',
+// 			url: '/select/'+dataId,
+// 			dataType: 'json',
+// 			success: function(data){
+					
+// 		    }
+// 		});
+//     });
+// });
 
 
 // $('table').on('click', '#buttonbtn', function(e){

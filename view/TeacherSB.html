@@ -8,10 +8,6 @@
        #h4{
         margin-right: 7px;
        }
-       #buttonbtn{
-        border: 0px; 
-        border-radius: 50px;
-       }
      </style>
       <div id="content-wrapper">
 
@@ -34,7 +30,7 @@
             <div style="display: flex;" class="card-header">
               <i class="fas fa-table"></i>
               <button type="button" id="selectedBatch" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Select Batch</button><h4>Selected Batch: <span id="oneBatchselected"><span>{{ping}}{{BatchName}}</span></span></h4></div>
-              <div id="maindiv"><h4 id="h4">{{toadd}}</h4><button value="{{dataID}}" id="buttonbtn">{{clickhere}}</button></div>
+              <div id="maindiv"><h4 id="h4">{{toadd}}</h4><button data-toggle="modal" class="btn btn-default" data-target="#selectmodel" value="{{dataID}}" id="buttonbtn">{{clickhere}}</button></div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
