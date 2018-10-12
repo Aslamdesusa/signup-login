@@ -30,18 +30,23 @@
     "hapi-auth-cookie": "^7.0.0",
     "hapi-auth-jwt": "^4.0.0",
     "hapi-swagger": "^7.8.1",
+    "hbs": "^4.0.1",
     "inert": "^4.2.1",
     "isomorphic-fetch": "^2.2.1",
     "joi": "^13.6.0",
     "js-cookie": "^2.2.0",
+    "json2csv": "^4.2.1",
     "jsonwebtoken": "^8.3.0",
+    "jspdf-autotable": "^2.3.5",
     "jwk-to-pem": "^2.0.0",
     "mongoose": "^4.12.1",
     "node-fetch": "^2.1.2",
     "nodemailer": "^4.6.8",
     "nodemon": "^1.18.3",
+    "pdfkit": "^0.8.3",
     "popups": "^1.1.2",
     "request": "^2.88.0",
-    "vision": "^4.1.1"
+    "vision": "^4.1.1",
+    "voilab-pdf-table": "^0.4.0"
   }
 }

@@ -93,6 +93,13 @@ const routes = [
 	},
 	{
 		method: 'GET',
+		path: '/absent/record',
+		handler: function(request, reply){
+			return reply.view('absentReport', null, {layout: 'layout'})
+		}
+	},
+	{
+		method: 'GET',
 		path: '/admin/teacher/management',
 		config:{
 			auth:{

@@ -20,6 +20,9 @@ import state_area_center from './state_area_center'
 
 import TeacherSelectBatch from './TSB'
 
+const hbs = require('hbs');
+
+
 
 
 const server = new Hapi.Server();
@@ -108,7 +111,12 @@ server.views({
     layout: 'layout'
 })
 
-
+hbs.registerHelper('if_eq', function(a, b, opts) {
+    if(a == b)
+        return opts.fn(this);
+    else
+        return opts.inverse(this);
+});
 
 server.route({
 path: '/{path*}',

@@ -1,5 +1,8 @@
-import Hapi from 'hapi';
+'use strict';
 
+
+
+import Hapi from 'hapi';
 const stateModal = require('../tables/state')
 const areaModal = require('../tables/area')
 const centerModal = require('../tables/center')
@@ -13,6 +16,12 @@ const Joi = require('joi')
 var dateFormat = require('dateformat');
 var now = new Date();
 const async = require('async')
+
+var pdf_table_extractor = require("pdf-table-extractor");
+var PDFDocument = require ('pdfkit');
+const Json2csvParser = require('json2csv').parse;
+
+
 
 
 
@@ -385,6 +394,106 @@ const routes = [
 
 			reply(day)
 		}
-	}
+	},
+	{
+		method: 'POST',
+		path: '/download/report/absent/student',
+		config:{
+			validate:{
+				payload:{
+					AbsentDate: Joi.string().required()
+				}
+			}
+		},
+		handler: function(request, reply){
+			async function GetAbsentStudent(){
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				absentModal.find({AbsentDate: request.payload.AbsentDate})
+				.then(function(absentStudent){
+					return reply(absentStudent)
+				})
+			}
+			GetAbsentStudent()
+		}
+	},
+	{
+		method: 'GET',
+		path: '/genrate/report/pdf/{AbsentDate}/{fileName}',
+		config:{
+			validate:{
+				params:{
+					AbsentDate: Joi.string().required(),
+					fileName: Joi.string().required()
+				}
+			}
+		},
+		handler: function(request, reply){
+    	 	let doc = new PDFDocument();
+    	 		async function GetAbsentStudent(){
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				absentModal.find({AbsentDate: request.params.AbsentDate}, { _id: 0, __v: 0 })
+				//PDF parsed
+				.then(function(result){
+					var data;
+					data = result
+					console.log(typeof data)
+					var totalAbsentArray = [];
+					var _count = 0;
+					totalAbsentArray.push(["Student ID", "Student Name", "Batch", "Center"])
+					async.forEach(result, function(eachAbsentStudent){
+						var robot = [];
+						robot.push(eachAbsentStudent.uuid, eachAbsentStudent.StudentName, eachAbsentStudent.Batch, eachAbsentStudent.Center)
+						totalAbsentArray.push(robot)
+
+						if (++_count == result.length) {
+							if (request.params.fileName == 'pdf' || request.params.fileName == 'doc') {
+								createTable(doc, totalAbsentArray);
+								//Setting the width of the table
+								function createTable(doc, data, width = 500) {
+									const startY = doc.y,
+									startX = doc.x,
+								    distanceY = 15,
+								    distanceX = 10;
+								  	doc.fontSize(11);
+								  	let currentY = startY;
+								  	data.forEach(value => {
+							  		let currentX = startX,
+							  		size = value.length;
+							  		let blockSize = width / size;
+							  		value.forEach(text => {
+							  		//Write text
+							  		doc.text(text, currentX + distanceX, currentY);
+							  		//Create rectangles
+							  		doc
+							  		.lineJoin("miter")
+							  		.rect(currentX, currentY, blockSize, distanceY)
+						        	.stroke();
+						        	currentX += blockSize;
+						        });
+							  		currentY += distanceY;
+							  	});
+								  }
+								  doc.end();
+								  reply(doc)
+								  		.header('Content-Disposition', 'attachment; filename=absentRecord.'+request.params.fileName+'');
+								  	}
+								  	else if (request.params.fileName == 'xlsx' || request.params.fileName == 'csv') {
+								  		const fields = ['uuid', 'StudentName', 'State', 'Area', 'Center', 'Batch', 'BatchDay', 'AbsentDate'];
+								  		var csv = Json2csvParser(data, { fields });
+									console.log(csv);
+									return reply(csv)
+							  			.header('Content-Disposition', 'attachment; filename=absentRecord.'+request.params.fileName+'');
+
+							}
+						}
+					});
+				});
+			}
+			GetAbsentStudent()
+		}
+	},
+
+	
 ]
 export default routes;
+

@@ -18,7 +18,21 @@ body {
   display: -ms-flexbox;
   display: flex;
 }
+.downloadcsvdata {
+    display: flex;
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 10px;
+    border-radius: 5px;
+}
 
+/* Darker background on mouse-over */
+.downloadcsvdata:hover {
+    background-color: RoyalBlue;
+}
 .loader {
   position: fixed;
   left: 0px;

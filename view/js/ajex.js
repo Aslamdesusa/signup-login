@@ -617,7 +617,54 @@ $(document).ready(function(){
 	});
 });
   
+$(document).ready(function(){
+	$('#absentrecord').click(function (event) {
+		event.preventDefault();
+		var absentDate = {};
+		// var dateVariable = $.datepicker.parseDate('#DatePincker').val();
+		var dateFormat = $('#DatePinckerforAbsent').val();
+		absentDate.AbsentDate = dateFormat
+		if (dateFormat === "") {
+			alert("Please Select A Date");
+			return false;
+		}
+		async function firstRequest() { // Using async function it will wiat till the promise resolves
 
+		  let promise = new Promise((resolve, reject) => {
+		    setTimeout(() => resolve(), 1000)
+		  });
+
+		  let result = await promise; // wait till the promise resolves (*)
+
+		  $.ajax({
+			  	type: 'POST',
+				url: "/download/report/absent/student",
+				data: absentDate,
+				success: function(data){
+					console.log(data)
+					if (data.length === 0) {
+						$('#allAbsentStudent').empty();
+						var HTML = '';
+						HTML = '<tr><td colspan="4 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+			        	$('#allAbsentStudent').append(HTML);
+						}else{
+							
+						$('#allAbsentStudent').empty();
+						// console.log(data)
+						var HTML = '';
+						for (var i = 0; i < data.length; i += 1) {
+			            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td></tr>'
+				        	$('#allAbsentStudent').append(HTML);
+			            }
+					}
+			    }
+			});
+		}
+
+		firstRequest();
+	});
+});
+  
 
 $(document).ready(function(){
 
@@ -634,26 +681,82 @@ $(document).ready(function(){
 	 	// alert('dlfj')
 	})
   })
+
+
+ $(document).ready(function(){
+ 	$('#pdfGenrator').click(function(){
+		var AbsentDate = $('#DatePinckerforAbsent').val();
+		var fileName = $("#exportfiletype option:selected").val();
+		var me = $(this);
+		if (AbsentDate == '') {
+			alert('Please Select A Date')
+			return false
+		}
+		if (fileName == '') {
+			alert('Please Select File Type')
+			return false
+		}
+		console.log(AbsentDate)
+		console.log(fileName)
+		$.ajax({
+		  	type: 'GET',
+			url: "/genrate/report/pdf/"+AbsentDate+"/"+fileName,
+			success: function(data){
+				console.log(data)
+				window.location.href="/genrate/report/pdf/"+AbsentDate+"/"+fileName;
+				alert('File Downloaded')
+		    }
+		});
+	})
+ })
   
 
-  function setInputDate(_id){
-    var _dat = document.querySelector(_id);
-    var hoy = new Date(),
-        d = hoy.getDate(),
-        m = hoy.getMonth()+1, 
-        y = hoy.getFullYear(),
-        data;
+//   function setInputDate(_id){
+//     var _dat = document.querySelector(_id);
+//     var hoy = new Date(),
+//         d = hoy.getDate(),
+//         m = hoy.getMonth()+1, 
+//         y = hoy.getFullYear(),
+//         data;
 
-    if(d < 10){
-        d = "0"+d;
-    };
-    if(m < 10){
-        m = "0"+m;
-    };
+//     if(d < 10){
+//         d = "0"+d;
+//     };
+//     if(m < 10){
+//         m = "0"+m;
+//     };
 
-    data = y+"-"+m+"-"+d;
-    console.log(data);
-    _dat.value = data;
-};
+//     data = y+"-"+m+"-"+d;
+//     console.log(data);
+//     _dat.value = data;
+// };
 
-setInputDate("#DatePincker");
+// setInputDate("#DatePincker");
+
+
+ //  $(document).ready(function(){
+
+ //  	$('#pdfGenrator').click(function () {
+ //  		alert('Hello!')
+	
+	// })
+ //  })
+
+// $(function() {
+//    var startDate = $(".startDate").val();
+//    var endDate = $(".endDate").val();
+
+//    $("#pdfGenrator").click(function(){
+//       $('<table>')
+//          .append(
+//             $("#table_id").DataTable().$('tr').clone()
+//          )
+//          .table2excel({
+//             exclude: ".excludeThisClass",
+//             name: "Worksheet Name",
+//             filename: "SomeFile" //do not include extension
+//          });
+//    });
+
+//    $("#table_id").dataTable();
+// });
