@@ -467,6 +467,63 @@ function choice5(select) {
 	});
 }
 
+
+function choice6(select) {
+	var selectedModreator = $("#moderatorStatus option:selected").val();
+	if (selectedModreator === 'SuperAdmin') {
+		$('#ifDataAvailable').empty();
+		return false
+	}else if (selectedModreator === 'StateAdmin') {
+		$.ajax({
+			type: 'GET',
+			url: "/super/admin/area/state",
+			dataType: 'json',
+			success: function(data){
+				console.log(data)
+				$('#ifDataAvailable').empty();
+
+				var select = '<label for="inputEmail4">Select State</label><select name="HeadPlace" id="centermod" class="form-control" required><option value="" disabled selected>Select State</option></select>'
+				$('#ifDataAvailable').append(select)
+
+				var HTML = '';
+				// var lable = ''
+				$(HTML).append(select)
+				for (var i = 0; i < data.length; i += 1) {
+	            	HTML = '<option value="' + data[i].stateName + '">' + data[i].stateName + '</option>'
+		        	$('#centermod').append(HTML);
+		        	// $('#ifDataAvailable').append(HTML)
+	            }     
+		    }
+		});
+		return false
+	}else if (selectedModreator === 'CenterAdmin') {
+		$.ajax({
+			type: 'GET',
+			url: "/super/admin/center",
+			dataType: 'json',
+			success: function(data){
+				console.log(data)
+				$('#ifDataAvailable').empty();
+
+				var select = '<label for="inputEmail4">Select Center</label><select name="HeadPlace" id="centermod" class="form-control" required><option value="" disabled selected>Select Center</option></select>'
+				$('#ifDataAvailable').append(select)
+
+				var HTML = '';
+				// var lable = ''
+				$(HTML).append(select)
+				for (var i = 0; i < data.length; i += 1) {
+	            	HTML = '<option value="' + data[i].centerName + '">' + data[i].centerName + '</option>'
+		        	$('#centermod').append(HTML);
+		        	// $('#ifDataAvailable').append(HTML)
+	            }     
+		    }
+		});
+		return false
+	}else if (selectedModreator === 'Teacher') {
+		$('#ifDataAvailable').empty();
+		return false
+	}
+}
 $(document).ready(function(){
 	$('#findresult').click(function (event) {
 		event.preventDefault();
@@ -616,7 +673,8 @@ $(document).ready(function(){
 		SecondRequest();
 	});
 });
-  
+
+
 $(document).ready(function(){
 	$('#absentrecord').click(function (event) {
 		event.preventDefault();
@@ -708,55 +766,75 @@ $(document).ready(function(){
 		    }
 		});
 	})
- })
-  
-
-//   function setInputDate(_id){
-//     var _dat = document.querySelector(_id);
-//     var hoy = new Date(),
-//         d = hoy.getDate(),
-//         m = hoy.getMonth()+1, 
-//         y = hoy.getFullYear(),
-//         data;
-
-//     if(d < 10){
-//         d = "0"+d;
-//     };
-//     if(m < 10){
-//         m = "0"+m;
-//     };
-
-//     data = y+"-"+m+"-"+d;
-//     console.log(data);
-//     _dat.value = data;
-// };
-
-// setInputDate("#DatePincker");
+ });
 
 
- //  $(document).ready(function(){
 
- //  	$('#pdfGenrator').click(function () {
- //  		alert('Hello!')
-	
-	// })
- //  })
+ $(document).ready(function(){
+ 	$('#submitModerator').click(function(){
+ 		var object = {}
+		var firstName = $('#inputfirstName').val();
+		var lastName = $("#inputLastName").val();
+		var email = $("#inputEmail4").val();
+		var password = $("#inputPassword4").val();
+		var moderatorStatus = $("#moderatorStatus").val();
+		var HeadPlace = $("#centermod").val();
 
-// $(function() {
-//    var startDate = $(".startDate").val();
-//    var endDate = $(".endDate").val();
+		object.firstName = firstName
+		object.lastName = lastName
+		object.username = email
+		object.password = password
+		object.moderator = moderatorStatus
+		object.HeadPlace = HeadPlace
+		if (firstName == '') {
+			alert("First Name Shouldn't be empty")
+			return false
+		}
+		if (email == '') {
+			alert("User Name Shouldn't be empty")
+			return false
+		}
+		if (password == '') {
+			alert("Password Shouldn't be empty")
+			return false
+		}
+		if (moderatorStatus == '') {
+			alert("moderator field Shouln't be empty")
+			return false
+		}
+		$.ajax({
+			url: "/create/moderator",
+			type : "POST",
+			data : object,
+			success : function(json){
+				window.location.href="/admin/teacher/management"
+			},
+			error : function(err){
+				alert(err);
+			}  
+		});
+	})
+ })  
 
-//    $("#pdfGenrator").click(function(){
-//       $('<table>')
-//          .append(
-//             $("#table_id").DataTable().$('tr').clone()
-//          )
-//          .table2excel({
-//             exclude: ".excludeThisClass",
-//             name: "Worksheet Name",
-//             filename: "SomeFile" //do not include extension
-//          });
-//    });
+  function setInputDate(_id){
+    var _dat = document.querySelector(_id);
+    var hoy = new Date(),
+        d = hoy.getDate(),
+        m = hoy.getMonth()+1, 
+        y = hoy.getFullYear(),
+        data;
 
-//    $("#table_id").dataTable();
-// });
+    if(d < 10){
+        d = "0"+d;
+    };
+    if(m < 10){
+        m = "0"+m;
+    };
+
+    data = y+"-"+m+"-"+d;
+    console.log(data);
+    _dat.value = data;
+};
+
+setInputDate("#DatePincker");
+

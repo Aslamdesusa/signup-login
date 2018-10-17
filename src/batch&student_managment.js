@@ -12,6 +12,14 @@ const async = require('async')
 var dateFormat = require('dateformat');
 var now = new Date();
 
+var sideTableDataSuperAdmin = ({foldericon: 'fas fa-fw fa-folder', navlinkdropdowntoggle: 'nav-link dropdown-toggle', pages: 'Pages', addDetails: 'Add Details', otherpage: 'Other Pages:', state: 'State', area: 'Area', center: 'Cetner', moderator: 'Moderator', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
+
+var sideTableDataAdmin = ({navlinkdropdowntoggle: 'nav-link dropdown-toggle', foldericon: 'fas fa-fw fa-folder', pages: 'Pages', addDetails: 'Add Details', area: 'Area', center: 'Cetner', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
+
+var sideTableDataCenterAdmin = ({batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
+
+var sideTableDataTeacher = ({navlink: 'nav-link', batchmanagement: 'Batch Management', studentManag: 'Student Management', AddnewClass: 'Add New Class', dayendreport: 'Day End Report', displaynone: 'd-none'})
+
 
 const routes = [
 	{ 
@@ -23,18 +31,6 @@ const routes = [
 	},
 	{
 		method: 'GET',
-		path: '/deshboard',
-		config:{
-			auth:{
-				strategy: 'restricted',
-			}
-		},
-		handler: function(request, reply){
-			return reply.view('index')
-		}
-	},
-	{
-		method: 'GET',
 		path: '/batch/management',
 		config:{
 			auth:{
@@ -42,16 +38,32 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
-			var batch = {}
-			batchModal.find({}, (err, data) =>{
-				if (err) {
-					reply(err)
-				}else{
-					batch = data
-					reply.view('batch', {data: batch})
+			var auth = request.auth.credentials;
+			async function GetBatch(){
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				if (auth.moderator == 'SuperAdmin') {
+					batchModal.find({})
+					.then(function(SuperAdminBatch){
+						return reply.view('batch', {data: SuperAdminBatch, sideTableData: sideTableDataSuperAdmin})
+					})
+				}else if (auth.moderator == 'StateAdmin') {
+					batchModal.find({StateName: auth.HeadPlace})
+					.then(function(StateAdminBatch){
+						return reply.view('batch', {data: StateAdminBatch, sideTableData: sideTableDataAdmin})
+					})
+				}else if (auth.moderator == 'CenterAdmin') {
+					batchModal.find({Center: auth.HeadPlace})
+					.then(function(CenterBatch){
+						return reply.view('batch', {data: CenterBatch, sideTableData: sideTableDataCenterAdmin})
+					})
+				}else if (auth.moderator == 'Teacher') {
+					batchModal.find({Teacher: auth.username})
+					.then(function(TeacherBatch){
+						return reply.view('batch', {data: TeacherBatch, sideTableData: sideTableDataTeacher})
+					})
 				}
-			})
-
+			}
+			GetBatch()
 		}
 	},
 	{
@@ -255,17 +267,46 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
-			var student = {}
-			var batch = {}
-			studentModal.find().limit(100).exec({}, (err, data) =>{
-				if (err) {
-					reply(err)
-				}else{
-					student=data
-					reply.view('student', {data: student})
-
-				}
-			})
+			var auth = request.auth.credentials;
+			async function GetBatch(){
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				if (auth.moderator == 'SuperAdmin') {
+					studentModal.find({})
+					.then(function(SuperAdminStudent){
+						return reply.view('student', {data: SuperAdminStudent, sideTableData: sideTableDataSuperAdmin})
+					})
+				}else if (auth.moderator == 'StateAdmin') {
+					studentModal.find({State: auth.HeadPlace})
+					.then(function(StateAdminStudent){
+						return reply.view('student', {data: StateAdminStudent, sideTableData: sideTableDataAdmin})
+					})
+				}else if (auth.moderator == 'CenterAdmin') {
+					studentModal.find({Center: auth.HeadPlace})
+					.then(function(CenterAdminStudent){
+						return reply.view('student', {data: CenterAdminStudent, sideTableData: sideTableDataCenterAdmin})
+					})
+				}else if (auth.moderator == 'Teacher') {
+					batchModal.find({Teacher: auth.username})
+					.then(function(result){
+						var totalBatch = [];
+						var _count = 0;
+						async.forEach(result, function(eachBatch){
+							studentModal.find({Batch: eachBatch.Name})
+							.then(function(batch){
+								async.forEach(batch, function(eachbatchs){
+									totalBatch.push(eachbatchs)
+									console.log(totalBatch)
+								})
+								if (++_count == result.length) {
+									// return reply(totalBatch)
+									return reply.view('student', {data: totalBatch, sideTableData: sideTableDataTeacher})
+							}
+						})
+					})
+				})
+			}
+		}
+			GetBatch()
 		}
 	},
 	{
@@ -335,7 +376,16 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
-			return reply.view('moderatorCheck')
+			var auth = request.auth.credentials;
+			if (auth.moderator == 'SuperAdmin') {
+				return reply.view('moderatorCheck', {sideTableData: sideTableDataSuperAdmin})
+			}else if (auth.moderator == 'StateAdmin') {
+				return reply.view('moderatorCheck', {sideTableData: sideTableDataAdmin})
+			}else if (auth.moderator == 'CenterAdmin') {
+				return reply.view('moderatorCheck', {sideTableData: sideTableDataCenterAdmin})
+			}else if (auth.moderator == 'Teacher') {
+				return reply.view('moderatorCheck', {sideTableData: sideTableDataTeacher})
+			}	
 		}
 	},
 	{

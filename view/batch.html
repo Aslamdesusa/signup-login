@@ -20,7 +20,7 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              <button type="button" class="btn btn-default" data-toggle="modal" id="batch" data-target="#BatchModal">Add New Batch</button>
+              <button type="button" class="btn btn-default {{sideTableData.displaynone}}" data-toggle="modal" id="batch" data-target="#BatchModal">Add New Batch</button>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -69,8 +69,8 @@
                       <td>{{Teacher}}</td>
                       <td>{{Date}}</td>
                       <td style="display: flex;">
-                        <form action="" method="GET"><button>Edit</button></form> 
-                        <form method="GET" action="/batch/management/deleted/{{_id}}"><button>Delete</button></form>
+                        <form action="" method="GET"><button class="btn btn-default {{sideTableData.displaynone}}">Edit</button></form> 
+                        <form class="{{sideTableData.displaynone}}" method="GET" action="/batch/management/deleted/{{_id}}"><button class="btn btn-default">Delete</button></form>
                       </td>
                     </tr>
                     {{/each}}

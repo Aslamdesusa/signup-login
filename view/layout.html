@@ -100,39 +100,39 @@
           </a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-fw fa-folder"></i>
-            <span>Pages</span>
+          <a class="{{sideTableData.navlinkdropdowntoggle}}" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="{{sideTableData.foldericon}}"></i>
+            <span>{{sideTableData.pages}}</span>
           </a>
           <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-            <h6 class="dropdown-header">Add State/Area/Center:</h6>
-            <a class="dropdown-item" href="/super/admin/state">State</a>
-            <a class="dropdown-item" href="/super/admin/area">Area</a>
-            <a class="dropdown-item" href="/super/admin/center">Center</a>
+            <h6 class="dropdown-header">{{sideTableData.addDetails}}</h6>
+            <a class="dropdown-item" href="/super/admin/state">{{sideTableData.state}}</a>
+            <a class="dropdown-item" href="/area/management">{{sideTableData.area}}</a>
+            <a class="dropdown-item" href="/centers/management">{{sideTableData.center}}</a>
             <div class="dropdown-divider"></div>
-            <h6 class="dropdown-header">Other Pages:</h6>
-            <a class="dropdown-item" href="/moderators">Moderator</a>
+            <h6 class="dropdown-header">{{sideTableData.otherpage}}</h6>
+            <a class="dropdown-item" href="/moderators">{{sideTableData.moderator}}</a>
           </div>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/batch/management">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Batch Management</span></a>
+            <span>{{sideTableData.batchmanagement}}</span></a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/student/management">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Student Management</span></a>
+            <span>{{sideTableData.studentManag}}</span></a>
+        </li>
+        <li id="dayendreport" class="nav-item">
+          <a class="{{sideTableData.navlink}}" href="/teacher/select/batch/view">
+            <span>{{sideTableData.AddnewClass}}</span></a>
         </li>
         <li id="dayendreport" class="nav-item">
           <a class="nav-link" href="/day/end/report">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Day End Report</span></a>
+            <span>{{sideTableData.dayendreport}}</span></a>
         </li>
         <li id="AbsentRecord" class="nav-item">
           <a class="nav-link" href="/absent/record">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Absent Record</span></a>
+            <span>{{sideTableData.absentRecord}}</span></a>
         </li>
       </ul>
 

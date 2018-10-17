@@ -21,26 +21,16 @@
                 <div class="form-group col-md-2">
                   <input type="date" id="DatePincker" class="form-control" name="date">
                 </div>
-                <div class="form-group col-md-2">
-                  <select id="statereport" onchange="choice1(this)" class="form-control">
-                    <option value="" disabled selected>Select State</option>
-                    {{#each data}}
-                    <option id="{{_id}}" value="{{stateName}}">{{stateName}}</option>
-                    {{/each}}
-                  </select>
-                </div>
               <div class="form-group col-md-2">
-                <select id="areareport" onchange="choice2(this)" name="Center" class="form-control">
-                  <option value="" disabled selected>Select Area</option>
-                </select>
-              </div>
-              <div class="form-group col-md-2">
-                <select id="centerreport" name="Center" class="form-control">
+                <select name="Center" id="centerreport" class="form-control">
                   <option value="" disabled selected>Select Center</option>
+                  {{#each data}}
+                  <option value="{{centerName}}" id="{{_id}}" >{{centerName}}</option>
+                  {{/each}}
                 </select>
               </div>
               <div class="form-group col-md-2">
-                <button type="button" id="findresult" class="btn btn-default" type="button">Generate Report</button>
+                <button id="findresultcenterhead" class="btn btn-default" type="button">Generate Report</button>
               </div>
             </div>
           <div class="card mb-3">
@@ -184,3 +174,130 @@
     </div>
   
 
+<script type="text/javascript">
+
+  $(document).ready(function(){
+  $('#findresultcenterhead').click(function (event) {
+    event.preventDefault();
+
+
+    var dateFormat = $('#DatePincker').val();
+    var selectedCenter = $("#centerreport option:selected").val();
+
+
+    if (dateFormat === "") {
+      alert("Please Select A Date");
+      return false;
+    }
+    if (selectedCenter === "") {
+      alert("Please Select A Center");
+      return false;
+    }
+    alert(selectedCenter)
+
+    async function firstRequest() { // Using async function it will wiat till the promise resolves
+      let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(), 1000)
+      });
+      let result = await promise; // wait till the promise resolves (*)
+      $.ajax({
+        type: 'GET',
+        url: "/getting/all/batch/Center-head/"+dateFormat+"/"+selectedCenter,
+        dataType: 'json',
+        success: function(data){
+          if (data.length === 0) {
+            $('#BatchSchduled').empty();
+            var HTML = '';
+            HTML = '<tr><td colspan="5 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+            $('#BatchSchduled').append(HTML);
+          }else{
+            $('#BatchSchduled').empty();
+            var HTML = '';
+            for (var i = 0; i < data.length; i += 1) {
+              HTML = '<tr><td>'+data[i].Name+'</td><td>'+data[i].BatchSchedule+'</td><td>'+data[i].Teacher+'</td><td>'+data[i].NumberOfClass+'</td><td>'+data[i].actualClassLimit+'</td></tr>'
+              $('#BatchSchduled').append(HTML);
+
+
+              // Second Request
+              $.ajax({
+                type: 'GET',
+                url: "/persent/Batch/center-head/"+dateFormat+"/"+selectedCenter,
+                dataType: 'json',
+                success: function(data){
+                  if (data.length === 0) {
+                    $('#persentBatch').empty();
+                    var HTML = '';
+                    HTML = '<tr><td colspan="3 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+                    $('#persentBatch').append(HTML);
+                  }else{
+                    $('#persentBatch').empty();
+                    var HTML = '';
+                    for (var i = 0; i < data.length; i += 1) {
+                      HTML = '<tr><td>'+data[i].BatchName+'</td><td>'+data[i].BatchTime+'</td><td>'+data[i].ClassAddbyTeacherName+'</td></tr>'
+                      $('#persentBatch').append(HTML);
+                    }
+                  }
+                }
+              });
+            }
+          }
+        }
+      }); // "done!"
+    }
+    async function SecondRequest() {
+      let promise = new Promise((resolve, reject) => {
+        setTimeout(() => resolve(), 2000)
+      });
+      let result = await promise; // wait till the promise resolves (*)
+      // Third Request
+      $.ajax({
+        type: 'GET',
+        url: "/getting/all/persent-student/center-head/"+dateFormat+"/"+selectedCenter,
+        dataType: 'json',
+        success: function(data){
+          console.log(data)
+          if (data.length === 0) {
+            $('#persentStudent').empty();
+            var HTML = '';
+            HTML = '<tr><td colspan="8 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+            $('#persentStudent').append(HTML);
+          }else{
+            $('#persentStudent').empty();
+            var HTML = '';
+            for (var i = 0; i < data.length; i += 1) {
+              HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>'+data[i].SignoutBy+'</td></tr>'
+              $('#persentStudent').append(HTML);
+
+              // forth Request
+              $.ajax({
+                type: 'GET',
+                url: "/getting/all/absent-student/center-head/"+dateFormat+"/"+selectedCenter,
+                dataType: 'json',
+                success: function(data){
+                  console.log(data)
+                  if (data.length === 0) {
+                    $('#AbsentStudent').empty();
+                    var HTML = '';
+                    HTML = '<tr><td colspan="4 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+                    $('#AbsentStudent').append(HTML);
+                  }else{
+                    $('#AbsentStudent').empty();
+                    var HTML = '';
+                    for (var i = 0; i < data.length; i += 1) {
+                      HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td></tr>'
+                      $('#AbsentStudent').append(HTML);
+                    }
+                  }
+                }
+              });
+            }
+          }
+        }
+      }); // "done!"
+    }
+    firstRequest();
+    SecondRequest();
+  });
+});
+  
+</script>

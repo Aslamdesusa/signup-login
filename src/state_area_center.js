@@ -4,6 +4,16 @@ const stateModal = require('../tables/state')
 const areaModal = require('../tables/area')
 const centerModal = require('../tables/center')
 const adminModal = require('../tables/loginAdmin.js')
+const batchModal = require('../tables/batch')
+
+
+var sideTableDataSuperAdmin = ({foldericon: 'fas fa-fw fa-folder', navlinkdropdowntoggle: 'nav-link dropdown-toggle', pages: 'Pages', addDetails: 'Add Details', otherpage: 'Other Pages:', state: 'State', area: 'Area', center: 'Cetner', moderator: 'Moderator', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
+
+var sideTableDataAdmin = ({navlinkdropdowntoggle: 'nav-link dropdown-toggle', foldericon: 'fas fa-fw fa-folder', pages: 'Pages', addDetails: 'Add Details', area: 'Area', center: 'Cetner', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
+
+var sideTableDataCenterAdmin = ({batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
+
+var sideTableDataTeacher = ({navlink: 'nav-link', batchmanagement: 'Batch Management', studentManag: 'Student Management', AddnewClass: 'Add New Class', dayendreport: 'Day End Report', displaynone: 'd-none'})
 
 const routes = [
 	// ========================================================================/
@@ -72,33 +82,61 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
-			stateModal.find({}, function(err, data){
-				if (err) {
-					reply(err)
-				}else{
-					return reply.view('dayandreport', {data: data})
-				}
-			})
+			var auth = request.auth.credentials;
+			async function getstate() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				if (auth.moderator == 'SuperAdmin') {
+					stateModal.find({})
+					.then(function(result){
+						return reply.view('dayandreport', {data: result, sideTableData: sideTableDataSuperAdmin})
+					})
+				}else if (auth.moderator == 'StateAdmin') {
+					stateModal.find({stateName: auth.HeadPlace})
+					.then(function(adminstate){
+						return reply.view('dayandreport', {data: adminstate, sideTableData: sideTableDataAdmin})
+					})
+				}else if (auth.moderator == 'CenterAdmin') {
+					centerModal.find({centerName: auth.HeadPlace})
+					.then(function(adminCenter){
+						console.log(adminCenter)
+						return reply.view('dayEndReportCenterHead', {data: adminCenter, sideTableData: sideTableDataCenterAdmin})
+					})
+				}else if (auth.moderator == 'Teacher') {
+					batchModal.find({Teacher: auth.username})
+					.then(function(TeacherBatch){
+						console.log(TeacherBatch)
+						return reply.view('DayEndReportForTeacher', {data: TeacherBatch, sideTableData: sideTableDataTeacher})
+					})
+				}	
+			}
+			getstate()
 		}
 	},
 	{
 		method: 'GET',
-		path: '/super/admin/area',
+		path: '/area/management',
 		config:{
 			auth:{
 				strategy: 'restricted',
 			}
 		},
 		handler: function(request, reply){
-			var areaAu = {}
-			areaModal.find({}, (err, area) =>{
-				if (err) {
-					reply(err)
-				}else{
-					areaAu = area
-					return reply.view('area', {data: areaAu})
+			var auth = request.auth.credentials;
+			async function GetArea(){
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				if (auth.moderator == 'SuperAdmin') {
+					areaModal.find({})
+					.then(function(SuperAdminArea){
+						return reply.view('area', {data: SuperAdminArea, sideTableData: sideTableDataSuperAdmin})
+					})
+				}else if (auth.moderator == 'StateAdmin') {
+					areaModal.find({stateName: auth.HeadPlace})
+					.then(function(StateAdminArea){
+						return reply.view('area', {data: StateAdminArea, sideTableData: sideTableDataAdmin})
+					})
 				}
-			})
+			}
+			GetArea()
 		}
 	},
 	{
@@ -143,6 +181,33 @@ const routes = [
 	},
 	{
 		method: 'GET',
+		path: '/centers/management',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			var auth = request.auth.credentials;
+			async function GetCenter(){
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				if (auth.moderator == 'SuperAdmin') {
+					centerModal.find({})
+					.then(function(SuperAdminCenter){
+						return reply.view('center', {center: SuperAdminCenter, sideTableData: sideTableDataSuperAdmin})
+					})
+				}else if (auth.moderator == 'StateAdmin') {
+					centerModal.find({StateName: auth.HeadPlace})
+					.then(function(StateAdminCenter){
+						return reply.view('center', {center: StateAdminCenter, sideTableData: sideTableDataAdmin})
+					})
+				}
+			}
+			GetCenter()
+		}
+	},
+	{
+		method: 'GET',
 		path: '/super/admin/center',
 		config:{
 			auth:{
@@ -156,7 +221,7 @@ const routes = [
 					reply(err)
 				}else{
 					centerau = center
-					reply.view('center', {center: centerau})
+					reply(centerau)
 				}
 			})
 		}

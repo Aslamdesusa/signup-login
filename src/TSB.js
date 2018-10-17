@@ -21,7 +21,13 @@ var pdf_table_extractor = require("pdf-table-extractor");
 var PDFDocument = require ('pdfkit');
 const Json2csvParser = require('json2csv').parse;
 
+var sideTableDataSuperAdmin = ({foldericon: 'fas fa-fw fa-folder', navlinkdropdowntoggle: 'nav-link dropdown-toggle', pages: 'Pages', addDetails: 'Add Details', otherpage: 'Other Pages:', state: 'State', area: 'Area', center: 'Cetner', moderator: 'Moderator', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
 
+var sideTableDataAdmin = ({navlinkdropdowntoggle: 'nav-link dropdown-toggle', foldericon: 'fas fa-fw fa-folder', pages: 'Pages', addDetails: 'Add Details', area: 'Area', center: 'Cetner', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
+
+var sideTableDataCenterAdmin = ({batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
+
+var sideTableDataTeacher = ({navlink: 'nav-link', batchmanagement: 'Batch Management', studentManag: 'Student Management', AddnewClass: 'Add New Class', dayendreport: 'Day End Report', displaynone: 'd-none'})
 
 
 
@@ -37,7 +43,7 @@ const routes = [
 			}
 		},
 		handler: function(request, reply){
-			reply.view('TeacherSB', {ping: 'No Selected Batch'}, {layout:'layout2'})
+			reply.view('TeacherSB', {ping: 'No Selected Batch', sideTableData: sideTableDataTeacher})
 		}
 	},
 	{
@@ -97,18 +103,18 @@ const routes = [
 			})
 		}
 	},
-	{
-		method: 'GET',
-		path: '/teacher/bash',
-		config:{
-			auth:{
-				strategy: 'restricted'
-			}
-		},
-		handler: function(request, reply){
-			return reply.view('teachercheck', null, {layout: 'layout2'})
-		}
-	},
+	// {
+	// 	method: 'GET',
+	// 	path: '/teacher/bash',
+	// 	config:{
+	// 		auth:{
+	// 			strategy: 'restricted'
+	// 		}
+	// 	},
+	// 	handler: function(request, reply){
+	// 		return reply.view('teachercheck', null, {layout: 'layout2'})
+	// 	}
+	// },
 	// ===============================================
 	// Day End Report 
 	{
@@ -290,6 +296,136 @@ const routes = [
 			getPersentStudent();
 		}
 	},
+
+	// =======================================
+	// getting all batch for center Head
+	{
+		method: 'GET',
+		path: '/getting/all/batch/Center-head/{date}/{Center}',
+		config:{
+			validate:{
+				params:{
+					date: Joi.string(),
+                    Center:Joi.string()
+				}
+			}, 
+		},
+		handler: function(request, reply){
+			var dayOfWeek = dateFormat(request.params.date, "dddd")
+				var query = {$and:[{BatchDay:{$regex: dayOfWeek, $options: 'i'}},{Center:{$regex: request.params.Center, $options: 'i'}}]}
+				console.log(query)
+			async function getCollectionBatch() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				batchModal.find(query)
+				.then(function(result){
+					return reply(result)
+				})
+			}
+			getCollectionBatch();
+		}
+	},
+	{
+		method: 'GET',
+		path: '/persent/Batch/center-head/{date}/{Center}',
+		config:{
+			validate:{
+				params:{
+					date: Joi.string(),
+                    Center:Joi.string()
+				}
+			},
+		},
+		handler: function(request, reply){
+			var query = {$and:[{Date:{$regex: request.params.date, $options: 'i'}}, {Center:{$regex: request.params.Center, $options: 'i'}}]}
+				console.log(query)
+			async function persentBatch() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				SelectedBatchModal.find(query)
+				.then(function(result){
+					return reply(result)
+				})
+			}
+			persentBatch();
+		}
+	},
+	{
+		method: 'GET',
+		path: '/getting/all/persent-student/center-head/{date}/{Center}',
+		config:{
+			validate:{
+				params:{
+					date: Joi.string(),
+                    Center:Joi.string()
+				}
+			},
+		},
+		handler: function(request, reply){
+			var dayOfWeek = dateFormat(request.params.date, "dddd")
+			console.log(dayOfWeek)
+				var query = {$and:[{BatchDay:{$regex: dayOfWeek, $options: 'i'}}, {Center:{$regex: request.params.Center, $options: 'i'}}]}
+			async function getPersentStudent() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				studentModal.find(query)
+				.then(function(result){
+					var totalpersent = [];
+					var _count = 0;
+					async.forEach(result, function(eachPersentStudent){
+						check_validation.find({CheckInDateTime: request.params.date, uuid: eachPersentStudent.ID})
+						.then(function(persentStudent){
+							async.forEach(persentStudent, function(eachPerset){
+								totalpersent.push(eachPerset)
+							})
+							if (++_count == result.length) {
+								return reply(totalpersent)
+							}
+						})
+					})
+				});
+			}
+			getPersentStudent();
+		}
+	},
+	{
+		method: 'GET',
+		path: '/getting/all/absent-student/center-head/{date}/{Center}',
+		config:{
+			validate:{
+				params:{
+					date: Joi.string(),
+                    Center:Joi.string()
+				}
+			},
+		},
+		handler: function(request, reply){
+			var dayOfWeek = dateFormat(request.params.date, "dddd")
+			console.log(dayOfWeek)
+				var query = {$and:[{BatchDay:{$regex: dayOfWeek, $options: 'i'}}, {Center:{$regex: request.params.Center, $options: 'i'}}]}
+			async function getPersentStudent() {
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				studentModal.find(query)
+				.then(function(result){
+					var totalpersent = [];
+					var _count = 0;
+					console.log(result)
+					async.forEach(result, function(eachPersentStudent){
+						absentModal.find({AbsentDate: request.params.date, uuid: eachPersentStudent.ID})
+						.then(function(persentStudent){
+							async.forEach(persentStudent, function(eachPerset){
+								totalpersent.push(eachPerset)
+							})
+							if (++_count == result.length) {
+								return reply(totalpersent)
+							}
+						})
+					})
+				});
+			}
+			getPersentStudent();
+		}
+	},
+
+	// =================================================
+	// End
 	{
 		method: 'GET',
 		path: '/select/{uuid}',

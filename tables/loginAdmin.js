@@ -7,8 +7,8 @@ var AdminSchema = new Schema({
 	lastName: {type:String, required:true},
     username: {type:String, required:true, unique:true},
     password: {type:String, required:true},
-    moderator: {type: String, enum: ['SuperAdmin', 'Admin', 'Teacher']},
-    centerHeadPlace: String,
+    moderator: {type: String, enum: ['SuperAdmin', 'StateAdmin', 'CenterAdmin', 'Teacher']},
+    HeadPlace: String,
     isLogin: Boolean,
     Date: {type: Date, default: Date.now}
 });
