@@ -32,7 +32,7 @@ const routes = [
 				if (err) {
 					reply(err)
 				}else{
-					reply.view('state', {data: data})
+					reply.view('state', {data: data, sideTableData: sideTableDataSuperAdmin})
 				}
 			})
 		}
@@ -410,6 +410,47 @@ const routes = [
 			})
 		}
 	},
+	// =================================================
+	{
+		method: 'DELETE',
+		path: '/delete/Center',
+		handler: function(request, reply){
+			centerModal.findOneAndRemove({_id: request.query._id})
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
+		method: 'DELETE',
+		path: '/delete/State',
+		handler: function(request, reply){
+			stateModal.findOneAndRemove({_id: request.query._id})
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
+		method: 'DELETE',
+		path: '/delete/area',
+		handler: function(request, reply){
+			areaModal.findOneAndRemove({_id: request.query._id})
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
+		method: 'DELETE',
+		path: '/delete/admin',
+		handler: function(request, reply){
+			adminModal.findOneAndRemove({_id: request.query._id})
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	}
 
 ]
 export default routes;

@@ -1,3 +1,83 @@
+ <style type="text/css">
+       .tableres {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .tableres caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+   
+  .tableres tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+  }
+  
+  .tableres th,
+  .tableres td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  .tableres th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .tableres {
+      border: 0;
+    }
+  
+    .tableres caption {
+      font-size: 1.3em;
+    }
+    
+    .tableres thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    
+    .tableres tr {
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    .tableres td {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    .tableres td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .tableres td:last-child {
+      border-bottom: 0;
+    }
+  }
+     </style>
 
       <div id="content-wrapper">
 
@@ -50,25 +130,16 @@
 
               <div class="card-body">
               <div class="table-responsive" style="height: 300px;">
-                <table class="table table-bordered" id="" width="100%" cellspacing="0">
+                <table class="table table-bordered tableres" id="" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Batch Name</th>
-                      <th>Time</th>
-                      <th>Teacher</th>
-                      <th>Class Count</th>
-                      <th>Class Max Limit</th>
+                      <th scope="col">Batch Name</th>
+                      <th scope="col">Time</th>
+                      <th scope="col">Teacher</th>
+                      <th scope="col">Class Count</th>
+                      <th scope="col">Class Max Limit</th>
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Batch Name</th>
-                      <th>Time</th>
-                      <th>Teacher</th>
-                      <th>Class Count</th>
-                      <th>Class Max Limit</th>
-                    </tr>
-                  </tfoot>
                   <tbody id="BatchSchduled">
 
                   </tbody>
@@ -84,7 +155,7 @@
               <h4>Classes Took Place</h4>
               <div class="card-body">
               <div class="table-responsive" style="height: 300px;">
-                <table class="table table-bordered" id="" width="100%" cellspacing="0">
+                <table class="table table-bordered tableres" id="" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Batch Name</th>
@@ -92,13 +163,6 @@
                       <th>Teacher</th>
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Batch Name</th>
-                      <th>Time</th>
-                      <th>Teacher</th>
-                    </tr>
-                  </tfoot>
                   <tbody id="persentBatch">
 
                   </tbody>
@@ -114,7 +178,7 @@
               <h4>Students Present</h4> 
               <div class="card-body">
               <div class="table-responsive" style="height: 300px;">
-                <table class="table table-bordered" id="" width="100%" cellspacing="0">
+                <table class="table table-bordered tableres" id="" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Student ID</th>
@@ -127,18 +191,6 @@
                       <th>Check-out By</th>
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Student ID</th>
-                      <th>Student Name</th>
-                      <th>Batch</th>
-                      <th>Center</th>
-                      <th>Check-in Time</th>
-                      <th>Check-in By</th>
-                      <th>Check-out Time</th>
-                      <th>Check-out By</th>
-                    </tr>
-                  </tfoot>
                   <tbody id="persentStudent">
 
                   </tbody>
@@ -154,7 +206,7 @@
               <h4>Students Absent</h4> 
               <div class="card-body">
               <div class="table-responsive" style="height: 300px;">
-                <table class="table table-bordered" id="" width="100%" cellspacing="0">
+                <table class="table table-bordered tableres" id="" width="100%" cellspacing="0">
                   <thead>
                     <tr>
                       <th>Student ID</th>
@@ -163,14 +215,6 @@
                       <th>Center</th>
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Student ID</th>
-                      <th>Name</th>
-                      <th>Batch</th>
-                      <th>Center</th>
-                    </tr>
-                  </tfoot>
                   <tbody id="AbsentStudent">
 
                   </tbody>

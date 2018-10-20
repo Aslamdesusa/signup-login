@@ -572,7 +572,7 @@ $(document).ready(function(){
 						$('#BatchSchduled').empty();
 						// setTimeout(function(){ location.reload(); }, 5000);
 						var HTML = '';
-						HTML = '<tr><td colspan="5 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+						HTML = '<tr><td data-label="" colspan="5 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
 			        	$('#BatchSchduled').append(HTML);
 						}else{
 						$('#BatchSchduled').empty();
@@ -580,7 +580,7 @@ $(document).ready(function(){
 						console.log(data)
 						var HTML = '';
 						for (var i = 0; i < data.length; i += 1) {
-							HTML = '<tr><td>'+data[i].Name+'</td><td>'+data[i].BatchSchedule+'</td><td>'+data[i].Teacher+'</td><td>'+data[i].NumberOfClass+'</td><td>'+data[i].actualClassLimit+'</td></tr>'
+							HTML = '<tr><td data-label="Name">'+data[i].Name+'</td><td data-label="Batch Schedule">'+data[i].BatchSchedule+'</td><td data-label="Teacher">'+data[i].Teacher+'</td><td data-label="Number Of Class">'+data[i].NumberOfClass+'</td><td data-label="Actual Class Limit">'+data[i].actualClassLimit+'</td></tr>'
 							$('#BatchSchduled').append(HTML);
 
 							// Second Request
@@ -593,13 +593,13 @@ $(document).ready(function(){
 									if (data.length === 0) {
 										$('#persentBatch').empty();
 										var HTML = '';
-										HTML = '<tr><td colspan="3 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+										HTML = '<tr><td data-label="" colspan="3 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
 							        	$('#persentBatch').append(HTML);
 										}else{
 										$('#persentBatch').empty();
 										var HTML = '';
 										for (var i = 0; i < data.length; i += 1) {
-							            	HTML = '<tr><td>'+data[i].BatchName+'</td><td>'+data[i].BatchTime+'</td><td>'+data[i].ClassAddbyTeacherName+'</td></tr>'
+							            	HTML = '<tr><td data-label="Batch Name">'+data[i].BatchName+'</td><td data-label="Batch Time">'+data[i].BatchTime+'</td><td data-label="Class Added By">'+data[i].ClassAddbyTeacherName+'</td></tr>'
 								        	$('#persentBatch').append(HTML);
 							            }
 									}
@@ -628,13 +628,13 @@ $(document).ready(function(){
 	    			if (data.length === 0) {
 	    				$('#persentStudent').empty();
 	    				var HTML = '';
-	    				HTML = '<tr><td colspan="8 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+	    				HTML = '<tr><td data-label="" colspan="8 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
 	    				$('#persentStudent').append(HTML);
 	    			}else{
 	    				$('#persentStudent').empty();
 	    				var HTML = '';
 	    				for (var i = 0; i < data.length; i += 1) {
-	    					HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td><td>'+data[i].CheckInTime+'</td><td>'+data[i].SigninBy+'</td><td>'+data[i].CheckOutTime+'</td><td>'+data[i].SignoutBy+'</td></tr>'
+	    					HTML = '<tr><td data-label="ID">'+data[i].uuid+'</td><td data-label="Student Name">'+data[i].StudentName+'</td><td data-label="Batch">'+data[i].Batch+'</td><td data-label="Center">'+data[i].Center+'</td><td data-label="Check In Time">'+data[i].CheckInTime+'</td><td data-label="Sign in By">'+data[i].SigninBy+'</td><td data-label="Check Out Time">'+data[i].CheckOutTime+'</td><td data-label="Sign Out By">'+data[i].SignoutBy+'</td></tr>'
 	    					$('#persentStudent').append(HTML);
 
 
@@ -649,7 +649,7 @@ $(document).ready(function(){
 									if (data.length === 0) {
 										$('#AbsentStudent').empty();
 										var HTML = '';
-										HTML = '<tr><td colspan="4 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+										HTML = '<tr><td data-label="" colspan="4 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
 							        	$('#AbsentStudent').append(HTML);
 										}else{
 											
@@ -657,7 +657,7 @@ $(document).ready(function(){
 										// console.log(data)
 										var HTML = '';
 										for (var i = 0; i < data.length; i += 1) {
-							            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td></tr>'
+							            	HTML = '<tr><td data-label="ID">'+data[i].uuid+'</td><td data-label="Student Name">'+data[i].StudentName+'</td><td data-label="Batch">'+data[i].Batch+'</td><td data-label="Center">'+data[i].Center+'</td></tr>'
 								        	$('#AbsentStudent').append(HTML);
 							            }
 									}
@@ -703,7 +703,7 @@ $(document).ready(function(){
 					if (data.length === 0) {
 						$('#allAbsentStudent').empty();
 						var HTML = '';
-						HTML = '<tr><td colspan="4 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
+						HTML = '<tr><td data-label="" colspan="4 style="text-align: center;"><h2 style="color: red; text-align: center; font-size: 18px;">Data is not Available on this date!</h2></td></tr>'
 			        	$('#allAbsentStudent').append(HTML);
 						}else{
 							
@@ -711,7 +711,7 @@ $(document).ready(function(){
 						// console.log(data)
 						var HTML = '';
 						for (var i = 0; i < data.length; i += 1) {
-			            	HTML = '<tr><td>'+data[i].uuid+'</td><td>'+data[i].StudentName+'</td><td>'+data[i].Batch+'</td><td>'+data[i].Center+'</td></tr>'
+			            	HTML = '<tr><td data-label="ID">'+data[i].uuid+'</td><td data-label="Student Name">'+data[i].StudentName+'</td><td data-label="Batch">'+data[i].Batch+'</td><td data-label="Center">'+data[i].Center+'</td></tr>'
 				        	$('#allAbsentStudent').append(HTML);
 			            }
 					}
@@ -814,7 +814,121 @@ $(document).ready(function(){
 			}  
 		});
 	})
- })  
+ }) 
+
+ // $(document).ready(function(){
+ // 	$('.DeleteCenter').click(function(e){
+ // 		e.preventDefault();
+
+	// 	$.ajax({
+	// 		url: "/delete/Center?_id="+,
+	// 		type : "POST",
+	// 		data : object,
+	// 		success : function(json){
+	// 			window.location.href="/centers/management"
+	// 		},
+	// 		error : function(err){
+	// 			alert(err);
+	// 		}  
+	// 	});
+	// })
+ // })   
+
+ $(document).ready(function(){
+	$('.DeleteCenter').click(function(){
+		var val = $(this).attr("value");
+		var centerName = $(this).attr("title")
+
+		$('.centerName').empty();
+		$('.centerName').append(centerName)
+		console.log(val)
+	$('.DeleteCenterButton').click(function(){
+		$.ajax({
+				url : "/delete/Center?_id="+val,
+				type : "DELETE",
+				success : function(success){
+					location.reload();
+				},
+				error : function(err){
+					alert(err);
+				}  
+			});	
+		})
+	})
+			
+});
+
+ $(document).ready(function(){
+	$('.deleteState').click(function(){
+		var val = $(this).attr("value");
+		var stateName = $(this).attr("title")
+
+		$('.stateName').empty();
+		$('.stateName').append(stateName)
+		console.log(val)
+	$('.DeleteStateButton').click(function(){
+		$.ajax({
+				url : "/delete/State?_id="+val,
+				type : "DELETE",
+				success : function(success){
+					location.reload();
+				},
+				error : function(err){
+					alert(err);
+				}  
+			});	
+		});
+	});
+			
+});
+
+
+  $(document).ready(function(){
+	$('.DeleteArea').click(function(){
+		var val = $(this).attr("value");
+		var areaName = $(this).attr("title")
+		$('.areaName').empty();
+		$('.areaName').append(areaName)
+		console.log(val)
+	$('.DeleteAreaButton').click(function(){
+		$.ajax({
+				url : "/delete/area?_id="+val,
+				type : "DELETE",
+				success : function(success){
+					location.reload();
+				},
+				error : function(err){
+					alert(err);
+				}  
+			});	
+		});
+	});
+			
+});
+
+
+$(document).ready(function(){
+	$('.DeleteAdmin').click(function(){
+		var val = $(this).attr("value");
+		var adminName = $(this).attr("title")
+
+		$('.adminName').empty();
+		$('.adminName').append(adminName)
+		console.log("/delete/admin?_id="+val)
+	$('.DeleteAdminButton').click(function(){
+		$.ajax({
+				url : "/delete/admin?_id="+val,
+				type : "DELETE",
+				success : function(success){
+					location.reload();
+				},
+				error : function(err){
+					alert(err);
+				}  
+			});	
+		});
+	});		
+});
 
   function setInputDate(_id){
     var _dat = document.querySelector(_id);

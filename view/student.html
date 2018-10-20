@@ -1,4 +1,84 @@
 
+  <style type="text/css">
+       .tableres {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .tableres caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  .tableres tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+  }
+  
+  .tableres th,
+  .tableres td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  .tableres th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .tableres {
+      border: 0;
+    }
+  
+    .tableres caption {
+      font-size: 1.3em;
+    }
+    
+    .tableres thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    
+    .tableres tr {
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    .tableres td {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    .tableres td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .tableres td:last-child {
+      border-bottom: 0;
+    }
+  }
+     </style>
       <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -22,78 +102,54 @@
               <button type="button" class="btn btn-default {{sideTableData.displaynone}}" id="studentdata" data-toggle="modal" data-target="#BetchModal">Add New Student</button></div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered tableres" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>ID</th>
-                      <th>Date Of Birth</th>
-                      <th>Enroll Date</th>
-                      <th>Current Level</th>
-                      <th>Center</th>
-                      <th>Batch</th>
-                      <th>Last Check in</th>
-                      <th>Last Check in Location</th>
-                      <th>Contact Name</th>
-                      <th>Mobile</th>
-                      <th>Email</th>
-                      <th>Contact Name1</th>
-                      <th>Mobile1</th>
-                      <th>Email1</th>
-                      <th>Contact Name2</th>
-                      <th>Mobile2</th>
-                      <th>Email2</th>
-                      <th>Date</th>
-                      <th>Edit/Delete</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">ID</th>
+                      <th scope="col">Date Of Birth</th>
+                      <th scope="col">Enroll Date</th>
+                      <th scope="col">Current Level</th>
+                      <th scope="col">Center</th>
+                      <th scope="col">Batch</th>
+                      <th scope="col">Last Check in</th>
+                      <th scope="col">Last Check in Location</th>
+                      <th scope="col">Contact Name</th>
+                      <th scope="col">Mobile</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Contact Name1</th>
+                      <th scope="col">Mobile1</th>
+                      <th scope="col">Email1</th>
+                      <th scope="col">Contact Name2</th>
+                      <th scope="col">Mobile2</th>
+                      <th scope="col">Email2</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Edit/Delete</th>
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Name</th>
-                      <th>ID</th>
-                      <th>Date Of Birth</th>
-                      <th>Enroll Date</th>
-                      <th>Current Level</th>
-                      <th>Center</th>
-                      <th>Batch</th>
-                      <th>Last Check in</th>
-                      <th>Last Check in Location</th>
-                      <th>Contact Name</th>
-                      <th>Mobile</th>
-                      <th>Email</th>
-                      <th>Contact Name1</th>
-                      <th>Mobile1</th>
-                      <th>Email1</th>
-                      <th>Contact Name2</th>
-                      <th>Mobile2</th>
-                      <th>Email2</th>
-                      <th>Date</th>
-                      <th>Edit/Delete</th>
-                    </tr>
-                  </tfoot>
                   <tbody>
                     {{#each data}}
                     <tr>
-                      <td>{{Name}}</td>
-                      <td>{{ID}}</td>
-                      <td>{{DateOfBirth}}</td>
-                      <td>{{EnrollDate}}</td>
-                      <td>{{CurrentLevel}}</td>
-                      <td>{{Center}}</td>
-                      <td>{{Batch}}</td>
-                      <td>Comming Soon...</td>
-                      <td>Comming Soon...</td>
-                      <td>{{ContactName}}</td>
-                      <td>{{Mobile}}</td>
-                      <td>{{Email}}</td>
-                      <td>{{ContactName1}}</td>
-                      <td>{{Mobile1}}</td>
-                      <td>{{Email1}}</td>
-                      <td>{{ContactName2}}</td>
-                      <td>{{Mobile2}}</td>
-                      <td>{{Email2}}</td>
-                      <td>{{Date}}</td>
-                      <td style="display: flex;">
+                      <td data-label="Name">{{Name}}</td>
+                      <td data-label="ID">{{ID}}</td>
+                      <td data-label="Date Of Birth">{{DateOfBirth}}</td>
+                      <td data-label="Enroll Date">{{EnrollDate}}</td>
+                      <td data-label="Current Level">{{CurrentLevel}}</td>
+                      <td data-label="Current Level">{{Center}}</td>
+                      <td data-label="Center">{{Batch}}</td>
+                      <td data-label="Batch">Comming Soon...</td>
+                      <td data-label="Last Check in">Comming Soon...</td>
+                      <td data-label="Contact Name">{{ContactName}}</td>
+                      <td data-label="Mobile">{{Mobile}}</td>
+                      <td data-label="Email">{{Email}}</td>
+                      <td data-label="Contact Name 1">{{ContactName1}}</td>
+                      <td data-label="Mobile 1">{{Mobile1}}</td>
+                      <td data-label="Email 1">{{Email1}}</td>
+                      <td data-label="Contact Name 2">{{ContactName2}}</td>
+                      <td data-label="Mobile 2">{{Mobile2}}</td>
+                      <td data-label="Email 2">{{Email2}}</td>
+                      <td data-label="Date">{{Date}}</td>
+                      <td data-label="Action" style="display: flex; justify-content: space-between;">
                         <form action="" method="GET"><button>Edit</button></form> 
                         <form method="GET" action="/student/management/deleted/{{_id}}"><button>Delete</button></form>
                       </td>
