@@ -1,4 +1,83 @@
 
+       <style type="text/css">
+       .tableres {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .tableres caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  .tableres tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+  }
+  
+  .tableres th,
+  .tableres td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  .tableres th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .tableres {
+      border: 0;
+    }
+  
+    .tableres caption {
+      font-size: 1.3em;
+    }
+    
+    .tableres thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    
+    .tableres tr {
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    .tableres td {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    .tableres td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .tableres td:last-child {
+      border-bottom: 0;
+    }
+  }
      </style>
       <div id="content-wrapper">
 
@@ -24,51 +103,36 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered tableres" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>ID</th>
-                      <th>Center</th>
-                      <th>Start Date</th>
-                      <th>No Of Class</th>
-                      <th>actual class limit</th>
-                      <th>Batch Day</th>
-                      <th>Batch Schedule</th>
-                      <th>Teacher</th>
-                      <th>Date</th>
-                      <th>Edit/Delete</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">ID</th>
+                      <th scope="col">Center</th>
+                      <th scope="col">Start Date</th>
+                      <th scope="col">No Of Class</th>
+                      <th scope="col">Actual Class Limit</th>
+                      <th scope="col">Batch Day</th>
+                      <th scope="col">Batch Schedule</th>
+                      <th scope="col">Teacher</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Edit/Delete</th>
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Name</th>
-                      <th>ID</th>
-                      <th>Center</th>
-                      <th>Start Date</th>
-                      <th>No Of Class</th>
-                      <th>actual class limit</th>
-                      <th>Batch Day</th>
-                      <th>Batch Schedule</th>
-                      <th>Teacher</th>
-                      <th>Date</th>
-                      <th>Edit/Delete</th>
-                    </tr>
-                  </tfoot>
                   <tbody>
                     {{#each data}}
                     <tr> 
-                      <td>{{Name}}</td>
-                      <td>{{ID}}</td>
-                      <td>{{Center}}</td>
-                      <td>{{StartDate}}</td>
-                      <td>{{NumberOfClass}}</td>
-                      <td>{{actualClassLimit}}</td>
-                      <td>{{BatchDay}}</td>
-                      <td>{{BatchSchedule}}</td>
-                      <td>{{Teacher}}</td>
-                      <td>{{Date}}</td>
-                      <td style="display: flex;">
+                      <td data-label="Name">{{Name}}</td>
+                      <td data-label="ID">{{ID}}</td>
+                      <td data-label="Center">{{Center}}</td>
+                      <td data-label="Start Date">{{StartDate}}</td>
+                      <td data-label="No Of Class">{{NumberOfClass}}</td>
+                      <td data-label="Actual Class Limit">{{actualClassLimit}}</td>
+                      <td data-label="Batch Day">{{BatchDay}}</td>
+                      <td data-label="Batch Schedule">{{BatchSchedule}}</td>
+                      <td data-label="Teacher">{{Teacher}}</td>
+                      <td data-label="Date">{{Date}}</td>
+                      <td data-label="Edit/Delete" style="display: flex; justify-content: space-between;">
                         <form action="" method="GET"><button class="btn btn-default {{sideTableData.displaynone}}">Edit</button></form> 
                         <form class="{{sideTableData.displaynone}}" method="GET" action="/batch/management/deleted/{{_id}}"><button class="btn btn-default">Delete</button></form>
                       </td>

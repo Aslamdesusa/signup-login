@@ -1,4 +1,83 @@
 
+       <style type="text/css">
+       .tableres {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .tableres caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  .tableres tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+  }
+  
+  .tableres th,
+  .tableres td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  .tableres th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .tableres {
+      border: 0;
+    }
+  
+    .tableres caption {
+      font-size: 1.3em;
+    }
+    
+    .tableres thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    
+    .tableres tr {
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    .tableres td {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    .tableres td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .tableres td:last-child {
+      border-bottom: 0;
+    }
+  }
      </style>
       <div id="content-wrapper">
 
@@ -23,41 +102,30 @@
               <button type="button" id="centerbutton" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Add Center</button></div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered tableres" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Center</th>
-                      <th>Area</th>
-                      <th>State</th>
-                      <th>Contact Person</th>
-                      <th>Email</th>
-                      <th>Mobile</th>
-                      <th>Action</th>
+                      <th scope="col">Center</th>
+                      <th scope="col">Area</th>
+                      <th scope="col">State</th>
+                      <th scope="col">Contact Person</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Mobile</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Center</th>
-                      <th>Area</th>
-                      <th>State</th>
-                      <th>Contact Person</th>
-                      <th>Email</th>
-                      <th>Mobile</th>
-                      <th>Action</th>
-                    </tr>
-                  </tfoot>
                   <tbody>
                     {{#each center}}
                     <tr>
-                      <td>{{centerName}}</td> 
-                      <td>{{AreaName}}</td>
-                      <td>{{StateName}}</td>
-                      <td>{{ContactPerson}}</td>
-                      <td>{{Email}}</td>
-                      <td>{{Mobile}}</td>
-                      <td style="display: flex;">
-                        <form action="" method="GET"><button>Edit</button></form> 
-                        <form method="GET" action=""><button>Delete</button></form>
+                      <td data-label="Center">{{centerName}}</td> 
+                      <td data-label="Area">{{AreaName}}</td>
+                      <td data-label="State">{{StateName}}</td>
+                      <td data-label="Contact Person">{{ContactPerson}}</td>
+                      <td data-label="Email">{{Email}}</td>
+                      <td data-label="Mobile">{{Mobile}}</td>
+                      <td data-label="Action" style="display: flex; justify-content: space-between;">
+                        <form action="" method="GET"><button type="button" id="centerbutton" class="btn btn-default" data-toggle="modal" data-target="#UpdateBetchModal">Edit</button></form> 
+                        <button type="button" id="DeleteCenter" title="{{centerName}}" value="{{_id}}" class="btn btn-default DeleteCenter" data-toggle="modal" data-target="#DELETEBetchModal">Delete</button>
                       </td>
                     </tr>
                     {{/each}}
@@ -86,7 +154,7 @@
     </a>
 
 
-<!-- Logout Modal-->
+<!-- Center Modal-->
     <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -149,4 +217,95 @@
       </div>
     </div>
   
+  <!-- Center Update Modal-->
+    <div class="modal fade" id="UpdateBetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Update Center Details</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+                <div class="outer-w3-agile mt-3">
+                    <h4 class="tittle-w3-agileits mb-4">Center Managament</h4>
+                    <form action="/add/center" method="POST">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Center Name</label>
+                                <input type="text" class="form-control" id="inputEmail4" name="centerName" placeholder="Center Name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">State</label>
+                                <select id="areadselect" name="AreaName" class="form-control">
+                                  <option value="" disabled selected>Select State*</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="form-group col-md-6">
+                                <label for="inputEmail4">Area</label>
+                                <select id="statecentere" name="StateName" class="form-control">
+                                  <option value="" disabled selected>Select Area</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputContactPerson">Contact Person</label>
+                                <input type="text" class="form-control" id="inputContactPerson" name="ContactPerson" placeholder="Contact Person">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputemail">Email</label>
+                                <input type="email" class="form-control" id="inputemail" name="Email" placeholder="Email">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputMobile">Mobile</label>
+                                <input type="number" class="form-control" id="inputMobile" name="Mobile" placeholder="Mobile">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                          <button class="btn btn-primary" type="submit">Update</button>
+                        </div>
+                    </form>
+                </div>
+            <!--// Forms content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
 
+
+
+  <!-- Center DELETE Modal-->
+    <div class="modal fade" id="DELETEBetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete confirmation</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+                <div class="outer-w3-agile mt-3">
+                    <h6 class="tittle-w3-agileits mb-4"><strong class="centerName"></strong> Will be permanently deleted. Are you sure you want to do this?</h6>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary" type="button" data-dismiss="modal">CENCEL</button>
+                      <button class="btn btn-primary DeleteCenterButton" id="DeleteCenterButton" type="submit">DELETE</button>
+                    </div>
+                </div>
+            <!--// Forms content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>

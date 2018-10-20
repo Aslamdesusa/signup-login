@@ -1,11 +1,15 @@
 // Including the Mongoose ORM to connect with Mongo DB
 const Mongoose = require('mongoose');
 
-
-// const databaseURI = 'mongodb://kumar:mera55555#@ds141641.mlab.com:41641/merakaamkaaj';
+// Conection with Database with Username and password. Password must without Special carecter
 const mongoDbUri = 'mongodb://checkin:check123@ds029224.mlab.com:29224/check-in-out';
 
-mongodb://<dbuser>:<dbpassword>@ds141641.mlab.com:41641/merakaamkaaj
+// Development level
+// mongodb://ucmas-dev:ucmas123@ds137483.mlab.com:37483/ucmas-dev
+
+// Production level 
+// mongodb://checkin:check123@ds029224.mlab.com:29224/check-in-out
+
 // Making connection with 'MongoDB'
 Mongoose.connect(mongoDbUri, { useMongoClient:true })
 

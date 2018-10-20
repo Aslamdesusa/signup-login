@@ -86,7 +86,7 @@ const routes = [
 				adminModal.find({})
 				.then(function(admins){
 					adminAu = admins
-					return reply.view('moderator', {admin: adminAu, sideTableData: sideTableDataAdmin});
+					return reply.view('moderator', {admin: adminAu, sideTableData: sideTableDataSuperAdmin});
 				})
 			}
 			getCenterAndAdmin()
@@ -118,7 +118,7 @@ const routes = [
 		method: 'GET',
 		path: '/absent/record',
 		handler: function(request, reply){
-			return reply.view('absentReport', null, {layout: 'layout'})
+			return reply.view('absentReport', {sideTableData : sideTableDataSuperAdmin}, {layout: 'layout'})
 		}
 	},
 	{

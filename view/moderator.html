@@ -1,4 +1,86 @@
 
+
+
+  <style type="text/css">
+       .tableres {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .tableres caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  .tableres tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+  }
+  
+  .tableres th,
+  .tableres td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  .tableres th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .tableres {
+      border: 0;
+    }
+  
+    .tableres caption {
+      font-size: 1.3em;
+    }
+    
+    .tableres thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    
+    .tableres tr {
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    .tableres td {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    .tableres td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .tableres td:last-child {
+      border-bottom: 0;
+    }
+  }
+     </style>
       <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -22,35 +104,26 @@
               <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Add Admin/Teacher</button></div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered tableres" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Name</th>
-                      <th>Moderator</th>
-                      <th>isLogin</th>
-                      <th>Created Date</th>
-                      <th>Action</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Moderator</th>
+                      <th scope="col">isLogin</th>
+                      <th scope="col">Created Date</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Name</th>
-                      <th>Moderator</th>
-                      <th>isLogin</th>
-                      <th>Created Date</th>
-                      <th>Action</th>
-                    </tr>
-                  </tfoot>
                   <tbody>
                     {{#each admin}}
                     <tr>
-                      <td>{{firstName }} {{ lastName}}</td>
-                      <td>{{moderator}}</td>
-                      <td>{{isLogin}}</td>
-                      <td>{{Date}}</td>
-                      <td style="display: flex;">
-                        <!-- <form action="" method="GET"><button>Edit</button></form>  -->
-                        <form method="GET" action=""><button>Delete</button></form>
+                      <td data-label="Name">{{firstName }} {{ lastName}}</td>
+                      <td data-label="moderator">{{moderator}}</td>
+                      <td data-label="isLogin">{{isLogin}}</td>
+                      <td data-label="Created Date">{{Date}}</td>
+                      <td data-label="Action" style="display: flex; justify-content: space-between;">
+                        <button type="button" id="EditAdmin" title="{{firstName}}" value="{{_id}}" class="btn btn-default EditAdmin" data-toggle="modal" data-target="#DeleteAreaModal">Edit</button>
+                        <button type="button" id="DeleteAdmin" title="{{firstName }} {{ lastName}}" value="{{_id}}" class="btn btn-default DeleteAdmin" data-toggle="modal" data-target="#DeleteAdminModal">Delete</button>
                       </td>
                     </tr>
                     {{/each}}
@@ -143,6 +216,33 @@
         </div>
       </div>
     </div>
+
+    <!-- Mod DELETE Modal-->
+    <div class="modal fade" id="DeleteAdminModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete confirmation</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+                <div class="outer-w3-agile mt-3">
+                    <h6 class="tittle-w3-agileits mb-4"><strong class="adminName"></strong> Will be permanently deleted. Are you sure you want to do this?</h6>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary cencelbutton" value="CENCEL" type="button" data-dismiss="modal">CENCEL</button>
+                      <button class="btn btn-primary DeleteAdminButton" id="DeleteAdminButton" type="submit">DELETE</button>
+                    </div>
+                </div>
+            <!--// Forms content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   
   <script type="text/javascript">
     function myFunction() {
@@ -165,3 +265,5 @@
         }
     }
 </script> -->
+
+

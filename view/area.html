@@ -1,5 +1,84 @@
 
-
+  <style type="text/css">
+       .tableres {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .tableres caption {
+    font-size: 1.5em;
+    margin: .5em 0 .75em;
+  }
+  
+  .tableres tr {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    padding: .35em;
+  }
+  
+  .tableres th,
+  .tableres td {
+    padding: .625em;
+    text-align: center;
+  }
+  
+  .tableres th {
+    font-size: .85em;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  
+  @media screen and (max-width: 600px) {
+    .tableres {
+      border: 0;
+    }
+  
+    .tableres caption {
+      font-size: 1.3em;
+    }
+    
+    .tableres thead {
+      border: none;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+    }
+    
+    .tableres tr {
+      display: block;
+      margin-bottom: .625em;
+    }
+    
+    .tableres td {
+      border-bottom: 1px solid #ddd;
+      display: block;
+      font-size: .8em;
+      text-align: right;
+    }
+    
+    .tableres td::before {
+      /*
+      * aria-label has no advantage, it won't be read inside a table
+      content: attr(aria-label);
+      */
+      content: attr(data-label);
+      float: left;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    .tableres td:last-child {
+      border-bottom: 0;
+    }
+  }
+     </style>
 
       <div id="content-wrapper">
 
@@ -24,38 +103,28 @@
               <button type="button" id="areadata" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Add Area</button></div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered tableres" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>Area</th>
-                      <th>State</th>
-                      <th>Contact Person</th>
-                      <th>Email</th>
-                      <th>Mobile</th>
-                      <th>Action</th>
+                      <th scope="col">Area</th>
+                      <th scope="col">State</th>
+                      <th scope="col">Contact Person</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Mobile</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
-                  <tfoot>
-                    <tr>
-                      <th>Area</th>
-                      <th>State</th>
-                      <th>Contact Person</th>
-                      <th>Email</th>
-                      <th>Mobile</th>
-                      <th>Action</th>
-                    </tr>
-                  </tfoot>
                   <tbody>
                     {{#each data}}
                     <tr>
-                      <td>{{AreaName}}</td>
-                      <td>{{stateName}}</td>
-                      <td>{{contactPerson}}</td>
-                      <td>{{Email}}</td>
-                      <td>{{Mobile}}</td>
-                      <td>
-                        <form action="" method="GET"><button>Edit</button></form> 
-                        <form method="GET" action=""><button>Delete</button></form>
+                      <td data-label="Area">{{AreaName}}</td>
+                      <td data-label="State">{{stateName}}</td>
+                      <td data-label="Contact Person">{{contactPerson}}</td>
+                      <td data-label="Email">{{Email}}</td>
+                      <td data-label="Mobile">{{Mobile}}</td>
+                      <td data-label="Action" style="display: flex; justify-content: space-between;">
+                        <button>Edit</button> 
+                        <button type="button" id="DeleteArea" title="{{AreaName}}" value="{{_id}}" class="btn btn-default DeleteArea" data-toggle="modal" data-target="#DeleteAreaModal">Delete</button>
                       </td>
                     </tr>
                     {{/each}}
@@ -142,4 +211,33 @@
       </div>
     </div>
   
+
+
+<!-- Center DELETE Modal-->
+    <div class="modal fade" id="DeleteAreaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete confirmation</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+                <div class="outer-w3-agile mt-3">
+                    <h6 class="tittle-w3-agileits mb-4"><strong class="areaName"></strong> Will be permanently deleted. Are you sure you want to do this?</h6>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary cencelbutton" value="CENCEL" type="button" data-dismiss="modal">CENCEL</button>
+                      <button class="btn btn-primary DeleteAreaButton" id="DeleteAreaButton" type="submit">DELETE</button>
+                    </div>
+                </div>
+            <!--// Forms content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
