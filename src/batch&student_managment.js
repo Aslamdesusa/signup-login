@@ -156,7 +156,7 @@ const routes = [
 				if (err) {
 					reply(err)
 				}else{
-					reply.view('batch', {data: data,  message: 'The New Batch has been successfully Created.', success: 'Success!', alert: 'alert-success'})
+					reply.view('batch', {data: data,  message: 'The New Batch has been successfully Created.', success: 'Success!', alert: 'alert-success', sideTableData: sideTableDataSuperAdmin})
 				}
 			})
 		}
@@ -233,27 +233,22 @@ const routes = [
 		}
 	},
 	{
-		method: 'GET',
-		path: '/batch/management/deleted/{uuid}',
-		config: {
-		// Joi api validation
-			validate: {
-			    params: {
-			        uuid: Joi.string().required()
-			    }
-			},
-			auth:{
-				strategy: 'restricted',
-			}
-		},
+		method: 'DELETE',
+		path: '/batch/management/deleted',
 		handler: function(request, reply){
-			batchModal.findOneAndRemove({_id: request.params.uuid}, function (error, data){
-				if (error) {
-					return reply('Data Didn\'t deleted')
-				}else{
-					reply.redirect('/success/deleted?_id=' + request.params.uuid + '&Name=' + data.Name)
-					// reply('deleted')
-				}
+			batchModal.findOneAndRemove({_id: request.query._id})
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
+		method: 'DELETE',
+		path: '/student/management/delete',
+		handler: function(request, reply){
+			batchModal.findOneAndRemove({_id: request.query._id})
+			.then(function(result){
+				return reply(result)
 			})
 		}
 	},
@@ -555,6 +550,62 @@ const routes = [
 			})
 		}
 	},	
+
+	// ==========================================================
+	// UPDATE Data
+	{
+		method: 'GET',
+		path: '/getting/batch/for/updatea',
+		handler: function(request, reply){
+			batchModal.findOne({_id: request.query._id}, request.payload)
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
+		method: 'PUT',
+		path: '/edit/batch',
+		handler: function(request, reply){
+			batchModal.findOneAndUpdate({_id: request.query._id}, request.payload)
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/getting/student/for/update',
+		handler: function(request, reply){
+			studentModal.findOne({_id: request.query._id}, request.payload)
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
+		method: 'PUT',
+		path: '/edit/student/data',
+		handler: function(request, reply){
+			studentModal.findOneAndUpdate({_id: request.query._id}, request.payload)
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
+		method: 'PUT',
+		path: '/geting/auth',
+		config:{
+			auth:{
+				strategy: 'restricted'
+			}
+		},
+		handler: function(request, reply){
+			var auth = request.auth.credentials.moderator;
+			return reply(auth)
+		}
+	},
 	
 ]
 export default routes;

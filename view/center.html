@@ -1,6 +1,6 @@
 
-       <style type="text/css">
-       .tableres {
+<style type="text/css">
+  .tableres {
     border: 1px solid #ccc;
     border-collapse: collapse;
     margin: 0;
@@ -116,15 +116,15 @@
                   </thead>
                   <tbody>
                     {{#each center}}
-                    <tr>
-                      <td data-label="Center">{{centerName}}</td> 
-                      <td data-label="Area">{{AreaName}}</td>
-                      <td data-label="State">{{StateName}}</td>
-                      <td data-label="Contact Person">{{ContactPerson}}</td>
-                      <td data-label="Email">{{Email}}</td>
-                      <td data-label="Mobile">{{Mobile}}</td>
+                    <tr id="{{_id}}">
+                      <td data-label="Center" id="1" data-id1="{{centerName}}">{{centerName}}</td> 
+                      <td data-label="Area" id="2" data-id2="{{AreaName}}">{{AreaName}}</td>
+                      <td data-label="State" id="3" data-id3="{{StateName}}">{{StateName}}</td>
+                      <td data-label="Contact Person" id="4" data-id4="{{ContactPerson}}">{{ContactPerson}}</td>
+                      <td data-label="Email" id="5" data-id5="{{Email}}">{{Email}}</td>
+                      <td data-label="Mobile" id="6" data-id6="{{Mobile}}">{{Mobile}}</td>
                       <td data-label="Action" style="display: flex; justify-content: space-between;">
-                        <form action="" method="GET"><button type="button" id="centerbutton" class="btn btn-default" data-toggle="modal" data-target="#UpdateBetchModal">Edit</button></form> 
+                        <button type="button" title="{{_id}}" class="btn btn-default centerbuttonEdit" data-toggle="modal" data-target="#UpdateBetchModal">Edit</button> 
                         <button type="button" id="DeleteCenter" title="{{centerName}}" value="{{_id}}" class="btn btn-default DeleteCenter" data-toggle="modal" data-target="#DELETEBetchModal">Delete</button>
                       </td>
                     </tr>
@@ -232,46 +232,44 @@
               <!-- Forms-3 -->
                 <div class="outer-w3-agile mt-3">
                     <h4 class="tittle-w3-agileits mb-4">Center Managament</h4>
-                    <form action="/add/center" method="POST">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputEmail4">Center Name</label>
-                                <input type="text" class="form-control" id="inputEmail4" name="centerName" placeholder="Center Name">
+                                <label for="inputCenter4">Center Name</label>
+                                <input type="text" class="form-control" id="inputCenter4" name="centerName" placeholder="Center Name">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputEmail4">State</label>
-                                <select id="areadselect" name="AreaName" class="form-control">
+                                <label for="inputState4">State</label>
+                                <select id="inputState4" name="AreaName" class="form-control">
                                   <option value="" disabled selected>Select State*</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-row">
                           <div class="form-group col-md-6">
-                                <label for="inputEmail4">Area</label>
-                                <select id="statecentere" name="StateName" class="form-control">
+                                <label for="inputArea4">Area</label>
+                                <select id="inputArea4" name="StateName" class="form-control">
                                   <option value="" disabled selected>Select Area</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputContactPerson">Contact Person</label>
-                                <input type="text" class="form-control" id="inputContactPerson" name="ContactPerson" placeholder="Contact Person">
+                                <label for="inputContactPerson4">Contact Person</label>
+                                <input type="text" class="form-control" id="inputContactPerson4" name="ContactPerson" placeholder="Contact Person">
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputemail">Email</label>
-                                <input type="email" class="form-control" id="inputemail" name="Email" placeholder="Email">
+                                <label for="inputemail4">Email</label>
+                                <input type="email" class="form-control" id="inputemail4" name="Email" placeholder="Email">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputMobile">Mobile</label>
-                                <input type="number" class="form-control" id="inputMobile" name="Mobile" placeholder="Mobile">
+                                <label for="inputMobile4">Mobile</label>
+                                <input type="number" class="form-control" id="inputMobile4" name="Mobile" placeholder="Mobile">
                             </div>
                         </div>
                         <div class="modal-footer">
                           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                          <button class="btn btn-primary" type="submit">Update</button>
+                          <button class="btn btn-primary" id="updateCenter" type="submit">Update</button>
                         </div>
-                    </form>
                 </div>
             <!--// Forms content -->
             </div>

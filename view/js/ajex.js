@@ -328,19 +328,367 @@ $(document).ready(function(){
 });
 
 
-// $(document).ready(function(){
-//     $("#buttonbtn").click(function(){
-//         var dataId = $(this).attr("value");
-//         $.ajax({
-// 			type: 'GET',
-// 			url: '/select/'+dataId,
-// 			dataType: 'json',
-// 			success: function(data){
+$(document).ready(function(){
+    $(".centerbuttonEdit").click(function(){
+        var dataId = $(this).attr("title");
+        var centerName = $(this).parents('tr').find("td[id='1']").attr('data-id1');
+        var AreaName = $(this).parents('tr').find("td[id='2']").attr('data-id2');
+        var StateName = $(this).parents('tr').find("td[id='3']").attr('data-id3');
+        var ContactPerson = $(this).parents('tr').find("td[id='4']").attr('data-id4');
+        var Email = $(this).parents('tr').find("td[id='5']").attr('data-id5');
+        var Mobile = $(this).parents('tr').find("td[id='6']").attr('data-id6');
+
+
+        var StateOption = '<option value="'+StateName+'" disabled selected>'+StateName+'</option>'
+        var AreaOption = '<option value="'+AreaName+'" disabled selected>'+AreaName+'</option>'
+
+        $('#inputState4').empty();
+        $('#inputArea4').empty();
+
+
+        $('input#inputCenter4').val(centerName);
+        $('#inputState4').append(StateOption);
+        $('#inputArea4').append(AreaOption);
+        $('input#inputContactPerson4').val(ContactPerson);
+        $('input#inputemail4').val(Email);
+        $('input#inputMobile4').val(Mobile);
+
+        $('button#updateCenter').click(function(e){
+        	e.preventDefault();
+        	var updatedCenterName = $('input#inputCenter4').val(); 
+        	var updatedStateName = $('#inputState4 option:selected').val();
+        	var UpdatedArea = $('#inputArea4 option:selected').val();
+        	var updatedContactPerson = $('input#inputContactPerson4').val();
+        	var updatedEmail = $('input#inputemail4').val();
+        	var updatedMobile = $('input#inputMobile4').val();
+
+        	updatedetails= {}
+
+        	updatedetails.centerName = updatedCenterName
+			updatedetails.AreaName = updatedStateName
+			updatedetails.StateName = UpdatedArea
+			updatedetails.ContactPerson = updatedContactPerson
+			updatedetails.Email = updatedEmail
+			updatedetails.Mobile = updatedMobile
+
+			console.log(updatedetails);
+
+			$.ajax({
+				url: '/edit/center?_id='+ dataId,
+			    type: 'PUT',
+			    data: updatedetails,
+			    success: function(result) {
+			    	console.log("yeah we got it");
+			        location.reload();
+			    },
+				error : function(err){
+					alert(err);
+				}  
+			});
+        });
+    });
+});
+
+// EDIT STATE
+
+$(document).ready(function(){
+    $(".statebuttonedit").click(function(){
+    	
+    	
+        var dataId = $(this).attr("title");
+        var stateName = $(this).parents('tr').find("td[id='1']").attr('data-id1');
+        var AbbrName = $(this).parents('tr').find("td[id='2']").attr('data-id2');
+        var ContactPerson = $(this).parents('tr').find("td[id='3']").attr('data-id3');
+        var Email = $(this).parents('tr').find("td[id='4']").attr('data-id4');
+        var Mobile = $(this).parents('tr').find("td[id='5']").attr('data-id5');
+
+        $('input#inputState4').val(stateName);
+        $('input#inputAbbr4').val(AbbrName);
+        $('input#inputContactPerson4').val(ContactPerson);
+        $('input#inputemail4').val(Email);
+        $('input#inputMobile4').val(Mobile);
+
+        console.log(dataId)
+        console.log(stateName)
+        console.log(AbbrName)
+        console.log(ContactPerson)
+        console.log(Email)
+        console.log(Mobile)
+
+
+
+        $('button#updateState').click(function(e){
+        	e.preventDefault();
+        	var updatedStateName = $('input#inputState4').val();
+        	var UpdatedAbbr = $('input#inputAbbr4').val();
+        	var updatedContactPerson = $('input#inputContactPerson4').val();
+        	var updatedEmail = $('input#inputemail4').val();
+        	var updatedMobile = $('input#inputMobile4').val();
+
+        	updateStatedetails= {}
+
+			updateStatedetails.stateName = updatedStateName
+			updateStatedetails.Abbr = UpdatedAbbr
+			updateStatedetails.contactPerson = updatedContactPerson
+			updateStatedetails.Email = updatedEmail
+			updateStatedetails.Mobile = updatedMobile
+
+			console.log(updateStatedetails)
+
+			$.ajax({
+				url: '/edit/state?_id='+ dataId,
+			    type: 'PUT',
+			    data: updateStatedetails,
+			    success: function(result) {
+			    	console.log(result);
+			    	console.log('Yeah got it');
+			        location.reload();
+			    },
+				error : function(err){
+					alert(err);
+				}  
+			});
+        });
+    });
+});
+
+
+// EDIT AREA
+
+$(document).ready(function(){
+    $(".editButtonArea").click(function(){
+        var dataId = $(this).attr("title");
+        var AreaName = $(this).parents('tr').find("td[id='1']").attr('data-id1');
+        var stateName = $(this).parents('tr').find("td[id='2']").attr('data-id2');
+        var ContactPerson = $(this).parents('tr').find("td[id='3']").attr('data-id3');
+        var Email = $(this).parents('tr').find("td[id='4']").attr('data-id4');
+        var Mobile = $(this).parents('tr').find("td[id='5']").attr('data-id5');
+
+        var StateOption = '<option value="'+stateName+'" disabled selected>'+stateName+'</option>'
+
+        $('#inputState4').empty();
+
+        $('input#inputArea4').val(AreaName);
+        $('#inputState4').append(StateOption);
+        $('input#inputContactPerson4').val(ContactPerson);
+        $('input#inputemail4').val(Email);
+        $('input#inputMobile4').val(Mobile);
+
+        console.log(dataId)
+        console.log(AreaName)
+        console.log(stateName)
+        console.log(ContactPerson)
+        console.log(Email)
+        console.log(Mobile)
+
+
+
+        $('button#updateArea').click(function(e){
+        	e.preventDefault();
+        	var UpdatedArea = $('input#inputArea4').val();
+        	var updatedStateName = $('#inputState4 option:selected').val();
+        	var updatedContactPerson = $('input#inputContactPerson4').val();
+        	var updatedEmail = $('input#inputemail4').val();
+        	var updatedMobile = $('input#inputMobile4').val();
+
+        	updateStatedetails= {}
+
+			updateStatedetails.AreaName = UpdatedArea
+			updateStatedetails.stateName = updatedStateName
+			updateStatedetails.contactPerson = updatedContactPerson
+			updateStatedetails.Email = updatedEmail
+			updateStatedetails.Mobile = updatedMobile
+
+			console.log(updateStatedetails)
+
+			$.ajax({
+				url: '/edit/area?_id='+ dataId,
+			    type: 'PUT',
+			    data: updateStatedetails,
+			    success: function(result) {
+			    	console.log(result);
+			    	console.log('Yeah got it');
+			        location.reload();
+			    },
+				error : function(err){
+					alert(err);
+				}  
+			});
+        });
+    });
+});
+
+
+// EDIT Batch
+
+$(document).ready(function(){
+    $(".updateBatch").click(function(){
+        var dataId = $(this).attr("title");
+        $.ajax({
+				url: '/getting/batch/for/updatea?_id='+ dataId,
+			    type: 'GET',
+			    success: function(result) {
+			    	console.log(result)
+
+			    	var optionState = '<option value"'+result.StateName+'" disabled selected>'+result.StateName+'</option>'
+			    	var optionArea = '<option value="'+result.AreaName+'" disabled selected>'+result.AreaName+'</option>'
+			    	var optionCenter = '<option value="'+result.Center+'" disabled selected>'+result.Center+'</option>'
+			    	var optionDay = '<option value="'+result.BatchDay+'" disabled selected>'+result.BatchDay+'</option>'
+			    	var optionTeacher = '<option value="'+result.Teacher+'" disabled selected>'+result.Teacher+'</option>'
+			    	var dateFormat = result.StartDate.split("-").reverse().join("/") 
 					
-// 		    }
-// 		});
-//     });
-// });
+					console.log(dateFormat)	
+					$('#inputState4').empty();
+			        $('#inputArea4').empty();
+			        $('#inputCenter4').empty();
+
+
+
+			    	$('input#inputName4').val(result.Name);
+			        $('input#inputID4').val(result.ID);
+			        $('#inputState4').append(optionState);
+			        $('#inputArea4').append(optionArea);
+			        $('#inputCenter4').append(optionCenter);
+			    	$('input#inputactualClassLimit4').val(result.actualClassLimit);
+			        $('#inputBatchDay4').append(optionDay);
+			    	$('input#inputBatchSchedule4').val(result.BatchSchedule);
+			        $('#inputTeacher4').append(optionTeacher);
+			    	$('input#inputstartdate4').val(result.StartDate).split("-").reverse().join("/");
+			    },
+			});
+
+
+        $('button#buttonupdateBatch').click(function(e){
+        	e.preventDefault();
+        	var UpdatedName = $('input#inputName4').val();
+        	var updatedID = $('input#inputID4').val();
+        	var updatedState = $('#inputState4 option:selected').val();
+        	var updatedArea = $('#inputArea4 option:selected').val();
+        	var updatedCenter = $('#inputCenter4 option:selected').val();
+        	var updatedactalClass = $('input#inputactualClassLimit4').val();
+        	var updatedBatchDay = $('#inputBatchDay4 option:selected').val();
+        	var updatedBatchSchedule = $('input#inputBatchSchedule4').val();
+        	var updatedTeacher = $('#inputTeacher4 option:selected').val();
+        	var updatedStartDate = $('input#inputstartdate4').val();
+
+        	updateStatedetails= {}
+
+			updateStatedetails.Name = UpdatedName
+			updateStatedetails.ID = updatedID
+			updateStatedetails.StateName = updatedState
+			updateStatedetails.AreaName = updatedArea
+			updateStatedetails.Center = updatedCenter
+			updateStatedetails.actualClassLimit = updatedactalClass
+			updateStatedetails.BatchDay = updatedBatchDay
+			updateStatedetails.BatchSchedule = updatedBatchSchedule
+			updateStatedetails.Teacher = updatedTeacher
+			updateStatedetails.StartDate = updatedStartDate
+
+			console.log(updateStatedetails)
+
+			$.ajax({
+				url: '/edit/batch?_id='+ dataId,
+			    type: 'PUT',
+			    data: updateStatedetails,
+			    success: function(result) {
+			    	console.log(result);
+			    	console.log('Yeah got it');
+			        location.reload();
+			    },
+				error : function(err){
+					alert(err);
+				}  
+			});
+        });
+    });
+});
+
+
+// UPDATING STUDENT DATA
+$(document).ready(function(){
+    $(".updatemodalstudent").click(function(){
+        var dataId = $(this).attr("title");
+        var data = $.cookie('checkin_cookie');
+        console.log(data)
+        alert('Comming Soon.....')
+        $.ajax({
+				url: '/getting/student/for/update?_id='+ dataId,
+			    type: 'GET',
+			    success: function(result) {
+			    	console.log(result)
+
+			  //   	var optionState = '<option value"'+result.StateName+'" disabled selected>'+result.StateName+'</option>'
+			  //   	var optionArea = '<option value="'+result.AreaName+'" disabled selected>'+result.AreaName+'</option>'
+			  //   	var optionCenter = '<option value="'+result.Center+'" disabled selected>'+result.Center+'</option>'
+			  //   	var optionDay = '<option value="'+result.BatchDay+'" disabled selected>'+result.BatchDay+'</option>'
+			  //   	var optionTeacher = '<option value="'+result.Teacher+'" disabled selected>'+result.Teacher+'</option>'
+			  //   	var dateFormat = result.StartDate.split("-").reverse().join("/") 
+					
+					// console.log(dateFormat)	
+					// $('#inputState4').empty();
+			  //       $('#inputArea4').empty();
+			  //       $('#inputCenter4').empty();
+
+
+
+			  //   	$('input#inputName4').val(result.Name);
+			  //       $('input#inputID4').val(result.ID);
+			  //       $('#inputState4').append(optionState);
+			  //       $('#inputArea4').append(optionArea);
+			  //       $('#inputCenter4').append(optionCenter);
+			  //   	$('input#inputactualClassLimit4').val(result.actualClassLimit);
+			  //       $('#inputBatchDay4').append(optionDay);
+			  //   	$('input#inputBatchSchedule4').val(result.BatchSchedule);
+			  //       $('#inputTeacher4').append(optionTeacher);
+			  //   	$('input#inputstartdate4').val(result.StartDate).split("-").reverse().join("/");
+			    },
+			});
+
+
+   //      $('button#buttonupdateBatch').click(function(e){
+   //      	e.preventDefault();
+   //      	var UpdatedName = $('input#inputName4').val();
+   //      	var updatedID = $('input#inputID4').val();
+   //      	var updatedState = $('#inputState4 option:selected').val();
+   //      	var updatedArea = $('#inputArea4 option:selected').val();
+   //      	var updatedCenter = $('#inputCenter4 option:selected').val();
+   //      	var updatedactalClass = $('input#inputactualClassLimit4').val();
+   //      	var updatedBatchDay = $('#inputBatchDay4 option:selected').val();
+   //      	var updatedBatchSchedule = $('input#inputBatchSchedule4').val();
+   //      	var updatedTeacher = $('#inputTeacher4 option:selected').val();
+   //      	var updatedStartDate = $('input#inputstartdate4').val();
+
+   //      	updateStatedetails= {}
+
+			// updateStatedetails.Name = UpdatedName
+			// updateStatedetails.ID = updatedID
+			// updateStatedetails.StateName = updatedState
+			// updateStatedetails.AreaName = updatedArea
+			// updateStatedetails.Center = updatedCenter
+			// updateStatedetails.actualClassLimit = updatedactalClass
+			// updateStatedetails.BatchDay = updatedBatchDay
+			// updateStatedetails.BatchSchedule = updatedBatchSchedule
+			// updateStatedetails.Teacher = updatedTeacher
+			// updateStatedetails.StartDate = updatedStartDate
+
+			// console.log(updateStatedetails)
+
+			// $.ajax({
+			// 	url: '/edit/batch?_id='+ dataId,
+			//     type: 'PUT',
+			//     data: updateStatedetails,
+			//     success: function(result) {
+			//     	console.log(result);
+			//     	console.log('Yeah got it');
+			//         location.reload();
+			//     },
+			// 	error : function(err){
+			// 		alert(err);
+			// 	}  
+			// });
+   //      });
+    });
+});
 
 
 // $('table').on('click', '#buttonbtn', function(e){
@@ -918,6 +1266,52 @@ $(document).ready(function(){
 	$('.DeleteAdminButton').click(function(){
 		$.ajax({
 				url : "/delete/admin?_id="+val,
+				type : "DELETE",
+				success : function(success){
+					location.reload();
+				},
+				error : function(err){
+					alert(err);
+				}  
+			});	
+		});
+	});		
+});
+
+$(document).ready(function(){
+	$('.DeleteBatch').click(function(){
+		var val = $(this).attr("value");
+		var adminName = $(this).attr("title")
+
+		$('.BatchName').empty();
+		$('.BatchName').append(adminName)
+		console.log("/batch/management/deleted?_id="+val)
+	$('.DeleteBatchButton').click(function(){
+		$.ajax({
+				url : "/batch/management/deleted?_id="+val,
+				type : "DELETE",
+				success : function(success){
+					location.reload();
+				},
+				error : function(err){
+					alert(err);
+				}  
+			});	
+		});
+	});		
+});
+
+$(document).ready(function(){
+	$('.DeleteStudent').click(function(){
+		var val = $(this).attr("value");
+		var adminName = $(this).attr("title")
+
+		$('.StudentName').empty();
+		$('.StudentName').append(adminName)
+		console.log("/student/management/delete?_id="+val)
+	$('.DeleteStudentButton').click(function(){
+		$.ajax({
+				url : "/student/management/delete?_id="+val,
 				type : "DELETE",
 				success : function(success){
 					location.reload();

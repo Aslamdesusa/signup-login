@@ -150,8 +150,8 @@
                       <td data-label="Email 2">{{Email2}}</td>
                       <td data-label="Date">{{Date}}</td>
                       <td data-label="Action" style="display: flex; justify-content: space-between;">
-                        <form action="" method="GET"><button>Edit</button></form> 
-                        <form method="GET" action="/student/management/deleted/{{_id}}"><button>Delete</button></form>
+                        <button class="btn btn-default updatemodalstudent" title="{{_id}}" data-toggle="modal" data-target="#StudentDataUpdate">Edit</button>
+                        <button type="button" id="DeleteStudent" title="{{Name}}" value="{{_id}}" class="btn btn-default DeleteStudent" data-toggle="modal" data-target="#deleteStuhmodal">Delete</button>
                       </td>
                     </tr>
                     {{/each}}
@@ -305,5 +305,155 @@
         </div>
       </div>
     </div>
+
+    <!-- UPDATE MODAL BOX FOR STUDENT DATA -->
+    <div class="modal fade" id="StudentDataUpdate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Update Student</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+                <div class="outer-w3-agile mt-3">
+                    <h4 class="tittle-w3-agileits mb-4">Student Managament</h4>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputName4">Name</label>
+                                <input type="text" class="form-control" id="inputName4" name="Name" placeholder="Name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">ID</label>
+                                <input type="text" class="form-control" id="inputPassword4" name="ID" placeholder="ID" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Date Of Birth</label>
+                                <input type="date" class="form-control" id="inputEmail4" placeholder="Date Of Birth" name="DateOfBirth">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputPassword4">Enroll Date</label>
+                                <input type="date" class="form-control" name="EnrollDate" id="inputPassword4" placeholder="Enroll Date">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Current Level</label>
+                                <input type="text" class="form-control" id="inputEmail4" name="CurrentLevel" placeholder="Current Level">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Which State?</label>
+                                <select id="statereport" onchange="choice1(this)" name="State" class="form-control" required>
+                                  <option value="" disabled selected>Select State</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Which Area?</label>
+                                <select id="areareport" onchange="choice2(this)" name="Area" class="form-control" required>
+                                  <option value="" disabled selected>Select Area</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Which Center?</label>
+                                <select id="centerreport" onchange="choice5(this)" name="Center" class="form-control" required>
+                                  <option value="" disabled selected>Select Center</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="inputEmail4">Which Batch?</label>
+                                <select id="batchreport" name="Batch" class="form-control" required>
+                                  <option value="" disabled selected>Select Batch</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inputCity">Contect Name</label>
+                                <input type="text" name="ContactName" class="form-control" id="inputCity" placeholder="Contect Name" required="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState"> Mobile </label>
+                                <input type="number" class="form-control" name="Mobile" id="inputCity" placeholder="Mobile" required="">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputZip">Email</label>
+                                <input type="email" class="form-control" id="inputZip" name="Email" placeholder="Email" required="">
+                            </div>
+                        </div>
+                         <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inputCity">Contect Name</label>
+                                <input type="text" class="form-control" name="ContactName1" id="inputCity" placeholder="Contect Name">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState">Mobile</label>
+                                <input type="number" class="form-control" name="Mobile1" id="inputCity" placeholder="Mobile">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputZip">Email</label>
+                                <input type="email" class="form-control" id="inputZip" name="Email1" placeholder="Email">
+                            </div>
+                        </div>
+                         <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="inputCity">Contect Name</label>
+                                <input type="text" class="form-control" id="inputCity" name="ContactName2" placeholder="Contect Name">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputState"> Mobile </label>
+                                <input type="number" class="form-control" id="inputCity" name="Mobile2" placeholder="Mobile">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="inputZip">Email</label>
+                                <input type="email" class="form-control" id="inputZip" name="Email2" placeholder="Email">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button class="btn btn-secondary" id="close" type="button" data-dismiss="modal">Cancel</button>
+                          <button class="btn btn-primary" type="submit">Update</button>
+                        </div>
+                </div>
+            <!--// Forms content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   
 
+      <!-- Batch Modal DELETE Modal-->
+    <div class="modal fade" id="deleteStuhmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Delete confirmation</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="input">
+              <!-- Forms-3 -->
+                <div class="outer-w3-agile mt-3">
+                    <h6 class="tittle-w3-agileits mb-4"><strong class="StudentName"></strong> Will be permanently deleted. Are you sure you want to do this?</h6>
+                    <div class="modal-footer">
+                      <button class="btn btn-secondary" type="button" data-dismiss="modal">CENCEL</button>
+                      <button class="btn btn-primary DeleteStudentButton" id="DeleteStudentButton" type="submit">DELETE</button>
+                    </div>
+                </div>
+            <!--// Forms content -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
