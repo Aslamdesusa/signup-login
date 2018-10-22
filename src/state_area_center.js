@@ -9,7 +9,7 @@ const batchModal = require('../tables/batch')
 
 var sideTableDataSuperAdmin = ({foldericon: 'fas fa-fw fa-folder', navlinkdropdowntoggle: 'nav-link dropdown-toggle', pages: 'Pages', addDetails: 'Add Details', otherpage: 'Other Pages:', state: 'State', area: 'Area', center: 'Cetner', moderator: 'Moderator', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
 
-var sideTableDataAdmin = ({navlinkdropdowntoggle: 'nav-link dropdown-toggle', foldericon: 'fas fa-fw fa-folder', pages: 'Pages', addDetails: 'Add Details', area: 'Area', center: 'Cetner', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
+var sideTableDataAdmin = ({navlinkdropdowntoggle: 'nav-link dropdown-toggle', foldericon: 'fas fa-fw fa-folder', pages: 'Pages', addDetails: 'Add Details', area: 'Area', center: 'Cetner', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record', displaynone: 'd-none'})
 
 var sideTableDataCenterAdmin = ({batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
 
@@ -239,7 +239,7 @@ const routes = [
 				if (err) {
 					reply(err)
 				}else{
-					reply.view('state', {data: data,  message: 'The New State has been successfully Created.', success: 'Success!', alert: 'alert-success'})
+					reply.view('state', {data: data,  message: 'The New State has been successfully Created.', success: 'Success!', alert: 'alert-success', sideTableData: sideTableDataSuperAdmin})
 				}
 			})
 		}
@@ -258,7 +258,7 @@ const routes = [
 					reply(err)
 				}else{
 					// reply(da)
-					reply.view('area', {data: data,  message: 'The New Area has been successfully Created.', success: 'Success!', alert: 'alert-success'})
+					reply.view('area', {data: data,  message: 'The New Area has been successfully Created.', success: 'Success!', alert: 'alert-success', sideTableData: sideTableDataSuperAdmin})
 				}
 			})
 		}
@@ -446,6 +446,41 @@ const routes = [
 		path: '/delete/admin',
 		handler: function(request, reply){
 			adminModal.findOneAndRemove({_id: request.query._id})
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+
+
+// ======================================================
+// UPDATE STATE AREA Center
+	{
+		method: 'PUT',
+		path: '/edit/state',
+
+		handler: function(request, reply){
+			stateModal.findOneAndUpdate({_id: request.query._id}, request.payload)
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
+		method: 'PUT',
+		path: '/edit/area',
+		handler: function(request, reply){
+			areaModal.findOneAndUpdate({_id: request.query._id}, request.payload)
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
+		method: 'PUT',
+		path: '/edit/center',
+		handler: function(request, reply){
+			centerModal.findOneAndUpdate({_id: request.query._id}, request.payload)
 			.then(function(result){
 				return reply(result)
 			})
