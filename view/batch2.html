@@ -99,7 +99,7 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              <button type="button" class="btn btn-default {{sideTableData.displaynone}}" data-toggle="modal" id="batch" data-target="#BatchModal">Add New Batch</button>
+              <!-- <button type="button" class="btn btn-default {{sideTableData.displaynone}}" data-toggle="modal" id="batch" data-target="#BatchModal">Add New Batch</button> -->
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -109,10 +109,14 @@
                       <th scope="col">Name</th>
                       <th scope="col">ID</th>
                       <th scope="col">Center</th>
+                      <th scope="col">Start Date</th>
+                      <th scope="col">No Of Class</th>
+                      <th scope="col">Actual Class Limit</th>
                       <th scope="col">Batch Day</th>
                       <th scope="col">Batch Schedule</th>
                       <th scope="col">Teacher</th>
-                      <th scope="col">Edit/Delete</th>
+                      <th scope="col">Date</th>
+                      <!-- <th scope="col">Edit/Delete</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -121,21 +125,25 @@
                       <td data-label="Name">{{Name}}</td>
                       <td data-label="ID">{{ID}}</td>
                       <td data-label="Center">{{Center}}</td>
+                      <td data-label="Start Date">{{StartDate}}</td>
+                      <td data-label="No Of Class">{{NumberOfClass}}</td>
+                      <td data-label="Actual Class Limit">{{actualClassLimit}}</td>
                       <td data-label="Batch Day">{{BatchDay}}</td>
                       <td data-label="Batch Schedule">{{BatchSchedule}}</td>
                       <td data-label="Teacher">{{Teacher}}</td>
-                      <td data-label="Edit/Delete" style="display: flex; justify-content: space-between;">
+                      <td data-label="Date">{{Date}}</td>
+                      <!-- <td data-label="Edit/Delete" style="display: flex; justify-content: space-between;">
                         <div class="dropdown">
                           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             More Option
                           </button>
                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <a class="dropdown-item updateBatch" id="updateBatch" title="{{_id}}" data-toggle="modal" data-target="#StudentModalUpdate" href="#">Edit</a>
-                            <a class="dropdown-item viewBatchforbatch" title="{{_id}}" data-toggle="modal" data-target="#StudentModalView" href="#">View</a>
+                            <a class="dropdown-item getallData" title="{{_id}}" data-toggle="modal" data-target="#ModalView" href="#">View</a>
                             <a class="dropdown-item DeleteBatch" id="DeleteBatch" title="{{Name}}" value="{{_id}}" data-toggle="modal" data-target="#deleteBatchmodal" href="#">Delete</a>
                           </div>
                         </div>
-                      </td>
+                      </td> -->
                     </tr>
                     {{/each}}
                   </tbody>
@@ -364,25 +372,6 @@
         </div>
       </div>
 
-
-<!-- CAN VIEW SPECIFIC DATA BY ID MODALBOX -->
-
-<!-- UPDATE STUDENT DATA MODAL-->
-    <div class="modal fade" id="StudentModalView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">View</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body" id="modalbodyid">
-
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- Batch Modal DELETE Modal-->
     <div class="modal fade" id="deleteBatchmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">

@@ -124,8 +124,16 @@
                       <td data-label="Email" id="5" data-id5="{{Email}}">{{Email}}</td>
                       <td data-label="Mobile" id="6" data-id6="{{Mobile}}">{{Mobile}}</td>
                       <td data-label="Action" style="display: flex; justify-content: space-between;">
-                        <button type="button" title="{{_id}}" class="btn btn-default centerbuttonEdit" data-toggle="modal" data-target="#UpdateBetchModal">Edit</button> 
-                        <button type="button" id="DeleteCenter" title="{{centerName}}" value="{{_id}}" class="btn btn-default DeleteCenter" data-toggle="modal" data-target="#DELETEBetchModal">Delete</button>
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            More Option
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item centerbuttonEdit" title="{{_id}}" data-toggle="modal" data-target="#UpdateBetchModal" href="#">Edit</a>
+                            <a class="dropdown-item getallData" title="{{_id}}" data-toggle="modal" data-target="#ModalView" href="#">View</a>
+                            <a class="dropdown-item DeleteCenter" id="DeleteCenter" title="{{centerName}}" value="{{_id}}" data-toggle="modal" data-target="#DELETEBetchModal" href="#">Delete</a>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                     {{/each}}

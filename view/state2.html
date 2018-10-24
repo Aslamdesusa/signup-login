@@ -1,5 +1,5 @@
 
-  <style type="text/css">
+     <style type="text/css">
        .tableres {
     border: 1px solid #ccc;
     border-collapse: collapse;
@@ -79,7 +79,6 @@
     }
   }
      </style>
-
       <div id="content-wrapper">
 
         <div class="container-fluid">
@@ -100,40 +99,40 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              <button type="button" id="areadata" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Add Area</button></div>
+              <!-- <button type="button" class="btn btn-default" data-toggle="modal" data-target="#BetchModal">Add State</button></div> -->
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered tableres" id="dataTable" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th scope="col">Area</th>
-                      <th scope="col">State</th>
+                      <th scope="col">State Name</th>
+                      <th scope="col">Abbr</th>
                       <th scope="col">Contact Person</th>
                       <th scope="col">Email</th>
                       <th scope="col">Mobile</th>
-                      <th scope="col">Action</th>
-                    </tr>
+                      <!-- <th scope="col">Action</th> -->
+                    </tr> 
                   </thead>
                   <tbody>
                     {{#each data}}
                     <tr id="{{_id}}">
-                      <td data-label="Area" id="1" data-id1="{{AreaName}}">{{AreaName}}</td>
-                      <td data-label="State" id="2" data-id2="{{stateName}}">{{stateName}}</td>
+                      <td data-label="State Name" id="1" data-id1="{{stateName}}">{{stateName}}</td>
+                      <td data-label="Abbr" id="2" data-id2="{{Abbr}}">{{Abbr}}</td>
                       <td data-label="Contact Person" id="3" data-id3="{{contactPerson}}">{{contactPerson}}</td>
                       <td data-label="Email" id="4" data-id4="{{Email}}">{{Email}}</td>
                       <td data-label="Mobile" id="5" data-id5="{{Mobile}}">{{Mobile}}</td>
-                      <td data-label="Action" style="display: flex; {{sideTableData.displaynone}} justify-content: space-between;">
+                     <!--  <td data-label="Action" style="display: flex; justify-content: space-between;" class="{{sideTableData.displaynone}}">
                         <div class="dropdown">
                           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             More Option
                           </button>
                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item editButtonArea" title="{{_id}}" data-toggle="modal" data-target="#stateModalEdit" href="#">Edit</a>
+                            <a class="dropdown-item statebuttonedit" title="{{_id}}" data-toggle="modal" data-target="#updateModalState"href="#">Edit</a>
                             <a class="dropdown-item getallData" title="{{_id}}" data-toggle="modal" data-target="#ModalView" href="#">View</a>
-                            <a class="dropdown-item DeleteArea" id="DeleteArea" title="{{AreaName}}" value="{{_id}}" data-toggle="modal" data-target="#DeleteAreaModal" href="#">Delete</a>
+                            <a class="dropdown-item deleteState" id="deleteState" title="{{stateName}}" value="{{_id}}" data-toggle="modal" data-target="#deletestatemodal" href="#">Delete</a>
                           </div>
-                        </div>
-                      </td>
+                        </div> 
+                      </td> -->
                     </tr>
                     {{/each}}
                   </tbody>
@@ -150,7 +149,6 @@
         </div>
         <!-- /.container-fluid -->
 
-
       </div>
       <!-- /.content-wrapper -->
 
@@ -163,11 +161,11 @@
 
 
 <!-- Logout Modal-->
-    <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="BetchModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Create a New Area</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Create a New Admin/Teacher</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
@@ -176,18 +174,16 @@
             <div id="input">
               <!-- Forms-3 -->
                 <div class="outer-w3-agile mt-3">
-                    <h4 class="tittle-w3-agileits mb-4">Area Managament</h4>
-                    <form action="/add/area" method="POST">
+                    <h4 class="tittle-w3-agileits mb-4">State Managament</h4>
+                    <form action="/add/state" method="POST">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputArea">Area Name</label>
-                                <input type="text" class="form-control" id="inputArea" name="AreaName" placeholder="Area Name">
+                                <label for="inputState">State Name</label>
+                                <input type="text" class="form-control" id="inputState" name="stateName" placeholder="State Name">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputState">State</label>
-                                <select id="statedata" name="stateName" class="form-control">
-                                  <option value="" disabled selected>Select State*</option>
-                                </select>
+                                <label for="inputAbbr">Abbr</label>
+                                <input type="text" class="form-control" id="inputAbbr" name="Abbr" placeholder="Abbr">
                             </div>
                         </div>
                         <div class="form-row">
@@ -219,13 +215,12 @@
       </div>
     </div>
 
-
-    <!-- UPDATE MODAL FOR AREA-->
-    <div class="modal fade" id="stateModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <!-- UPDATE MODAL BOX-->
+    <div class="modal fade" id="updateModalState" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Update Area</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Update State</h5>
             <button class="close" type="button" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
@@ -234,17 +229,15 @@
             <div id="input">
               <!-- Forms-3 -->
                 <div class="outer-w3-agile mt-3">
-                    <h4 class="tittle-w3-agileits mb-4">Area Managament</h4>
+                    <h4 class="tittle-w3-agileits mb-4">State Managament</h4>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="inputArea4">Area Name</label>
-                                <input type="text" class="form-control" id="inputArea4" name="AreaName" placeholder="Area Name">
+                                <label for="inputState4">State Name</label>
+                                <input type="text" class="form-control" id="inputState4" name="stateName" placeholder="State Name">
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="inputState4">State</label>
-                                <select id="inputState4" name="stateName" class="form-control">
-                                  <option value="" disabled selected>Select State*</option>
-                                </select>
+                                <label for="inputAbbr4">Abbr</label>
+                                <input type="text" class="form-control" id="inputAbbr4" name="Abbr" placeholder="Abbr">
                             </div>
                         </div>
                         <div class="form-row">
@@ -265,7 +258,7 @@
                         </div>
                         <div class="modal-footer">
                           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                          <button class="btn btn-primary" id="updateArea" type="submit">Update</button>
+                          <button class="btn btn-primary" id="updateState" type="submit">Update</button>
                         </div>
                 </div>
             <!--// Forms content -->
@@ -276,9 +269,8 @@
     </div>
   
 
-
 <!-- Center DELETE Modal-->
-    <div class="modal fade" id="DeleteAreaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal fade" id="deletestatemodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -291,10 +283,10 @@
             <div id="input">
               <!-- Forms-3 -->
                 <div class="outer-w3-agile mt-3">
-                    <h6 class="tittle-w3-agileits mb-4"><strong class="areaName"></strong> Will be permanently deleted. Are you sure you want to do this?</h6>
+                    <h6 class="tittle-w3-agileits mb-4"><strong class="stateName"></strong> Will be permanently deleted. Are you sure you want to do this?</h6>
                     <div class="modal-footer">
-                      <button class="btn btn-secondary cencelbutton" value="CENCEL" type="button" data-dismiss="modal">CENCEL</button>
-                      <button class="btn btn-primary DeleteAreaButton" id="DeleteAreaButton" type="submit">DELETE</button>
+                      <button class="btn btn-secondary" type="button" data-dismiss="modal">CENCEL</button>
+                      <button class="btn btn-primary DeleteStateButton" id="DeleteStateButton" type="submit">DELETE</button>
                     </div>
                 </div>
             <!--// Forms content -->
@@ -303,5 +295,3 @@
         </div>
       </div>
     </div>
-
-
