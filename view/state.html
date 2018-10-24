@@ -122,8 +122,16 @@
                       <td data-label="Email" id="4" data-id4="{{Email}}">{{Email}}</td>
                       <td data-label="Mobile" id="5" data-id5="{{Mobile}}">{{Mobile}}</td>
                       <td data-label="Action" style="display: flex; justify-content: space-between;" class="{{sideTableData.displaynone}}">
-                        <button class="btn btn-default statebuttonedit" title="{{_id}}" data-toggle="modal" data-target="#updateModalState">Edit</button> 
-                        <button type="button" id="deleteState" title="{{stateName}}" value="{{_id}}" class="btn btn-default deleteState" data-toggle="modal" data-target="#deletestatemodal">Delete</button>
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            More Option
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item statebuttonedit" title="{{_id}}" data-toggle="modal" data-target="#updateModalState"href="#">Edit</a>
+                            <a class="dropdown-item getallData" title="{{_id}}" data-toggle="modal" data-target="#ModalView" href="#">View</a>
+                            <a class="dropdown-item deleteState" id="deleteState" title="{{stateName}}" value="{{_id}}" data-toggle="modal" data-target="#deletestatemodal" href="#">Delete</a>
+                          </div>
+                        </div> 
                       </td>
                     </tr>
                     {{/each}}

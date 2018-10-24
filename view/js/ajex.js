@@ -1323,6 +1323,48 @@ $(document).ready(function(){
 		});
 	});		
 });
+$(document).ready(function(){
+	$('.viewBatchforbatch').click(function(){
+		var title = $(this).attr("title");
+		$('#modalbodyid').empty();
+		$.ajax({
+			url : "/getting/management/view?_id="+title,
+			type : "GET",
+			dataType : 'json',
+			success : function(json){
+				console.log(json)
+				var HTML = '<div id="input"><div class="outer-w3-agile mt-3"><h4 class="tittle-w3-agileits mb-4">Batch View</h4><div class="form-row"><div class="form-group col-md-6"><label for="inputName4"><strong>Name</strong></label><h6>'+json.Name+'</h6></div><div class="form-group col-md-6"><label for="inputID4"><strong>ID</strong></label><h6>'+json.ID+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputState4"><strong>State</strong></label><h6>'+json.StateName+'</h6></div><div class="form-group col-md-6"><label for="inputArea4"><strong>Area</strong></label><h6>'+json.AreaName+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputCenter4"><strong>Center</strong></label><h6>'+json.Center+'</h6></div><div class="form-group col-md-6"><label for="inputstartdate4"><strong>Start Date</strong></label><h6>'+json.StartDate+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputactualClassLimit4"><strong>Actual Class of Limit</strong></label><h6>'+json.actualClassLimit+'</h6></div><div class="form-group col-md-6"><label for="inputactualClassLimit4"><strong>Class taken<strong></label><h6>'+json.NumberOfClass+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputBatchDay4"><strong>Batch Day</strong></label><h6>'+json.BatchDay+'</h6></div><div class="form-group col-md-6"><label for="inputactualClassLimit4"><strong>Created Date</strong></label><h6>'+json.Date+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputBatchSchedule4"><strong>Batch Schedule</strong></label><h6>'+json.BatchSchedule+'</h6></div><div class="form-group col-md-6"><label for="inputTeacher4"><strong>Teacher</strong></label><h6>'+json.Teacher+'</h6></div></div><div class="modal-footer"><button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button></div></div></div>'
+				$('#modalbodyid').append(HTML);
+			},
+			error : function(err){
+				alert(err);
+			}  
+		});
+		 
+	})
+});
+
+
+$(document).ready(function(){
+	$('.studentdataview').click(function(){
+		var title = $(this).attr("title");
+		$('.modalbodyclass').empty();
+		$.ajax({
+			url : "/getting/student/view?_id="+title,
+			type : "GET",
+			dataType : 'json',
+			success : function(json){
+				console.log(json)
+				var HTML = '<div class="outer-w3-agile mt-3"><h4 class="tittle-w3-agileits mb-4">Student Managament Data View</h4><div class="form-row"><div class="form-group col-md-6"><label for="inputName4">Name</label><h6>'+json.Name+'</h6></div><div class="form-group col-md-6"><label for="inputPassword4">ID</label><h6>'+json.ID+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputEmail4">Date Of Birth</label><h6>'+json.DateOfBirth+'</h6></div><div class="form-group col-md-6"><label for="inputPassword4">Enroll Date</label><h6>'+json.EnrollDate+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputEmail4">Current Level</label><h6>'+json.CurrentLevel+'</h6></div><div class="form-group col-md-6"><label for="inputEmail4">State</label><h6>'+json.State+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputEmail4">Area</label><h6>'+json.Area+'</h6></div><div class="form-group col-md-6"><label for="inputEmail4">Center</label><h6>'+json.Center+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputEmail4">Batch</label><h6>'+json.Batch+'</h6></div></div><div class="form-row"><div class="form-group col-md-4"><label for="inputCity">Contect Name</label><h6>'+json.Details[0].ContactName+'</h6></div><div class="form-group col-md-4"><label for="inputState"> Mobile </label><h6>'+json.Details[0].Mobile+'</h6></div><div class="form-group col-md-4"><label for="inputZip">Email</label><h6>'+json.Details[0].Email+'</h6></div></div><div class="form-row"><div class="form-group col-md-4"><label for="inputCity">Secondary Contect Name</label><h6>'+json.Details[1].ContactName+'</h6></div><div class="form-group col-md-4"><label for="inputState">Mobile</label><h6>'+json.Details[1].Mobile+'</h6></div><div class="form-group col-md-4"><label for="inputZip">Email</label><h6>'+json.Details[1].Email+'</h6></div></div><div class="form-row"><div class="form-group col-md-4"><label for="inputCity">Contect Name</label><h6>'+json.Details[2].ContactName+'</h6></div><div class="form-group col-md-4"><label for="inputState"> Mobile </label><h6>'+json.Details[2].Mobile+'</h6></div><div class="form-group col-md-4"><label for="inputZip">Email</label><h6>'+json.Details[2].Email+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputCity">Created Date</label><h6>'+json.Date+'</h6></div></div><div class="modal-footer"><button class="btn btn-secondary" id="close" type="button" data-dismiss="modal">Cancel</button></div></div>'
+				$('.modalbodyclass').append(HTML);
+			},
+			error : function(err){
+				alert(err);
+			}  
+		});
+		 
+	})
+});
 
   function setInputDate(_id){
     var _dat = document.querySelector(_id);
@@ -1345,4 +1387,3 @@ $(document).ready(function(){
 };
 
 setInputDate("#DatePincker");
-

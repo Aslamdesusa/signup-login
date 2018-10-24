@@ -99,7 +99,7 @@
           <div class="card mb-3">
             <div class="card-header">
               <i class="fas fa-table"></i>
-              <button type="button" class="btn btn-default {{sideTableData.displaynone}}" id="studentdata" data-toggle="modal" data-target="#BetchModal">Add New Student</button></div>
+              <!-- <button type="button" class="btn btn-default {{sideTableData.displaynone}}" id="studentdata" data-toggle="modal" data-target="#BetchModal">Add New Student</button></div> -->
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-bordered tableres" id="dataTable" width="100%" cellspacing="0">
@@ -107,11 +107,24 @@
                     <tr>
                       <th scope="col">Name</th>
                       <th scope="col">ID</th>
+                      <th scope="col">Date Of Birth</th>
                       <th scope="col">Enroll Date</th>
                       <th scope="col">Current Level</th>
                       <th scope="col">Center</th>
                       <th scope="col">Batch</th>
-                      <th scope="col">Edit/Delete</th>
+                      <th scope="col">Last Check in</th>
+                      <th scope="col">Last Check in Location</th>
+                      <th scope="col">Contact Name</th>
+                      <th scope="col">Mobile</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Contact Name1</th>
+                      <th scope="col">Mobile1</th>
+                      <th scope="col">Email1</th>
+                      <th scope="col">Contact Name2</th>
+                      <th scope="col">Mobile2</th>
+                      <th scope="col">Email2</th>
+                      <th scope="col">Date</th>
+                      <!-- <th scope="col">Edit/Delete</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -119,22 +132,35 @@
                     <tr>
                       <td data-label="Name">{{Name}}</td>
                       <td data-label="ID">{{ID}}</td>
+                      <td data-label="Date Of Birth">{{DateOfBirth}}</td>
                       <td data-label="Enroll Date">{{EnrollDate}}</td>
                       <td data-label="Current Level">{{CurrentLevel}}</td>
-                      <td data-label="Center">{{Center}}</td>
-                      <td data-label="Batch">{{Batch}}</td>
-                      <td data-label="Action" style="display: flex; justify-content: space-between;">
+                      <td data-label="Current Level">{{Center}}</td>
+                      <td data-label="Center">{{Batch}}</td>
+                      <td data-label="Batch">Comming Soon...</td>
+                      <td data-label="Last Check in">Comming Soon...</td>
+                      <td data-label="Contact Name">{{ContactName}}</td>
+                      <td data-label="Mobile">{{Mobile}}</td>
+                      <td data-label="Email">{{Email}}</td>
+                      <td data-label="Contact Name 1">{{ContactName1}}</td>
+                      <td data-label="Mobile 1">{{Mobile1}}</td>
+                      <td data-label="Email 1">{{Email1}}</td>
+                      <td data-label="Contact Name 2">{{ContactName2}}</td>
+                      <td data-label="Mobile 2">{{Mobile2}}</td>
+                      <td data-label="Email 2">{{Email2}}</td>
+                      <td data-label="Date">{{Date}}</td>
+                      <!-- <td data-label="Action" style="display: flex; justify-content: space-between;">
                         <div class="dropdown">
                           <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             More Option
                           </button>
                           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item studentdataview" title="{{_id}}" data-toggle="modal" data-target="#StudentDataView" href="#">Edit</a>
-                            <a class="dropdown-item studentdataview" title="{{_id}}" data-toggle="modal" data-target="#StudentDataView" href="#">View</a>
+                            <a class="dropdown-item updatemodalstudent" title="{{_id}}" data-toggle="modal" data-target="#StudentDataUpdate" href="#">Edit</a>
+                            <a class="dropdown-item getallData" title="{{_id}}" data-toggle="modal" data-target="#ModalView" href="#">View</a>
                             <a class="dropdown-item DeleteStudent" id="DeleteStudent" title="{{Name}}" value="{{_id}}" data-toggle="modal" data-target="#deleteStuhmodal" href="#">Delete</a>
                           </div>
                         </div>
-                      </td>
+                      </td> -->
                     </tr>
                     {{/each}}
                   </tbody>
@@ -412,33 +438,6 @@
       </div>
     </div>
   
-
-     <!-- View MODAL BOX FOR STUDENT DATA -->
-    <div class="modal fade" id="StudentDataView" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">View Student Data</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div id="input" class="modalbodyclass">
-              <!-- Forms-3 -->
-
-
-
-
-<!-- <div class="outer-w3-agile mt-3"><h4 class="tittle-w3-agileits mb-4">Student Managament Data View</h4><div class="form-row"><div class="form-group col-md-6"><label for="inputName4">Name</label><h6>'+json.Name+'</h6></div><div class="form-group col-md-6"><label for="inputPassword4">ID</label><h6>'+json.ID+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputEmail4">Date Of Birth</label><h6>'+json.DateOfBirth+'</h6></div><div class="form-group col-md-6"><label for="inputPassword4">Enroll Date</label><h6>'+json.EnrollDate+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputEmail4">Current Level</label><h6>'+json.CurrentLevel+'</h6></div><div class="form-group col-md-6"><label for="inputEmail4">State</label><h6>'+json.State+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputEmail4">Area</label><h6>'+json.Area+'</h6></div><div class="form-group col-md-6"><label for="inputEmail4">Center</label><h6>'+json.Center+'</h6></div></div><div class="form-row"><div class="form-group col-md-6"><label for="inputEmail4">Batch</label><h6>'+json.Batch+'</h6></div></div><div class="form-row"><div class="form-group col-md-4"><label for="inputCity">Contect Name</label><h6>'+json.Details[0].ContactName+'</h6></div><div class="form-group col-md-4"><label for="inputState"> Mobile </label><h6>'+json.Details[0].Mobile+'</h6></div><div class="form-group col-md-4"><label for="inputZip">Email</label><h6>'+json.Details[0].Email+'</h6></div></div><div class="form-row"><div class="form-group col-md-4"><label for="inputCity">Secondary Contect Name</label><h6>'+json.Details[1].ContactName+'</h6></div><div class="form-group col-md-4"><label for="inputState">Mobile</label><h6>'+json.Details[1].Mobile+'</h6></div><div class="form-group col-md-4"><label for="inputZip">Email</label><h6>'+json.Details[1].Email+'</h6></div></div><div class="form-row"><div class="form-group col-md-4"><label for="inputCity">Contect Name</label><h6>'+json.Details[2].ContactName+'</h6></div><div class="form-group col-md-4"><label for="inputState"> Mobile </label><h6>'+json.Details[2].Mobile+'</h6></div><div class="form-group col-md-4"><label for="inputZip">Email</label><h6>'+json.Details[2].Email+'</h6></div></div><div class="modal-footer"><button class="btn btn-secondary" id="close" type="button" data-dismiss="modal">Cancel</button></div></div> -->
-
-
-            <!--// Forms content -->
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
       <!-- Batch Modal DELETE Modal-->
     <div class="modal fade" id="deleteStuhmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">

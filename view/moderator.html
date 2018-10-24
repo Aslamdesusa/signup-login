@@ -122,8 +122,16 @@
                       <td data-label="isLogin">{{isLogin}}</td>
                       <td data-label="Created Date">{{Date}}</td>
                       <td data-label="Action" style="display: flex; justify-content: space-between;">
-                        <button type="button" id="EditAdmin" title="{{firstName}}" value="{{_id}}" class="btn btn-default EditAdmin" data-toggle="modal" data-target="#DeleteAreaModal">Edit</button>
-                        <button type="button" id="DeleteAdmin" title="{{firstName }} {{ lastName}}" value="{{_id}}" class="btn btn-default DeleteAdmin" data-toggle="modal" data-target="#DeleteAdminModal">Delete</button>
+                        <div class="dropdown">
+                          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            More Option
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item EditAdmin" id="EditAdmin" title="{{firstName}}" value="{{_id}}"  data-toggle="modal" data-target="#DeleteAreaModal" href="#">Edit</a>
+                            <a class="dropdown-item getallData" title="{{_id}}" data-toggle="modal" data-target="#ModalView" href="#">View</a>
+                            <a class="dropdown-item DeleteAdmin" id="DeleteAdmin" title="{{firstName }} {{ lastName}}" value="{{_id}}" data-toggle="modal" data-target="#DeleteAdminModal" href="#">Delete</a>
+                          </div>
+                        </div>
                       </td>
                     </tr>
                     {{/each}}

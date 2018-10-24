@@ -49,17 +49,17 @@ const routes = [
 				}else if (auth.moderator == 'StateAdmin') {
 					batchModal.find({StateName: auth.HeadPlace})
 					.then(function(StateAdminBatch){
-						return reply.view('batch', {data: StateAdminBatch, sideTableData: sideTableDataAdmin})
+						return reply.view('batch2', {data: StateAdminBatch, sideTableData: sideTableDataAdmin})
 					})
 				}else if (auth.moderator == 'CenterAdmin') {
 					batchModal.find({Center: auth.HeadPlace})
 					.then(function(CenterBatch){
-						return reply.view('batch', {data: CenterBatch, sideTableData: sideTableDataCenterAdmin})
+						return reply.view('batch2', {data: CenterBatch, sideTableData: sideTableDataCenterAdmin})
 					})
 				}else if (auth.moderator == 'Teacher') {
 					batchModal.find({Teacher: auth.username})
 					.then(function(TeacherBatch){
-						return reply.view('batch', {data: TeacherBatch, sideTableData: sideTableDataTeacher})
+						return reply.view('batch2', {data: TeacherBatch, sideTableData: sideTableDataTeacher})
 					})
 				}
 			}
@@ -233,6 +233,16 @@ const routes = [
 		}
 	},
 	{
+		method: 'GET',
+		path: '/getting/management/view',
+		handler: function(request, reply){
+			batchModal.findOne({_id: request.query._id})
+			.then(function(result){
+				return reply(result)
+			})
+		}
+	},
+	{
 		method: 'DELETE',
 		path: '/batch/management/deleted',
 		handler: function(request, reply){
@@ -273,12 +283,12 @@ const routes = [
 				}else if (auth.moderator == 'StateAdmin') {
 					studentModal.find({State: auth.HeadPlace})
 					.then(function(StateAdminStudent){
-						return reply.view('student', {data: StateAdminStudent, sideTableData: sideTableDataAdmin})
+						return reply.view('student2', {data: StateAdminStudent, sideTableData: sideTableDataAdmin})
 					})
 				}else if (auth.moderator == 'CenterAdmin') {
 					studentModal.find({Center: auth.HeadPlace})
 					.then(function(CenterAdminStudent){
-						return reply.view('student', {data: CenterAdminStudent, sideTableData: sideTableDataCenterAdmin})
+						return reply.view('student2', {data: CenterAdminStudent, sideTableData: sideTableDataCenterAdmin})
 					})
 				}else if (auth.moderator == 'Teacher') {
 					batchModal.find({Teacher: auth.username})
@@ -294,7 +304,7 @@ const routes = [
 								})
 								if (++_count == result.length) {
 									// return reply(totalBatch)
-									return reply.view('student', {data: totalBatch, sideTableData: sideTableDataTeacher})
+									return reply.view('student2', {data: totalBatch, sideTableData: sideTableDataTeacher})
 							}
 						})
 					})
@@ -302,6 +312,16 @@ const routes = [
 			}
 		}
 			GetBatch()
+		}
+	},
+	{
+		method: 'GET',
+		path: '/getting/student/view',
+		handler: function(request, reply){
+			studentModal.findOne({_id: request.query._id})
+			.then(function(result){
+				return reply(result)
+			})
 		}
 	},
 	{

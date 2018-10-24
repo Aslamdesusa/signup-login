@@ -132,7 +132,7 @@ const routes = [
 				}else if (auth.moderator == 'StateAdmin') {
 					areaModal.find({stateName: auth.HeadPlace})
 					.then(function(StateAdminArea){
-						return reply.view('area', {data: StateAdminArea, sideTableData: sideTableDataAdmin})
+						return reply.view('area2', {data: StateAdminArea, sideTableData: sideTableDataAdmin})
 					})
 				}
 			}
@@ -199,7 +199,7 @@ const routes = [
 				}else if (auth.moderator == 'StateAdmin') {
 					centerModal.find({StateName: auth.HeadPlace})
 					.then(function(StateAdminCenter){
-						return reply.view('center', {center: StateAdminCenter, sideTableData: sideTableDataAdmin})
+						return reply.view('center2', {center: StateAdminCenter, sideTableData: sideTableDataAdmin})
 					})
 				}
 			}
