@@ -305,7 +305,7 @@ $(document).ready(function(){
 })
 
 
-
+ 
 // Add New class
 
 $(document).ready(function(){

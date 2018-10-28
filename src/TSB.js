@@ -66,7 +66,7 @@ const routes = [
 			})
 		}
 	},
-	{
+	{ 
 		method: 'GET',
 		path: '/select/batch',
 		config:{
@@ -513,7 +513,7 @@ const routes = [
 					SelectedBatchModal.find({'BatchID': request.params.BatchID}).sort({Date: -1})
 					.then(function(result){	
 						console.log(batch._id)
-						return reply.view('TeacherSB', {result: result, BatchName: result[0].BatchName, toadd: 'To Add New class', clickhere: 'Click Here', dataID: batch._id}, {layout:'layout2'})
+						return reply.view('TeacherSB', {result: result, BatchName: result[0].BatchName, toadd: 'To Add New class', clickhere: 'Click Here', dataID: batch._id, sideTableData: sideTableDataTeacher})
 					})
 				})
 			}

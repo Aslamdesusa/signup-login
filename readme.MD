@@ -154,9 +154,9 @@ will not show center, id, Batch Day and Date
 		}
 	}, -->
 
+make a filter to view center student data 
 
-anyone cant
-
-check in-out 
+make a button for all student data 
 
 
+deshboard is comming...
