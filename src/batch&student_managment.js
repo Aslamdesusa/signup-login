@@ -220,7 +220,7 @@ const routes = [
                     "isActivate": true,
                     "Teacher": request.payload.Teacher,
                     "Date": dateFormat(now, "yyyy-mm-dd"),
-                    "Time": dateFormat(now, "mediumTime")
+                    "Time": dateFormat(now, "jnownownownowmediumTime")
            });
 			// var newBatch = new batchModal(request.payload);
 			newBatch.save(function (err, data){
@@ -377,7 +377,7 @@ const routes = [
 				if (err) {
 					reply(err)
 				}else{
-					reply.view('student', {data: data,  message: 'The New Student has been successfully Created.', success: 'Success!', alert: 'alert-success'})
+					reply.view('student', {data: data, sideTableData: sideTableDataSuperAdmin ,message: 'The New Student has been successfully Created.', success: 'Success!', alert: 'alert-success'})
 				}
 			})
 		}

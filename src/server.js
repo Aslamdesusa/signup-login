@@ -20,7 +20,10 @@ import state_area_center from './state_area_center'
 
 import TeacherSelectBatch from './TSB'
 
-const hbs = require('hbs');
+const handlebars = require('hbs');
+
+
+
 
 
 
@@ -101,7 +104,14 @@ server.register( require( 'hapi-auth-jwt' ), ( err ) => {
 
 } );
 
+var Handlebars = require("handlebars");
+var MomentHandler = require("handlebars.moment");
+MomentHandler.registerHelpers(Handlebars);
+
+
 module.exports = server;
+
+handlebars.registerHelper('dateFormat', require('handlebars-dateformat'));
 
 server.views({
     engines: {
@@ -111,7 +121,8 @@ server.views({
     layout: 'layout'
 })
 
-hbs.registerHelper('if_eq', function(a, b, opts) {
+
+handlebars.registerHelper('if_eq', function(a, b, opts) {
     if(a == b)
         return opts.fn(this);
     else

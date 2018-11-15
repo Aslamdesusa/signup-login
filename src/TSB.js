@@ -21,6 +21,9 @@ var pdf_table_extractor = require("pdf-table-extractor");
 var PDFDocument = require ('pdfkit');
 const Json2csvParser = require('json2csv').parse;
 
+var date = new Date();
+var isodate = new Date().toISOString()
+
 var sideTableDataSuperAdmin = ({foldericon: 'fas fa-fw fa-folder', navlinkdropdowntoggle: 'nav-link dropdown-toggle', pages: 'Pages', addDetails: 'Add Details', otherpage: 'Other Pages:', state: 'State', area: 'Area', center: 'Cetner', moderator: 'Moderator', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
 
 var sideTableDataAdmin = ({navlinkdropdowntoggle: 'nav-link dropdown-toggle', foldericon: 'fas fa-fw fa-folder', pages: 'Pages', addDetails: 'Add Details', area: 'Area', center: 'Cetner', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record'})
@@ -44,6 +47,15 @@ const routes = [
 		},
 		handler: function(request, reply){
 			reply.view('TeacherSB', {ping: 'No Selected Batch', sideTableData: sideTableDataTeacher})
+		}
+	},
+	{
+		method: 'GET',
+		path: '/date/check_validation',
+		handler: function(request, reply){
+			var moment = require('moment'); 
+			// From string to date 
+			console.log(moment("12-25-1995", "MM-DD-YYYY").toDate());
 		}
 	},
 	{
@@ -186,7 +198,11 @@ const routes = [
 				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
 				batchModal.find(query)
 				.then(function(result){
-					return reply(result)
+					if (result.length == 0) {
+						return reply({message:'0'})
+					}else{
+						return reply(result)
+					}
 				})
 			}
 			getCollectionBatch();
@@ -207,12 +223,16 @@ const routes = [
 		},
 		handler: function(request, reply){
 			var query = {$and:[{Date:{$regex: request.params.date, $options: 'i'}},{State:{$regex: request.params.State, $options: 'i'}},{Area:{$regex: request.params.Area, $options: 'i'}}, {Center:{$regex: request.params.Center, $options: 'i'}}]}
-				console.log(query)
+				console.log(date)
 			async function persentBatch() {
 				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
 				SelectedBatchModal.find(query)
 				.then(function(result){
-					return reply(result)
+					if (result.length == 0) {
+						return reply({message:'0'})
+					}else{
+						return reply(result)
+					}
 				})
 			}
 			persentBatch();
@@ -239,19 +259,29 @@ const routes = [
 				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
 				studentModal.find(query)
 				.then(function(result){
-					var totalpersent = [];
-					var _count = 0;
-					async.forEach(result, function(eachPersentStudent){
-						check_validation.find({CheckInDateTime: request.params.date, uuid: eachPersentStudent.ID})
-						.then(function(persentStudent){
-							async.forEach(persentStudent, function(eachPerset){
-								totalpersent.push(eachPerset)
+					if (result.length == 0) {
+						return reply({message:'0'})
+					}else{
+						console.log(result)
+						var totalpersent = [];
+						var _count = 0;
+						async.forEach(result, function(eachPersentStudent){
+							var query1 = {$and:[{CheckInDateTime:{$regex: request.params.date, $options: 'i'}}, {uuid:{$regex: eachPersentStudent.ID, $options: 'i'}}]}
+							check_validation.find(query1)
+							.then(function(persentStudent){
+								async.forEach(persentStudent, function(eachPerset){
+									totalpersent.push(eachPerset)
+								})
+								if (++_count == result.length) {
+									if (totalpersent.length == 0) {
+										return reply({message:'0'})
+									}else{
+										return reply(totalpersent)
+									}
+								}
 							})
-							if (++_count == result.length) {
-								return reply(totalpersent)
-							}
 						})
-					})
+					}
 				});
 			}
 			getPersentStudent();
@@ -278,19 +308,26 @@ const routes = [
 				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
 				studentModal.find(query)
 				.then(function(result){
-					var totalpersent = [];
-					var _count = 0;
-					async.forEach(result, function(eachPersentStudent){
-						absentModal.find({AbsentDate: request.params.date, uuid: eachPersentStudent.ID})
-						.then(function(persentStudent){
-							async.forEach(persentStudent, function(eachPerset){
-								totalpersent.push(eachPerset)
+					// console.log(result)
+					if (result.length == 0) {
+						return reply({message:'0'})
+					}else{
+						var totalpersent = [];
+						var _count = 0;
+						async.forEach(result, function(eachPersentStudent){
+						var query1 = {$and:[{AbsentDate:{$regex: request.params.date, $options: 'i'}}, {uuid:{$regex: eachPersentStudent.ID, $options: 'i'}}]}
+							absentModal.find(query1)
+							.then(function(persentStudent){
+								console.log(persentStudent)
+								async.forEach(persentStudent, function(eachPerset){
+									totalpersent.push(eachPerset)
+								})
+								if (++_count == result.length) {
+									return reply(totalpersent)
+								}
 							})
-							if (++_count == result.length) {
-								return reply(totalpersent)
-							}
 						})
-					})
+					}
 				});
 			}
 			getPersentStudent();
@@ -459,7 +496,7 @@ const routes = [
 							    "Center": eachStudent.Center,
 							    "Batch": eachStudent.Batch,
 							    "BatchDay": result.BatchDay,
-							    "AbsentDate": dateFormat(now, "yyyy-mm-dd"),
+							    "AbsentDate": isodate,
 							});
 							check_validation.findOne({'uuid': result.ID, 'CheckInDateTime':dateFormat(now, "yyyy-mm-dd")})
 							.then(function(eachValidation){
@@ -476,7 +513,7 @@ const routes = [
 										"State": result.StateName,
 									    "Area": result.AreaName,
 									    "Center": result.Center,
-										"Date": dateFormat(now, "yyyy-mm-dd"),
+										"Date": isodate,
 									});
 									newSelected.save()
 									.then(function(batchResult){
@@ -496,7 +533,7 @@ const routes = [
 		path: '/selected/{BatchID}',
 		config: {
 		// Joi api validation
-			validate: {
+		validate: {
 			    params: {
 			        BatchID: Joi.string().required()
 			    }
@@ -510,10 +547,14 @@ const routes = [
 				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
 				batchModal.findOne({'ID': request.params.BatchID})
 				.then(function(batch){
+					console.log(batch)
 					SelectedBatchModal.find({'BatchID': request.params.BatchID}).sort({Date: -1})
 					.then(function(result){	
-						console.log(batch._id)
-						return reply.view('TeacherSB', {result: result, BatchName: result[0].BatchName, toadd: 'To Add New class', clickhere: 'Click Here', dataID: batch._id, sideTableData: sideTableDataTeacher})
+						if (result.length == 0) {
+							return reply.view('TeacherSB', {BatchName: batch.BatchName, toadd: 'To Add New class', clickhere: 'Click Here', dataID: batch._id, sideTableData: sideTableDataTeacher})
+						}else{
+							return reply.view('TeacherSB', {result: result, BatchName: result[0].BatchName, toadd: 'To Add New class', clickhere: 'Click Here', dataID: batch._id, sideTableData: sideTableDataTeacher})
+						}
 					})
 				})
 			}
@@ -544,7 +585,8 @@ const routes = [
 		handler: function(request, reply){
 			async function GetAbsentStudent(){
 				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
-				absentModal.find({AbsentDate: request.payload.AbsentDate})
+				var query1 = {$and:[{AbsentDate:{$regex: request.payload.AbsentDate, $options: 'i'}}]}
+				absentModal.find(query1)
 				.then(function(absentStudent){
 					return reply(absentStudent)
 				})
@@ -567,7 +609,8 @@ const routes = [
     	 	let doc = new PDFDocument();
     	 		async function GetAbsentStudent(){
 				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
-				absentModal.find({AbsentDate: request.params.AbsentDate}, { _id: 0, __v: 0 })
+				var query1 = {$and:[{AbsentDate:{$regex: request.params.AbsentDate, $options: 'i'}}]}
+				absentModal.find(query1, { _id: 0, __v: 0 })
 				//PDF parsed
 				.then(function(result){
 					var data;

@@ -276,7 +276,7 @@ const routes = [
 				if (err) {
 					reply(err)
 				}else{
-					reply.view('center', {data: data,  message: 'The New Center has been successfully Created.', success: 'Success!', alert: 'alert-success'})
+					reply.view('center', {center: data, sideTableData: sideTableDataSuperAdmin , message: 'The New Center has been successfully Created.', success: 'Success!', alert: 'alert-success'})
 				}
 			})
 		}

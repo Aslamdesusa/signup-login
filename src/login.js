@@ -3,6 +3,10 @@ const adminModal = require('../tables/loginAdmin.js')
 const Joi = require('joi')
 const AuthCookie = require('hapi-auth-cookie')
 const centerModal = require('../tables/center')
+const stateModal = require('../tables/state')
+const areaModal = require('../tables/area')
+const batchModal = require('../tables/batch')
+
 // const config = require('../config.json');
 
 // const parser = require('body-parser');
@@ -54,7 +58,20 @@ const routes = [
 			var auth = request.auth.credentials;
 			console.log(auth)
 			if (auth.moderator == 'SuperAdmin') {
-				return reply.view('index', {sideTableData: sideTableDataSuperAdmin})
+				stateModal.count()
+				.then(function(states){
+					areaModal.count()
+					.then(function(areas){
+						centerModal.count()
+						.then(function(centers){
+							adminModal.count()
+							.then(function(moderator){
+								return reply.view('index', {sideTableData: sideTableDataSuperAdmin, states: states, areas: areas, centers: centers, moderator: moderator})
+								
+							});
+						});
+					});
+				});
 			}else if (auth.moderator == 'StateAdmin') {
 				return reply.view('index', {sideTableData: sideTableDataAdmin})
 			}else if (auth.moderator == 'CenterAdmin') {
