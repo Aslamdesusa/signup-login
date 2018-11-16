@@ -1,2 +1,5 @@
+# it will ignore some file and folder which should'nt be on git it on your call 
+
 node_modules
 database.js
+config.json
