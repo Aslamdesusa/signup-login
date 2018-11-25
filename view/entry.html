@@ -1,0 +1,112 @@
+
+    <div class="container">
+      <span id="success-message">
+        
+      </span>
+      <div class="card card-register mx-auto mt-5">
+        <div class="card-header">Entry On Back Date</div>
+        <div class="card-body">
+          <!-- <form action="/entry-on-back-date" method="POST"> -->
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" id="uuid" name="uuid" class="form-control chobe" placeholder="Student ID" required="required" autofocus="autofocus">
+                    <label for="uuid">Student ID</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="text" id="Check-in-out-By" name="SigninBy" class="form-control chobe" placeholder="Check-in-out By" required="required">
+                    <label for="Check-in-out By">Check-in-out By</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="date" id="Check-in-Date" name="CheckInDateTime" class="form-control" placeholder="Check-in Date" required="required">
+                    <label for="Check-in Date">Check-in Date</label>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <input type="date" id="Check-out-Date" name="CheckOutDateTime" class="form-control" placeholder="Check-out Date" required="required">
+                    <label for="Check-out Date">Check-out Date</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="form-row">
+                <div class="col-md-6">
+                </div>
+                <div class="col-md-6">
+                  <div class="form-label-group">
+                    <button class="btn btn-primary btn-block" type="submit" id="submiEntry">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+            </div>
+          <!-- </form> -->
+        </div>
+      </div>
+    </div>
+
+ <script>
+    $(document).ready(function(){
+      $('#submiEntry').click(function(){
+        var oldStudentModel = {}
+        var ID = $('#uuid').val();
+        var check_in_out_by = $('#Check-in-out-By').val();
+        var check_in_Date = $('#Check-in-Date').val();
+        var check_out_Date = $('#Check-out-Date').val();
+
+        oldStudentModel.ID = ID
+        oldStudentModel.SigninBy = check_in_out_by
+        oldStudentModel.CheckInDateTime = check_in_Date
+        oldStudentModel.CheckOutDateTime = check_out_Date
+        console.log(oldStudentModel);
+
+        if (ID === "") {
+          alert("Please Fill ID")
+          return false
+        }
+        if (check_in_out_by === "") {
+          alert("Please Fill Who Sign in")
+          return false
+        }
+        if (check_in_Date === "") {
+          alert("Please Fill check_in_Date")
+          return false
+        }
+        if (check_out_Date === "") {
+          alert("you can select Date as same checkin")
+          return false
+        }
+
+          $.ajax({
+            url : "/entry-on-back-date",
+            type : "POST",
+            data : oldStudentModel,
+            success : function(json){
+                $('#success-message').empty();
+                var HTML = '<div class="alert alert-'+json.alert+'"><strong>Success </strong>' +json.successMessage+'</div>'
+                $('#success-message').append(HTML);
+                $('input').val('');
+
+            },
+            error : function(err){
+              alert(err);
+            }  
+          });
+          
+        })
+    });
+</script>
+
+

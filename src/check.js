@@ -7,6 +7,8 @@ const adminModal = require('../tables/loginAdmin.js')
 var dateFormat = require('dateformat');
 var now = new Date();
 
+var sideTableDataSuperAdmin = ({foldericon: 'fas fa-fw fa-folder', navlinkdropdowntoggle: 'nav-link dropdown-toggle', pages: 'Pages', addDetails: 'Add Details', otherpage: 'Other Pages:', state: 'State', area: 'Area', center: 'Cetner', moderator: 'Moderator', batchmanagement: 'Batch Management', studentManag: 'Student Management', dayendreport: 'Day End Report', absentRecord: 'Absent Record', backDateEntry: 'Back Date Entry'})
+
 const routes = [
 	{
 		method: 'GET',
@@ -14,6 +16,71 @@ const routes = [
 		handler: function(request, reply){
 			return reply.view('checkin_validation', null, {layout: 'layout1'})
 			// reply(new Date().toString());
+		}
+	},
+	{
+		method: 'GET',
+		path: '/old-entry-deshboard',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			return reply.view('entry', {sideTableData: sideTableDataSuperAdmin})
+			// reply(new Date().toString());
+		}
+	},
+	{
+		method: 'POST',
+		path: '/entry-on-back-date',
+		config:{
+			auth:{
+				strategy: 'restricted',
+			}
+		},
+		handler: function(request, reply){
+			async function postEnetry(){
+				await new Promise((resolve, reject) => setTimeout(() => resolve(), 1000));
+				studentModal.findOne({ID: request.payload.ID})
+				.then(function(res){
+					console.log(res)
+					if (res == null) {
+						return reply({successMessage: request.payload.ID + " This is not valid Student ID Try with another ID", alert: "danger"})
+					}else{
+						console.log(res)
+						// return reply(res)
+						var newEntry = new check_validation({
+							"uuid": res.ID,
+						    "StudentName": res.Name,
+						    "CheckInDateTime": request.payload.CheckInDateTime,
+						    "CheckInTime": "N/A",
+						    "SigninBy": request.payload.SigninBy,
+						    "CheckOutDateTime": request.payload.CheckOutDateTime,
+						    "CheckOutTime": "N/A",
+						    "SignoutBy": request.payload.SigninBy,
+						    "CurrentLevel": res.CurrentLevel,
+						    "NumberofRegularClasses": "N/A",
+						    "NumberofCatchUpClasses": "N/A",
+						    "Medical": "N/A",
+						    "StudentStrengthsWeeknesses": "N/A",
+						    "FeesPaid": "N/A",
+						    "State": res.State,
+						    "Area": res.Area,
+						    "Center": res.Center,
+						    "Batch": res.Batch,
+						});
+						newEntry.save(function(err, data){
+							if (err) {
+								throw err
+							}else{
+								return reply({data: data, status: 200, successMessage: "success", alert: "success"})
+							}
+						})
+					}
+				})
+			}
+			postEnetry()
 		}
 	},
 	{

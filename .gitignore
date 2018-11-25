@@ -4,3 +4,4 @@ node_modules
 database.js
 config.json
 view/package-lock.json
+ucmas.pem
